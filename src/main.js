@@ -24,20 +24,28 @@ class IDCard {
     if (this.nonce) {
       fetchUrl += `?nonce=${this.nonce}`;
     }
-    const loginStartResult = await fetchGet(fetchUrl);
-    const authorizationResult = await this.onAuthorize({ token: loginStartResult.token });
-
-    console.log(authorizationResult);
-    const loginCompleteResult = await fetchPost(`${this.cardUrl}/api/identity/${this.clientId}/complete`, {
-      payload: authorizationResult.payload,
-      hmac: authorizationResult.hmac,
-    });
-
-    console.log(loginCompleteResult);
+    return fetchGet(fetchUrl);
   }
 
-  start() {
-    this.idCardLoginStart();
+  async authorize(data) {
+    return this.onAuthorize({ token: data.token });
+  }
+
+  async completeLogin(data) {
+    const fetchUrl = `${this.cardUrl}/api/identity/${this.clientId}/complete`;
+    return fetchPost(fetchUrl, {
+      payload: data.payload,
+      hmac: data.hmac,
+    });
+  }
+
+  async start() {
+    const loginStartResult = await this.idCardLoginStart();
+    const authorizationResult = await this.authorize(loginStartResult);
+    console.log(authorizationResult);
+
+    const loginCompleteResult = await this.completeLogin(authorizationResult);
+
     console.log('start');
   }
 }

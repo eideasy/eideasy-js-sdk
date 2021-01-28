@@ -19,6 +19,9 @@ const IDCardInstance = new IDCard({
   onSuccess: (data) => {
     console.log(data);
   },
+  onFail: (data) => {
+    console.log('fail');
+  },
 });
 
 const idAuthButton = document.getElementById('authWithIDCard');
