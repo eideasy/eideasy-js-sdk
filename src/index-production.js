@@ -1,5 +1,3 @@
-const test = () => {
-  console.log('this be index production');
-};
+import IDCardAuth from './main';
 
-export default test;
+export default IDCardAuth;

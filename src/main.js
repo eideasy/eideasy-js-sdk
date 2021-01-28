@@ -26,7 +26,7 @@ class IDCardAuth {
     if (this.nonce) {
       fetchUrl += `?nonce=${this.nonce}`;
     }
-    return fetchGet(fetchUrl);
+    return fetchGet(fetchUrl, { credentials: 'include' });
   }
 
   async authorize(data) {
