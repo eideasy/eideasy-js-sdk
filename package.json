@@ -1,0 +1,53 @@
+{
+  "name": "eideasy-js-sdk",
+  "version": "0.1.0",
+  "description": "eID Easy SDK provides you with a simple set of methods for getting the user's identity",
+  "main": "dist/eideasy-js-sdk.js",
+  "scripts": {
+    "webpack": "webpack",
+    "webpack-serve": "webpack serve",
+    "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
+    "prod": "npm run webpack -- --env mode=production",
+    "dev": "npm run webpack-serve -- --open --env mode=development --watch",
+    "prod:debug": "npm run debug -- --env mode=production",
+    "dev:debug": "npm run debug -- --env mode=development",
+    "prod:analyze": "npm run prod --env presets=analyze",
+    "prod:compress": "npm run prod --env presets=compress"
+  },
+  "keywords": [
+    "eideasy"
+  ],
+  "author": "",
+  "license": "ISC",
+  "volta": {
+    "node": "14.15.4",
+    "yarn": "1.22.5"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "compression-webpack-plugin": "^7.1.2",
+    "css-loader": "^5.0.1",
+    "ejs-webpack-loader": "^2.2.2",
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-webpack-plugin": "^2.4.3",
+    "html-webpack-plugin": "^5.0.0-beta.6",
+    "mini-css-extract-plugin": "^1.3.5",
+    "postcss-loader": "^4.2.0",
+    "precss": "^4.0.0",
+    "sass": "^1.32.5",
+    "sass-loader": "^10.1.1",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.17.0",
+    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-cli": "^4.4.0",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
+  }
+}
