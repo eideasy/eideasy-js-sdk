@@ -1,24 +1,21 @@
 import fetchGet from './fetchGet';
 import fetchPost from './fetchPost';
-
-const EID_API_URL = 'https://test.eideasy.com';
-
-const CARD_URLS = {
-  EE: 'https://ee.eideasy.com',
-};
-
-function getCardUrl(code) {
-  return CARD_URLS[code];
-}
+import apiEndpoints from './apiEndpoints';
 
 class IDCardAuth {
   constructor(settings) {
+    this.mode = 'production';
+    if (settings.sandbox) {
+      this.mode = 'sandbox';
+    }
+
     this.cardCountryCode = settings.cardCountryCode || null;
     this.clientId = settings.clientId || null;
     this.nonce = settings.nonce || null;
     this.onAuthorize = settings.onAuthorize;
     this.onSuccess = settings.onSuccess;
-    this.cardUrl = getCardUrl(this.cardCountryCode);
+    this.apiEndpoints = apiEndpoints[this.mode];
+    this.cardUrl = this.apiEndpoints.card(this.cardCountryCode);
   }
 
   async startAuth() {
@@ -34,7 +31,7 @@ class IDCardAuth {
   }
 
   async completeAuth(data) {
-    const fetchUrl = `${EID_API_URL}/api/v2/identity/${this.clientId}/complete`;
+    const fetchUrl = `${this.apiEndpoints.main}/api/v2/identity/${this.clientId}/complete`;
     return fetchPost(fetchUrl, {
       payload: data.payload,
       hmac: data.hmac,

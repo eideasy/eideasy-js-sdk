@@ -5,6 +5,7 @@
   "main": "dist/eideasy-js-sdk.js",
   "scripts": {
     "webpack": "webpack",
+    "env-cmd": "env-cmd",
     "webpack-serve": "webpack serve",
     "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
     "prod": "npm run webpack -- --env mode=production",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^7.1.2",
+    "dotenv": "^8.2.0",
     "ejs-webpack-loader": "^2.2.2",
     "eslint": "^7.18.0",
     "eslint-config-airbnb-base": "^14.2.1",

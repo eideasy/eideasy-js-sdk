@@ -1,7 +1,10 @@
 import IDCardAuth from './main';
 import fetchPost from './fetchPost';
 
+console.log(process.env);
+
 const IDCardAuthInstance = new IDCardAuth({
+  sandbox: true,
   cardCountryCode: 'EE',
   clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
   onAuthorize: async (data) => {
