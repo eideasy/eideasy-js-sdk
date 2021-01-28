@@ -39,9 +39,9 @@ module.exports = ({
       new ESLintPlugin(),
       new webpack.ProgressPlugin(),
       new webpack.DefinePlugin({
-        'process.env': dotenv.config({
+        'process.env': JSON.stringify(dotenv.config({
           path: path.join(__dirname, `.env.${mode}`),
-        }).parsed,
+        }).parsed),
       }),
     ],
   },
