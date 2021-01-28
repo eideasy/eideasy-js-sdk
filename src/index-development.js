@@ -1,31 +1,26 @@
-import IDCard from './main';
+import IDCardAuth from './main';
 import fetchPost from './fetchPost';
 
-const IDCardInstance = new IDCard({
+const IDCardAuthInstance = new IDCardAuth({
   cardCountryCode: 'EE',
   clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
   onAuthorize: async (data) => {
-    const result = await fetchPost('https://demo.eideasy.com/api/js-sdk/authorize', {
+    const result = await fetchPost('http://demo.eideasy.local/api/js-sdk/authorize', {
       operation: 'login-complete',
       data: {
         method: 'ee-id-login',
         token: data.token,
         lang: 'et',
+        country: 'EE',
       },
     });
-
     return result;
-  },
-  onSuccess: (data) => {
-    console.log(data);
-  },
-  onFail: (data) => {
-    console.log('fail');
   },
 });
 
 const idAuthButton = document.getElementById('authWithIDCard');
-idAuthButton.addEventListener('click', (e) => {
+idAuthButton.addEventListener('click', async (e) => {
   e.preventDefault();
-  IDCardInstance.start();
+  const result = await IDCardAuthInstance.start();
+  console.log(result);
 });

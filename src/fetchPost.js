@@ -6,6 +6,7 @@ async function fetchPost(url = '', data = {}) {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',

@@ -1,6 +1,7 @@
 async function fetchGet(url = '') {
   const response = await fetch(url, {
-    credentials: 'same-origin',
+    credentials: 'include',
+    Accept: 'application/json',
   });
   return response.json();
 }

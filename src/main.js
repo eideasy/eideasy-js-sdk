@@ -1,6 +1,8 @@
 import fetchGet from './fetchGet';
 import fetchPost from './fetchPost';
 
+const EID_API_URL = 'https://test.eideasy.com';
+
 const CARD_URLS = {
   EE: 'https://ee.eideasy.com',
 };
@@ -9,7 +11,7 @@ function getCardUrl(code) {
   return CARD_URLS[code];
 }
 
-class IDCard {
+class IDCardAuth {
   constructor(settings) {
     this.cardCountryCode = settings.cardCountryCode || null;
     this.clientId = settings.clientId || null;
@@ -19,7 +21,7 @@ class IDCard {
     this.cardUrl = getCardUrl(this.cardCountryCode);
   }
 
-  async idCardLoginStart() {
+  async startAuth() {
     let fetchUrl = `${this.cardUrl}/api/identity/${this.clientId}/read-card`;
     if (this.nonce) {
       fetchUrl += `?nonce=${this.nonce}`;
@@ -31,8 +33,8 @@ class IDCard {
     return this.onAuthorize({ token: data.token });
   }
 
-  async completeLogin(data) {
-    const fetchUrl = `${this.cardUrl}/api/identity/${this.clientId}/complete`;
+  async completeAuth(data) {
+    const fetchUrl = `${EID_API_URL}/api/v2/identity/${this.clientId}/complete`;
     return fetchPost(fetchUrl, {
       payload: data.payload,
       hmac: data.hmac,
@@ -40,14 +42,10 @@ class IDCard {
   }
 
   async start() {
-    const loginStartResult = await this.idCardLoginStart();
-    const authorizationResult = await this.authorize(loginStartResult);
-    console.log(authorizationResult);
-
-    const loginCompleteResult = await this.completeLogin(authorizationResult);
-
-    console.log('start');
+    const authStartResult = await this.startAuth();
+    const authorizationResult = await this.authorize(authStartResult);
+    return this.completeAuth(authorizationResult);
   }
 }
 
-export default IDCard;
+export default IDCardAuth;
