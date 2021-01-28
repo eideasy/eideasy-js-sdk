@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import fetchGet from './fetchGet';
 import fetchPost from './fetchPost';
 import apiEndpoints from './apiEndpoints';
