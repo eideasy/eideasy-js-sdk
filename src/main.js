@@ -17,6 +17,7 @@ class IDCardAuth {
     this.onSuccess = settings.onSuccess;
     this.apiEndpoints = apiEndpoints[this.mode];
     this.cardUrl = this.apiEndpoints.card(this.cardCountryCode);
+    this.localApiEndpoint = settings.localApiEndpoint;
   }
 
   async startAuth() {
@@ -27,22 +28,19 @@ class IDCardAuth {
     return fetchGet(fetchUrl, { credentials: 'include' });
   }
 
-  async authorize(data) {
-    return this.onAuthorize({ token: data.token });
-  }
-
   async completeAuth(data) {
-    const fetchUrl = `${this.apiEndpoints.main}/api/v2/identity/${this.clientId}/complete`;
+    const fetchUrl = this.localApiEndpoint;
     return fetchPost(fetchUrl, {
-      payload: data.payload,
-      hmac: data.hmac,
+      token: data.token,
+      lang: 'et',
+      country: this.cardCountryCode,
+      method: 'ee-id-login',
     });
   }
 
   async start() {
     const authStartResult = await this.startAuth();
-    const authorizationResult = await this.authorize(authStartResult);
-    return this.completeAuth(authorizationResult);
+    return this.completeAuth(authStartResult);
   }
 }
 
