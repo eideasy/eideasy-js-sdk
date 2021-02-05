@@ -1,4 +1,13 @@
+import createAuthenticator, { idCard, smartId } from './eidEasySdk';
+
 import IDCardAuth from './main';
+
+const authenticator = createAuthenticator({
+  modules: [idCard, smartId],
+});
+
+authenticator.idCard.authenticate();
+authenticator.smartId.authenticate();
 
 console.log(process.env);
 
@@ -6,7 +15,7 @@ const IDCardAuthInstance = new IDCardAuth({
   sandbox: true,
   cardCountryCode: 'EE',
   clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
-  localApiEndpoint: 'http://demo.eideasy.local/api/identity/finish ',
+  localApiEndpoint: 'http://demo.eideasy.local/api/identity/finish',
 });
 
 const idAuthButton = document.getElementById('authWithIDCard');
