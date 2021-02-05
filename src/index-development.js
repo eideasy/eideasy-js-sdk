@@ -1,13 +1,12 @@
-import createAuthenticator, { idCard, smartId } from './eidEasySdk';
+import { createAuthenticatorCore, idCard } from './eidEasySdk';
 
 import IDCardAuth from './main';
 
-const authenticator = createAuthenticator({
-  modules: [idCard, smartId],
+const authenticator = createAuthenticatorCore({
+  modules: [idCard],
 });
 
 authenticator.idCard.authenticate();
-authenticator.smartId.authenticate();
 
 console.log(process.env);
 

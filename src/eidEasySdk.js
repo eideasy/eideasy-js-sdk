@@ -5,8 +5,12 @@
 //
 // Probably better to use factroy functions
 //
-//
-//
+// https://github.com/webpack/webpack/tree/master/examples/multi-part-library
+// https://webpack.js.org/guides/author-libraries/
+// https://stackoverflow.com/questions/34072598/es6-exporting-importing-in-index-file
+// what happens if I do
+
+import smartId from './smartId';
 
 const idCard = function idCard(state) {
   return {
@@ -18,17 +22,7 @@ const idCard = function idCard(state) {
   };
 };
 
-const smartId = function smartId(state) {
-  return {
-    moduleName: 'smartId',
-    authenticate: function authenticate() {
-      console.log('I am smartId');
-      console.log(state);
-    },
-  };
-};
-
-const createAuthenticator = function createAuthenticator({
+const createAuthenticatorCore = function createAuthenticatorCore({
   modules = [],
 } = {}) {
   console.log('I am the creator');
@@ -49,5 +43,14 @@ const createAuthenticator = function createAuthenticator({
   return Object.freeze(installedModules);
 };
 
+const createAuthenticator = function createAuthenticator() {
+  return createAuthenticatorCore({
+    modules: [
+      idCard,
+      smartId,
+    ],
+  });
+};
+
 export default createAuthenticator;
-export { idCard, smartId };
+export { createAuthenticatorCore, idCard, smartId };
