@@ -1,10 +1,16 @@
 const idCard = function idCard(state) {
-  return {
+  const config = {
     moduleName: 'idCard',
-    authenticate: function authenticate() {
-      console.log('I am idCard');
-      console.log(state);
-    },
+  };
+
+  const authenticate = function authenticate() {
+    console.log('I am idCard');
+    console.log(state);
+  };
+
+  return {
+    config,
+    authenticate,
   };
 };
 

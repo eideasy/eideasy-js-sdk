@@ -23,7 +23,7 @@ const createAuthenticatorCore = function createAuthenticatorCore({
 
   modules.forEach((module) => {
     const instance = module(state);
-    installedModules[instance.moduleName] = instance;
+    installedModules[instance.config.moduleName] = instance;
   });
 
   return Object.freeze(installedModules);
@@ -34,7 +34,6 @@ const createAuthenticator = function createAuthenticator() {
   return createAuthenticatorCore({
     modules: [
       idCard,
-      smartId,
     ],
   });
 };
