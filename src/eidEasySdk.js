@@ -43,6 +43,7 @@ const createAuthenticatorCore = function createAuthenticatorCore({
   return Object.freeze(installedModules);
 };
 
+// configuration with all the authentication modules included
 const createAuthenticator = function createAuthenticator() {
   return createAuthenticatorCore({
     modules: [
@@ -53,4 +54,7 @@ const createAuthenticator = function createAuthenticator() {
 };
 
 export default createAuthenticator;
+
+// export the core and authentication modules separately, so that the developer
+// can decide which modules will be used and leverage tree shaking
 export { createAuthenticatorCore, idCard, smartId };
