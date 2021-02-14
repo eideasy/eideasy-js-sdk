@@ -6,8 +6,8 @@ const apiClientFactory = function apiClientFactory() {
     Accept: 'application/json',
   };
 
-  const get = function get(url) {
-    return request(url, { ...config });
+  const get = function get(url, settings = {}) {
+    return request(url, { ...config, ...settings });
   };
 
   const post = function post(url, settings = {}) {

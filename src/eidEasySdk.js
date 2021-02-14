@@ -9,20 +9,21 @@
 // https://webpack.js.org/guides/author-libraries/
 // https://stackoverflow.com/questions/34072598/es6-exporting-importing-in-index-file
 // what happens if I do
-import apiEndpoints from './apiClient/apiEndpoints';
+import apiEndpointsFactory from './apiClient/apiEndpointsFactory';
 
 import smartId from './authenticationModules/smartId';
 import idCard from './authenticationModules/idCard';
 
 const createAuthenticatorCore = function createAuthenticatorCore({
   modules = [],
-  settings = {
-    mode: 'production',
-  },
+  settings = {},
 } = {}) {
   const config = { ...settings };
   if (!config.apiEndpoints) {
-    config.apiEndpoints = apiEndpoints[config.mode];
+    config.apiEndpoints = apiEndpointsFactory({
+      mode: config.sandbox ? 'sandbox' : 'production',
+      countryCode: config.countryCode,
+    });
   }
   const installedModules = {};
 
