@@ -8,12 +8,12 @@
     "env-cmd": "env-cmd",
     "webpack-serve": "webpack serve",
     "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
-    "prod": "npm run webpack -- --env mode=production",
-    "dev": "npm run webpack-serve -- --open --env mode=development --watch",
-    "prod:debug": "npm run debug -- --env mode=production",
-    "dev:debug": "npm run debug -- --env mode=development",
-    "prod:analyze": "npm run prod --env presets=analyze",
-    "prod:compress": "npm run prod --env presets=compress"
+    "build": "npm run webpack -- --env mode=production",
+    "start": "npm run webpack-serve -- --open --env mode=development --watch",
+    "build:debug": "npm run debug -- --env mode=production",
+    "start:debug": "npm run debug -- --env mode=development",
+    "build:analyze": "npm run build --env presets=analyze",
+    "build:compress": "npm run build --env presets=compress"
   },
   "keywords": [
     "eideasy"
