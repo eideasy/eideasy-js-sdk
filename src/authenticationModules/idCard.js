@@ -1,9 +1,12 @@
 import apiClientFactory from '../apiClient/apiClientFactory';
 
+// MODULE_NAME must match with the default export name
+const MODULE_NAME = 'idCard';
+
 const idCard = function idCard(context) {
   const config = {
     ...context.config,
-    moduleName: 'idCard',
+    moduleName: MODULE_NAME,
   };
 
   const apiClient = apiClientFactory();
