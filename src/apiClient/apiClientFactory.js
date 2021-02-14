@@ -1,6 +1,6 @@
 import request from '../request';
 
-const apiClient = function apiClient() {
+const apiClientFactory = function apiClientFactory() {
   const config = {
     credentials: 'same-origin',
     Accept: 'application/json',
@@ -33,4 +33,4 @@ const apiClient = function apiClient() {
   });
 };
 
-export default apiClient;
+export default apiClientFactory;

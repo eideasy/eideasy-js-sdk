@@ -9,20 +9,27 @@
 // https://webpack.js.org/guides/author-libraries/
 // https://stackoverflow.com/questions/34072598/es6-exporting-importing-in-index-file
 // what happens if I do
+import apiEndpoints from './apiClient/apiEndpoints';
 
 import smartId from './authenticationModules/smartId';
 import idCard from './authenticationModules/idCard';
 
 const createAuthenticatorCore = function createAuthenticatorCore({
   modules = [],
+  settings = {
+    mode: 'production',
+  },
 } = {}) {
-  const state = {
-    someProp: 'I am shared state',
-  };
+  const config = { ...settings };
+  if (!config.apiEndpoints) {
+    config.apiEndpoints = apiEndpoints[config.mode];
+  }
   const installedModules = {};
 
   modules.forEach((module) => {
-    const instance = module(state);
+    const instance = module({
+      config,
+    });
     installedModules[instance.config.moduleName] = instance;
   });
 
@@ -30,8 +37,9 @@ const createAuthenticatorCore = function createAuthenticatorCore({
 };
 
 // configuration with all the authentication modules included
-const createAuthenticator = function createAuthenticator() {
+const createAuthenticator = function createAuthenticator(settings = {}) {
   return createAuthenticatorCore({
+    settings,
     modules: [
       idCard,
     ],
