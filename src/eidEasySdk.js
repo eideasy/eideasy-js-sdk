@@ -10,33 +10,19 @@
 // https://stackoverflow.com/questions/34072598/es6-exporting-importing-in-index-file
 // what happens if I do
 
-import smartId from './smartId';
-
-const idCard = function idCard(state) {
-  return {
-    moduleName: 'idCard',
-    authenticate: function authenticate() {
-      console.log('I am idCard');
-      console.log(state);
-    },
-  };
-};
+import smartId from './authenticationModules/smartId';
+import idCard from './authenticationModules/idCard';
 
 const createAuthenticatorCore = function createAuthenticatorCore({
   modules = [],
 } = {}) {
-  console.log('I am the creator');
-
   const state = {
     someProp: 'I am shared state',
   };
-
-  console.log(modules);
   const installedModules = {};
 
   modules.forEach((module) => {
     const instance = module(state);
-    console.log(instance);
     installedModules[instance.moduleName] = instance;
   });
 
@@ -53,8 +39,10 @@ const createAuthenticator = function createAuthenticator() {
   });
 };
 
+// export the whole authenticator with all the modules included
+// this will be used for the "script tag include" build
 export default createAuthenticator;
 
 // export the core and authentication modules separately, so that the developer
-// can decide which modules will be used and leverage tree shaking
+// can import only the modules that will be actually used and can therefore leverage tree shaking
 export { createAuthenticatorCore, idCard, smartId };
