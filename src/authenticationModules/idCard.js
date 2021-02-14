@@ -35,6 +35,9 @@ const idCard = function idCard(context) {
 
     const step1Result = await step1();
     const step2Result = await step2(step1Result);
+  /*
+    We should return a promise here
+    */
   };
 
   return Object.freeze({
