@@ -9,10 +9,12 @@ const idCard = function idCard(context) {
     moduleName: MODULE_NAME,
   };
 
+  const readCardEndpoint = `${config.apiEndpoints.card}/api/identity/${config.clientId}/read-cards`;
+
   const apiClient = apiClientFactory();
 
   const step1 = function step1() {
-    let url = `${config.apiEndpoints.card}/api/identity/${config.clientId}/read-card`;
+    let url = readCardEndpoint;
     if (config.nonce) {
       url += `?nonce=${config.nonce}`;
     }
@@ -63,7 +65,7 @@ const idCard = function idCard(context) {
       return step2(step1Result.data);
     }
 
-    return step1Result;
+    throw new Error(`Expected ${readCardEndpoint} to return status 200, but got: ${step1Result.status}`);
   };
 
   return Object.freeze({
