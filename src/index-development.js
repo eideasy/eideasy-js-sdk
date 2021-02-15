@@ -16,5 +16,11 @@ const authenticator = createAuthenticatorCore({
 const idAuthButton = document.getElementById('authWithIDCard');
 idAuthButton.addEventListener('click', async (e) => {
   e.preventDefault();
-  authenticator.idCard.authenticate();
+  try {
+    const result = await authenticator.idCard.authenticate();
+    console.log(result);
+  } catch (err) {
+    console.log('catch');
+    console.error(err);
+  }
 });

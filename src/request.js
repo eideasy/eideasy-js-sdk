@@ -1,12 +1,7 @@
-import { fetch as fetchPolyfill } from 'whatwg-fetch';
+import axios from 'axios';
 
-let { fetch } = window;
-if (!fetch) {
-  fetch = fetchPolyfill;
-}
-
-const request = function request(url, settings) {
-  return fetch(url, settings);
+const request = function request(settings) {
+  return axios(settings);
 };
 
 export default request;

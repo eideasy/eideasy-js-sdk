@@ -1,30 +1,31 @@
 import request from '../request';
 
 const apiClientFactory = function apiClientFactory() {
-  const config = {
-    credentials: 'same-origin',
-    Accept: 'application/json',
-  };
-
-  const get = function get(url, settings = {}) {
-    return request(url, { ...config, ...settings });
-  };
-
-  const post = function post(url, settings = {}) {
-    const defaultSettings = {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
+  const get = function get(settings = {}) {
+    return request({
+      method: 'get',
+      withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        'Cache-Control': 'no-cache',
       },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
-    };
+      ...settings,
+    });
+  };
 
-    return request(url, { ...defaultSettings, ...settings });
+  const post = function post(settings = {}) {
+    return request({
+      method: 'post',
+      cache: 'no-cache',
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Cache-Control': 'no-cache',
+      },
+      ...settings,
+    });
   };
 
   return Object.freeze({
