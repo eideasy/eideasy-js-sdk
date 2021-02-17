@@ -28,14 +28,36 @@ idAuthButton.addEventListener('click', async (e) => {
   }
 });
 
-const smartIdAuthButton = document.getElementById('authWithSmartId');
-smartIdAuthButton.addEventListener('click', async (e) => {
+const smartIdForm = document.getElementById('authWithSmartId');
+const loader = document.createElement('div');
+loader.textContent = 'Loading...';
+loader.style.display = 'none';
+smartIdForm.prepend(loader);
+
+const challengeElem = document.createElement('div');
+challengeElem.style.display = 'none';
+smartIdForm.prepend(challengeElem);
+
+smartIdForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  try {
-    const result = await authenticator.smartId.authenticate();
-    console.log(result);
-  } catch (err) {
-    console.log('catch');
-    console.error(err);
-  }
+  const formData = new FormData(e.target);
+  loader.style.display = 'block';
+  authenticator.smartId.authenticate({
+    idcode: formData.get('idcode'),
+    onStart: (result) => {
+      console.log(result);
+      challengeElem.textContent = result.data.challenge;
+      challengeElem.style.display = 'block';
+    },
+    onSuccess: (result) => {
+      console.log(result);
+    },
+    onFail: (result) => {
+      console.log(result);
+    },
+    onFinally: (result) => {
+      loader.style.display = 'none';
+      challengeElem.style.display = 'none';
+    },
+  });
 });

@@ -30,7 +30,7 @@ const idCard = function idCard(context) {
         token: data.token,
         country: config.countryCode,
         method: 'ee-id-login',
-        lang: config.lang,
+        lang: config.language,
       },
     });
   };

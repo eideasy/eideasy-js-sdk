@@ -15,9 +15,24 @@
 <div class="container">
     <h2 class="mt-4 mb-4">eID Easy development demo index</h2>
 
-    <a href="#" id="authWithIDCard" class="btn btn-primary">Authenticate with ID card</a>
-    <div class="mt-3"></div>
-    <a href="#" id="authWithSmartId" class="btn btn-primary">Authenticate with Smart-ID</a>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">ID card</h5>
+            <a href="#" id="authWithIDCard" class="btn btn-primary">Authenticate</a>
+        </div>
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Smart-ID</h5>
+            <form action="" id="authWithSmartId">
+                <div class="form-group">
+                    <label for="idcode">Personal Identification Code</label>
+                    <input id="idcode" name="idcode" type="text" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Authenticate</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 
