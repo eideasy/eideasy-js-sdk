@@ -9,7 +9,7 @@ const idCard = function idCard(context) {
     moduleName: MODULE_NAME,
   };
 
-  const readCardEndpoint = `${config.apiEndpoints.card}/api/identity/${config.clientId}/read-cards`;
+  const readCardEndpoint = `${config.apiEndpoints.card}/api/identity/${config.clientId}/read-card`;
 
   const apiClient = apiClientFactory();
 
@@ -25,7 +25,7 @@ const idCard = function idCard(context) {
 
   const step2 = function step2(data) {
     return apiClient.post({
-      url: config.localApiEndpoint,
+      url: config.localApiEndpoints.identityFinish,
       data: {
         token: data.token,
         country: config.countryCode,

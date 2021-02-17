@@ -43,6 +43,7 @@ const createAuthenticator = function createAuthenticator(settings = {}) {
     settings,
     modules: [
       idCard,
+      smartId,
     ],
   });
 };
