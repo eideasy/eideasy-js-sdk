@@ -60,21 +60,24 @@ smartIdForm.addEventListener('submit', (e) => {
   loader.style.display = 'block';
   authenticator.smartId.authenticate({
     idcode: formData.get('idcode'),
-    started: (context) => {
-      challengeElem.textContent = context.data.challenge;
+    started: (result) => {
+      console.log('--- started ---');
+      console.log(result);
+      challengeElem.textContent = result.response.data.challenge;
       challengeElem.style.display = 'block';
     },
-    success: (context) => {
-      console.log('--- success ---');
-      console.log(context);
-    },
-    fail: (context) => {
+    fail: (result) => {
       console.log('--- fail ---');
-      console.log(context);
+      console.error(result.error);
+      console.log(result.error && result.error.response);
     },
-    finally: (context) => {
-      console.log('--- finally ---');
-      console.log(context);
+    success: (result) => {
+      console.log('--- success ---');
+      console.log(result);
+    },
+    finished: (result) => {
+      console.log('--- finished ---');
+      console.log(result);
       loader.style.display = 'none';
       challengeElem.style.display = 'none';
     },

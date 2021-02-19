@@ -1,18 +1,7 @@
-/*
-  Errors
-  Do not enter the sim card or password, just let the /read-card endpoint to time out -
-  you will receive the following error: error.code === 'ECONNABORTED'
-
-  when you're offline you'll receive net::ERR_NAME_NOT_RESOLVED
-
-  and then there are errors from the api, these can happen
-  when user cancels the id card prompt or when the api itself fails
- */
-
 // MODULE_NAME must match the default export name
 const MODULE_NAME = 'idCard';
 
-const makeIdCard = function idCard({
+const makeIdCard = function makeIdCard({
   coreContext,
   apiClient,
 }) {

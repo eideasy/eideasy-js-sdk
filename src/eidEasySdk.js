@@ -1,11 +1,17 @@
 import makeApiClient from './apiClient/makeApiClient';
 import makeApiEndpoints from './apiClient/makeApiEndpoints';
-
-import smartId from './authenticationModules/smartId';
+import makeSmartId from './authenticationModules/makeSmartId';
 import makeIdCard from './authenticationModules/makeIdCard';
 
 const idCard = function idCard(coreContext) {
   return makeIdCard({
+    apiClient: makeApiClient(),
+    coreContext,
+  });
+};
+
+const smartId = function smartId(coreContext) {
+  return makeSmartId({
     apiClient: makeApiClient(),
     coreContext,
   });
