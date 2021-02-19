@@ -1,8 +1,8 @@
-import { createAuthenticatorCore, idCard, smartId } from './eidEasySdk';
+import { makeAuthenticatorCore, idCard, smartId } from './eidEasySdk';
 
 console.log(process.env);
 
-const authenticator = createAuthenticatorCore({
+const authenticator = makeAuthenticatorCore({
   modules: [idCard, smartId],
   settings: {
     countryCode: 'EE',
@@ -16,18 +16,34 @@ const authenticator = createAuthenticatorCore({
   },
 });
 
+// idcard example
 const idAuthButton = document.getElementById('authWithIDCard');
+const cancelIDCardButton = document.getElementById('cancelIDCard');
+let authInstance;
 idAuthButton.addEventListener('click', async (e) => {
   e.preventDefault();
-  try {
-    const result = await authenticator.idCard.authenticate();
-    console.log(result);
-  } catch (err) {
-    console.log('catch');
-    console.error(err);
-  }
+  authInstance = authenticator.idCard.authenticate({
+    fail: (result) => {
+      console.log('--- fail ---');
+      console.error(result.error);
+    },
+    success: (result) => {
+      console.log('--- success ---');
+      console.log(result);
+    },
+    finished: (result) => {
+      console.log('--- finished ---');
+      console.log(result);
+    },
+  });
 });
 
+cancelIDCardButton.addEventListener('click', async (e) => {
+  e.preventDefault();
+  authInstance.cancel();
+});
+
+// smartId example
 const smartIdForm = document.getElementById('authWithSmartId');
 const loader = document.createElement('div');
 loader.textContent = 'Loading...';
@@ -44,18 +60,21 @@ smartIdForm.addEventListener('submit', (e) => {
   loader.style.display = 'block';
   authenticator.smartId.authenticate({
     idcode: formData.get('idcode'),
-    onStart: (result) => {
-      console.log(result);
-      challengeElem.textContent = result.data.challenge;
+    started: (context) => {
+      challengeElem.textContent = context.data.challenge;
       challengeElem.style.display = 'block';
     },
-    onSuccess: (result) => {
-      console.log(result);
+    success: (context) => {
+      console.log('--- success ---');
+      console.log(context);
     },
-    onFail: (result) => {
-      console.log(result);
+    fail: (context) => {
+      console.log('--- fail ---');
+      console.log(context);
     },
-    onFinally: (result) => {
+    finally: (context) => {
+      console.log('--- finally ---');
+      console.log(context);
       loader.style.display = 'none';
       challengeElem.style.display = 'none';
     },

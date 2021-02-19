@@ -1,4 +1,4 @@
-import apiClientFactory from '../apiClient/apiClientFactory';
+import makeApiClient from '../apiClient/makeApiClient';
 import poll from '../poll';
 
 // MODULE_NAME must match with the default export name
@@ -14,7 +14,7 @@ const smartId = function smartId(context) {
     status: 'pending',
   };
 
-  const apiClient = apiClientFactory();
+  const apiClient = makeApiClient();
 
   const step1 = function step1(settings) {
     return apiClient.post({

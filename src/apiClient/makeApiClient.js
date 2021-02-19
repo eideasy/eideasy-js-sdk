@@ -1,6 +1,6 @@
 import request from '../request';
 
-const apiClientFactory = function apiClientFactory() {
+const makeApiClient = function apiClientFactory() {
   const get = function get(settings = {}) {
     return request({
       method: 'get',
@@ -34,4 +34,4 @@ const apiClientFactory = function apiClientFactory() {
   });
 };
 
-export default apiClientFactory;
+export default makeApiClient;
