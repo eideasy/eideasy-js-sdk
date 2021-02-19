@@ -9,24 +9,25 @@ const makeIdCard = function makeIdCard({
     ...coreContext.config,
     moduleName: MODULE_NAME,
   };
-  const readCardEndpoint = `${config.apiEndpoints.card}/api/identity/${config.clientId}/read-card`;
 
-  const step1 = function step1() {
-    let url = readCardEndpoint;
-    if (config.nonce) {
-      url += `?nonce=${config.nonce}`;
+  const step1 = function step1(settings = {}) {
+    const localConfig = { ...config, ...settings };
+    let url = `${localConfig.apiEndpoints.card(localConfig.countryCode)}/api/identity/${localConfig.clientId}/read-card`;
+    if (localConfig.nonce) {
+      url += `?nonce=${localConfig.nonce}`;
     }
     return apiClient.get({ url });
   };
 
-  const step2 = function step2(data) {
+  const step2 = function step2(settings = {}) {
+    const localConfig = { ...config, ...settings };
     return apiClient.post({
-      url: config.localApiEndpoints.identityFinish,
+      url: localConfig.localApiEndpoints.identityFinish,
       data: {
-        token: data.token,
-        country: config.countryCode,
+        token: localConfig.data.token,
+        country: localConfig.countryCode,
         method: 'ee-id-login',
-        lang: config.language,
+        lang: localConfig.language,
       },
     });
   };
@@ -36,11 +37,14 @@ const makeIdCard = function makeIdCard({
     console.log('cancel was called, TODO: implement cancel');
   };
 
-  const authenticate = function authenticate({
-    success,
-    fail,
-    finished,
-  }) {
+  const authenticate = function authenticate(settings = {}) {
+    const {
+      success,
+      fail,
+      finished,
+      countryCode,
+      language,
+    } = { ...config, ...settings };
     async function execute() {
       let step1Result;
       const state = {};
@@ -56,7 +60,11 @@ const makeIdCard = function makeIdCard({
       let step2Result;
       if (!state.error && step1Result && step1Result.status === 200) {
         try {
-          step2Result = await step2(step1Result.data);
+          step2Result = await step2({
+            countryCode,
+            language,
+            data: step1Result.data,
+          });
         } catch (error) {
           state.error = error;
         }

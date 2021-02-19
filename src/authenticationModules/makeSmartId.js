@@ -13,22 +13,24 @@ const makeSmartId = function makeSmartId({
   };
 
   const step1 = function step1(settings) {
+    const localConfig = { ...config, ...settings };
     return apiClient.post({
-      url: config.localApiEndpoints.identityStart,
+      url: localConfig.localApiEndpoints.identityStart,
       data: {
         idcode: settings.idcode,
-        country: config.countryCode,
+        country: localConfig.countryCode,
         method: 'smartid',
-        lang: config.language,
+        lang: localConfig.language,
       },
     });
   };
 
-  const step2 = function step2(data) {
+  const step2 = function step2(settings) {
+    const localConfig = { ...config, ...settings };
     return apiClient.post({
-      url: config.localApiEndpoints.identityFinish,
+      url: localConfig.localApiEndpoints.identityFinish,
       data: {
-        token: data.token,
+        token: localConfig.data.token,
         method: 'smartid',
       },
     });
@@ -39,19 +41,24 @@ const makeSmartId = function makeSmartId({
     console.log('cancel was called, TODO: implement cancel');
   };
 
-  const authenticate = function authenticate({
-    started,
-    success,
-    fail,
-    finished,
-    idcode,
-    pollInterval = 1000,
-  }) {
+  const authenticate = function authenticate(settings = {}) {
+    const {
+      started,
+      success,
+      fail,
+      finished,
+      idcode,
+      pollInterval = 1000,
+      countryCode,
+      language,
+    } = { ...config, ...settings };
     const execute = async function execute() {
       let step1Result;
       const state = {};
       try {
         step1Result = await step1({
+          countryCode,
+          language,
           idcode,
         });
         started({
@@ -70,7 +77,7 @@ const makeSmartId = function makeSmartId({
         const maxPollAttempts = (100 * 1000) / pollInterval;
         try {
           step2Result = await poll({
-            fn: () => step2(step1Result.data),
+            fn: () => step2({ data: step1Result.data }),
             shouldContinue: (pollContext) => {
               const responseStatus = pollContext.result
                 && pollContext.result.data

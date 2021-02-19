@@ -60,6 +60,7 @@ smartIdForm.addEventListener('submit', (e) => {
   loader.style.display = 'block';
   authenticator.smartId.authenticate({
     idcode: formData.get('idcode'),
+    countryCode: formData.get('countryCode'),
     started: (result) => {
       console.log('--- started ---');
       console.log(result);
