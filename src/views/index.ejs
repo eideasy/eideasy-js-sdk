@@ -15,31 +15,59 @@
 <div class="container">
     <h2 class="mt-4 mb-4">eID Easy development demo index</h2>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">ID card</h5>
-            <a href="#" id="authWithIDCard" class="btn btn-primary">Authenticate</a>
-            <a href="#" id="cancelIDCard" class="btn btn-secondary">Cancel</a>
-        </div>
-    </div>
-    <div class="card mt-3">
-        <div class="card-body">
-            <h5 class="card-title">Smart-ID</h5>
-            <form action="" id="authWithSmartId">
-                <div class="form-group">
-                    <label for="idcode">Personal Identification Code</label>
-                    <input id="idcode" name="idcode" type="text" class="form-control">
-                    <input type="radio" name="countryCode" value="EE" id="countryCodeEE" checked>
-                    <label for="countryCodeEE">EE</label>
-                    <input type="radio" name="countryCode" value="LV" id="countryCodeLV">
-                    <label for="countryCodeLV">LV</label>
-                    <input type="radio" name="countryCode" value="LT" id="countryCodeLT">
-                    <label for="countryCodeLT">LT</label>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">ID card</h5>
+                    <a href="#" id="authWithIDCard" class="btn btn-primary">Authenticate</a>
+                    <a href="#" id="cancelIDCard" class="btn btn-secondary">Cancel</a>
                 </div>
-                <button type="submit" class="btn btn-primary">Authenticate</button>
-            </form>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Smart-ID</h5>
+                    <form action="" id="authWithSmartId">
+                        <div class="form-group">
+                            <label for="idcode">Personal Identification Code</label>
+                            <input id="idcode" name="idcode" type="text" class="form-control">
+                            <input type="radio" name="countryCode" value="EE" id="countryCodeEE" checked>
+                            <label for="countryCodeEE">EE</label>
+                            <input type="radio" name="countryCode" value="LV" id="countryCodeLV">
+                            <label for="countryCodeLV">LV</label>
+                            <input type="radio" name="countryCode" value="LT" id="countryCodeLT">
+                            <label for="countryCodeLT">LT</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Authenticate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Mobile ID</h5>
+                    <form action="" id="authWithMobileId">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input id="phone" name="phone" type="tel" class="form-control">
+                            <input type="radio" name="countryCode" value="EE" id="phoneCountryCodeEE" checked>
+                            <label for="phoneCountryCodeEE">EE</label>
+                            <input type="radio" name="countryCode" value="LV" id="phoneCountryCodeLV">
+                            <label for="phoneCountryCodeLV">LV</label>
+                            <input type="radio" name="countryCode" value="LT" id="phoneCountryCodeLT">
+                            <label for="phoneCountryCodeLT">LT</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Authenticate</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+
+
 </div>
 
 
