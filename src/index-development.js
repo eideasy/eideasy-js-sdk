@@ -92,7 +92,7 @@ const mobileIdForm = document.getElementById('authWithMobileId');
 const loader2 = document.createElement('div');
 loader2.textContent = 'Loading...';
 loader2.style.display = 'none';
-smartIdForm.prepend(loader2);
+mobileIdForm.prepend(loader2);
 
 const challengeElem2 = document.createElement('div');
 challengeElem2.style.display = 'none';
