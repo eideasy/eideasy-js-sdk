@@ -50,10 +50,10 @@ const makeMobileId = function makeMobileId({
 
   const authenticate = function authenticate(settings = {}) {
     const {
-      started,
-      success,
-      fail,
-      finished,
+      started = () => {},
+      success = () => {},
+      fail = () => {},
+      finished = () => {},
       idcode,
       phone,
       pollInterval = 1000,

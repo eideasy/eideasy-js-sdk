@@ -39,9 +39,9 @@ const makeIdCard = function makeIdCard({
 
   const authenticate = function authenticate(settings = {}) {
     const {
-      success,
-      fail,
-      finished,
+      success = () => {},
+      fail = () => {},
+      finished = () => {},
       countryCode,
       language,
     } = { ...config, ...settings };

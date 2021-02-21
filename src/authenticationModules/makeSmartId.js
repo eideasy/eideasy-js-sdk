@@ -43,10 +43,10 @@ const makeSmartId = function makeSmartId({
 
   const authenticate = function authenticate(settings = {}) {
     const {
-      started,
-      success,
-      fail,
-      finished,
+      started = () => {},
+      success = () => {},
+      fail = () => {},
+      finished = () => {},
       idcode,
       pollInterval = 1000,
       countryCode,
