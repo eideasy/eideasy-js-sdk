@@ -15,7 +15,7 @@ Using jsDelivr CDN:
 
 ## Example
 
-Create the authenticator instance:
+### Create the authenticator instance:
 ```javascript
 var authenticator = window.eidEasy.makeAuthenticator({
   countryCode: 'EE',
@@ -29,7 +29,7 @@ var authenticator = window.eidEasy.makeAuthenticator({
 });
 ```
 
-### Authenticator Settings
+#### Authenticator Settings
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 countryCode | string | undefined | [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code
@@ -39,7 +39,7 @@ localApiEndpoints.identityStart | string | undefined | Your local API endpoint f
 localApiEndpoints.identityFinish | string | undefined | Your local API endpoint for the identity finish request.
 language | string | undefined | Two letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code.
 
-Authenticate with an ID Card:
+### Authenticate with an ID Card:
 
 ```javascript
 authenticator.idCard.authenticate({
@@ -55,7 +55,7 @@ authenticator.idCard.authenticate({
 });
 ```
 
-### idCArd authentication settings
+#### idCArd authentication settings
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 fail | function | undefined | This function gets called when the authentication process failed.
@@ -63,7 +63,7 @@ success | function | undefined | This function gets called when the authenticati
 finished | function | undefined | This callback function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
 
 
-Authenticate with Smart-ID:
+### Authenticate with Smart-ID:
 
 ```javascript
 authenticator.smartId.authenticate({
@@ -85,7 +85,7 @@ authenticator.smartId.authenticate({
 });
 ```
 
-### smartId authentication settings
+#### smartId authentication settings
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 idcode | string | undefined | End user's personal identification code
@@ -97,7 +97,7 @@ finished | function | undefined | This callback function gets called when the au
 
 
 
-Authenticate with Mobile ID:
+### Authenticate with Mobile ID:
 ```javascript
 authenticator.mobileId.authenticate({
   idcode: '60001019906',
@@ -119,7 +119,7 @@ authenticator.mobileId.authenticate({
 });
 ```
 
-### mobileId authentication settings
+#### mobileId authentication settings
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 idcode | string | undefined | End user's personal identification code
