@@ -2,6 +2,7 @@ import makeApiClient from './apiClient/makeApiClient';
 import makeApiEndpoints from './apiClient/makeApiEndpoints';
 import makeSmartId from './authenticationModules/makeSmartId';
 import makeIdCard from './authenticationModules/makeIdCard';
+import makeMobileId from './authenticationModules/makeMobileId';
 
 const idCard = function idCard(coreContext) {
   return makeIdCard({
@@ -12,6 +13,13 @@ const idCard = function idCard(coreContext) {
 
 const smartId = function smartId(coreContext) {
   return makeSmartId({
+    apiClient: makeApiClient(),
+    coreContext,
+  });
+};
+
+const mobileId = function mobileId(coreContext) {
+  return makeMobileId({
     apiClient: makeApiClient(),
     coreContext,
   });
@@ -47,6 +55,7 @@ const makeAuthenticator = function makeAuthenticator(settings = {}) {
     modules: [
       idCard,
       smartId,
+      mobileId,
     ],
   });
 };
@@ -57,4 +66,6 @@ export default makeAuthenticator;
 
 // export the core and authentication modules separately, so that the developer
 // can import only the modules that will be actually used and can therefore leverage tree shaking
-export { makeAuthenticatorCore, idCard, smartId };
+export {
+  makeAuthenticatorCore, idCard, smartId, mobileId,
+};
