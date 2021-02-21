@@ -26,7 +26,7 @@ module.exports = ({
     entry: `./src/index-${mode}.js`,
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: 'eideasy-js-sdk.min.js',
+      filename: 'eideasy-js-sdk.js',
       library: 'eidEasy',
       libraryTarget: 'umd',
     },
