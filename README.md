@@ -55,12 +55,12 @@ authenticator.idCard.authenticate({
 });
 ```
 
-#### idCArd authentication settings
+#### idCard authentication settings
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 fail | function | undefined | This function gets called when the authentication process failed.
 success | function | undefined | This function gets called when the authentication process succeeds.
-finished | function | undefined | This callback function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
+finished | function | undefined | This function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
 
 
 ### Authenticate with Smart-ID:
@@ -93,7 +93,7 @@ countryCode | string |  the value set during the authenticator initialization | 
 started | function | undefined | This function gets called when the authentication process has started. The argument object of this function contains the challenge (response.data.challenge) you can display to the end-user.
 fail | function | undefined | This function gets called when the authentication process failed.
 success | function | undefined | This function gets called when the authentication process succeeds.
-finished | function | undefined | This callback function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
+finished | function | undefined | This function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
 
 
 
@@ -128,7 +128,7 @@ countryCode | string | the value set during the authenticator initialization | [
 started | function | undefined | This function gets called when the authentication process has started. The argument object of this function contains the challenge (response.data.challenge) you can display to the end-user.
 fail | function | undefined | This function gets called when the authentication process failed.
 success | function | undefined | This function gets called when the authentication process succeeds.
-finished | function | undefined | This callback function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
+finished | function | undefined | This function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
 
 
 ## Development notes
