@@ -1,5 +1,6 @@
 import createApiClient from './apiClient/createApiClient';
 import createApiEndpoints from './apiClient/createApiEndpoints';
+import createI18n from './i18n/createI18n';
 import createSmartId from './authenticationModules/createSmartId';
 import createIdCard from './authenticationModules/createIdCard';
 import createMobileId from './authenticationModules/createMobileId';
@@ -28,6 +29,7 @@ const mobileId = function mobileId(coreContext) {
 const createAuthenticatorCore = function createAuthenticatorCore({
   modules = [],
   settings = {},
+  i18n = createI18n({ currentLanguage: 'en' }),
 } = {}) {
   const config = { ...settings };
   if (!config.apiEndpoints) {
@@ -36,16 +38,21 @@ const createAuthenticatorCore = function createAuthenticatorCore({
       countryCode: config.countryCode,
     });
   }
+  i18n.setLanguage(config.language);
   const installedModules = {};
 
   modules.forEach((module) => {
     const instance = module({
       config,
+      i18n,
     });
     installedModules[instance.config.moduleName] = instance;
   });
 
-  return Object.freeze(installedModules);
+  return Object.freeze({
+    ...installedModules,
+    setLanguage: i18n.setLanguage,
+  });
 };
 
 // configuration with all the authentication modules included

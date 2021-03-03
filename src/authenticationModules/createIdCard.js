@@ -10,6 +10,8 @@ const createIdCard = function createIdCard({
     moduleName: MODULE_NAME,
   };
 
+  const { i18n } = coreContext;
+
   const step1 = function step1(settings = {}) {
     const localConfig = { ...config, ...settings };
     let url = `${localConfig.apiEndpoints.card(localConfig.countryCode)}/api/identity/${localConfig.clientId}/read-card`;
@@ -48,12 +50,13 @@ const createIdCard = function createIdCard({
     async function execute() {
       let step1Result;
       const state = {};
+      console.log(i18n.t('idCardReadTimeout'));
       try {
         step1Result = await step1();
       } catch (error) {
         state.error = error;
         if (error.code === 'ECONNABORTED') {
-          state.message = 'Reading the ID card took too long. Please close all the open browser windows and then try again.';
+          state.message = i18n.t('idCardReadTimeout');
         }
       }
 
