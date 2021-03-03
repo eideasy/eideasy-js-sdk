@@ -2,6 +2,10 @@ import {
   createAuthenticatorCore, idCard, smartId, mobileId,
 } from './main';
 
+import createIdCardDemo from './devHeleprs/createIdCardDemo';
+import createSmartIdDemo from './devHeleprs/createSmartIdDemo';
+import createMobileIdDemo from './devHeleprs/createMobileIdDemo';
+
 console.log(process.env);
 
 const authenticator = createAuthenticatorCore({
@@ -18,111 +22,11 @@ const authenticator = createAuthenticatorCore({
   },
 });
 
-function logResult(result, tag) {
-  if (tag) {
-    console.log(`----- ${tag} -----`);
-  }
-  if (result.error) {
-    console.error(result.error);
-  }
-  console.log(result);
-}
-
 // idcard example
-const idAuthButton = document.getElementById('authWithIDCard');
-const cancelIDCardButton = document.getElementById('cancelIDCard');
-let authInstance;
-idAuthButton.addEventListener('click', async (e) => {
-  e.preventDefault();
-  authInstance = authenticator.idCard.authenticate({
-    fail: (result) => {
-      logResult(result, 'fail');
-    },
-    success: (result) => {
-      logResult(result, 'success');
-    },
-    finished: (result) => {
-      logResult(result, 'finished');
-    },
-  });
-});
-
-cancelIDCardButton.addEventListener('click', async (e) => {
-  e.preventDefault();
-  authInstance.cancel();
-});
+createIdCardDemo({ authenticator });
 
 // smartId example
-const smartIdForm = document.getElementById('authWithSmartId');
-const loader = document.createElement('div');
-loader.textContent = 'Loading...';
-loader.style.display = 'none';
-smartIdForm.prepend(loader);
-
-const challengeElem = document.createElement('div');
-challengeElem.style.display = 'none';
-smartIdForm.prepend(challengeElem);
-
-smartIdForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  loader.style.display = 'block';
-  authenticator.smartId.authenticate({
-    idcode: formData.get('idcode'),
-    countryCode: formData.get('countryCode'),
-    started: (result) => {
-      logResult(result, 'started');
-      challengeElem.textContent = result.response.data.challenge;
-      challengeElem.style.display = 'block';
-    },
-    fail: (result) => {
-      logResult(result, 'fail');
-    },
-    success: (result) => {
-      logResult(result, 'success');
-    },
-    finished: (result) => {
-      logResult(result, 'finished');
-      loader.style.display = 'none';
-      challengeElem.style.display = 'none';
-    },
-  });
-});
+createSmartIdDemo({ authenticator });
 
 // mobileId example
-const mobileIdForm = document.getElementById('authWithMobileId');
-const loader2 = document.createElement('div');
-loader2.textContent = 'Loading...';
-loader2.style.display = 'none';
-mobileIdForm.prepend(loader2);
-
-const challengeElem2 = document.createElement('div');
-challengeElem2.style.display = 'none';
-mobileIdForm.prepend(challengeElem2);
-
-mobileIdForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  loader2.style.display = 'block';
-  authenticator.mobileId.authenticate({
-    idcode: formData.get('idcode_mobile'),
-    phone: formData.get('phone'),
-    countryCode: formData.get('countryCode'),
-    started: (result) => {
-      logResult(result, 'started');
-      challengeElem2.textContent = result.response.data.challenge;
-      challengeElem2.style.display = 'block';
-    },
-    fail: (result) => {
-      logResult(result, 'fail');
-    },
-    success: (result) => {
-      logResult(result, 'success');
-    },
-    finished: (result) => {
-      logResult(result, 'finished');
-      loader2.style.display = 'none';
-      challengeElem2.style.display = 'none';
-    },
-  });
-});
+createMobileIdDemo({ authenticator });

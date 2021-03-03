@@ -50,7 +50,6 @@ const createIdCard = function createIdCard({
     async function execute() {
       let step1Result;
       const state = {};
-      console.log(i18n.t('idCardReadTimeout'));
       try {
         step1Result = await step1();
       } catch (error) {
