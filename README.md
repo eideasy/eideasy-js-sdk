@@ -17,7 +17,7 @@ Using jsDelivr CDN:
 
 ### Create the authenticator instance:
 ```javascript
-var authenticator = window.eidEasy.createAuthenticator({
+var authenticator = window.eidEasySdk.createAuthenticator({
   countryCode: 'EE',
   sandbox: true,
   clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
