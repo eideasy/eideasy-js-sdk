@@ -1,7 +1,7 @@
 // MODULE_NAME must match the default export name
 const MODULE_NAME = 'idCard';
 
-const makeIdCard = function makeIdCard({
+const createIdCard = function createIdCard({
   coreContext,
   apiClient,
 }) {
@@ -97,4 +97,4 @@ const makeIdCard = function makeIdCard({
   });
 };
 
-export default makeIdCard;
+export default createIdCard;

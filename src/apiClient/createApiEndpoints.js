@@ -1,4 +1,4 @@
-const makeApiEndpoints = function apiEndpointsFactory(settings = {}) {
+const createApiEndpoints = function createApiEndpoints(settings = {}) {
   const config = { ...settings };
   const apiEndpoints = {
     production: {
@@ -14,4 +14,4 @@ const makeApiEndpoints = function apiEndpointsFactory(settings = {}) {
   return Object.freeze(apiEndpoints[config.mode]);
 };
 
-export default makeApiEndpoints;
+export default createApiEndpoints;

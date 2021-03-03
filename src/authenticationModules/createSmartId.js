@@ -3,7 +3,7 @@ import poll from '../poll';
 // MODULE_NAME must match with the default export name
 const MODULE_NAME = 'smartId';
 
-const makeSmartId = function makeSmartId({
+const createSmartId = function createSmartId({
   coreContext,
   apiClient,
 }) {
@@ -122,4 +122,4 @@ const makeSmartId = function makeSmartId({
   });
 };
 
-export default makeSmartId;
+export default createSmartId;

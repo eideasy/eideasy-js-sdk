@@ -3,7 +3,7 @@ import poll from '../poll';
 // MODULE_NAME must match with the default export name
 const MODULE_NAME = 'mobileId';
 
-const makeMobileId = function makeMobileId({
+const createMobileId = function createMobileId({
   coreContext,
   apiClient,
 }) {
@@ -81,9 +81,9 @@ const makeMobileId = function makeMobileId({
 
       let step2Result;
       if (!state.error && step1Result) {
-        // Smart ID users have 100 seconds to enter their pin,
+        // Mobile ID users have 120 seconds to enter their pin,
         // so it doesn't make sense to poll longer than that
-        const maxPollAttempts = (100 * 1000) / pollInterval;
+        const maxPollAttempts = (120 * 1000) / pollInterval;
         try {
           step2Result = await poll({
             fn: () => step2({ data: step1Result.data }),
@@ -131,4 +131,4 @@ const makeMobileId = function makeMobileId({
   });
 };
 
-export default makeMobileId;
+export default createMobileId;
