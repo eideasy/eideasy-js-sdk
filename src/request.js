@@ -1,9 +1,17 @@
 import axios from 'axios';
+import createRequestError from './createRequestError';
 
 axios.interceptors.response.use((response) => {
-  // Any status code that lie within the range of 2xx cause this function to trigger
+  // eidEasy api returns some errors with a status code 200
+  // so we have to intercept those requests and throw errors like
+  // axios normally does.
   if (response.data && response.data.status === 'error') {
-    return Promise.reject(response.data);
+    return Promise.reject(createRequestError({
+      message: `Request failed with status code ${response.status}`,
+      config: response.config,
+      request: response.request,
+      response,
+    }));
   }
   return response;
 });

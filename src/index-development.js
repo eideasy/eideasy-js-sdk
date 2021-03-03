@@ -18,6 +18,16 @@ const authenticator = createAuthenticatorCore({
   },
 });
 
+function logResult(result, tag) {
+  if (tag) {
+    console.log(`----- ${tag} -----`);
+  }
+  if (result.error) {
+    console.error(result.error);
+  }
+  console.log(result);
+}
+
 // idcard example
 const idAuthButton = document.getElementById('authWithIDCard');
 const cancelIDCardButton = document.getElementById('cancelIDCard');
@@ -26,16 +36,13 @@ idAuthButton.addEventListener('click', async (e) => {
   e.preventDefault();
   authInstance = authenticator.idCard.authenticate({
     fail: (result) => {
-      console.log('--- fail ---');
-      console.error(result.error);
+      logResult(result, 'fail');
     },
     success: (result) => {
-      console.log('--- success ---');
-      console.log(result);
+      logResult(result, 'success');
     },
     finished: (result) => {
-      console.log('--- finished ---');
-      console.log(result);
+      logResult(result, 'finished');
     },
   });
 });
@@ -64,23 +71,18 @@ smartIdForm.addEventListener('submit', (e) => {
     idcode: formData.get('idcode'),
     countryCode: formData.get('countryCode'),
     started: (result) => {
-      console.log('--- started ---');
-      console.log(result);
+      logResult(result, 'started');
       challengeElem.textContent = result.response.data.challenge;
       challengeElem.style.display = 'block';
     },
     fail: (result) => {
-      console.log('--- fail ---');
-      console.error(result.error);
-      console.log(result.error && result.error.response);
+      logResult(result, 'fail');
     },
     success: (result) => {
-      console.log('--- success ---');
-      console.log(result);
+      logResult(result, 'success');
     },
     finished: (result) => {
-      console.log('--- finished ---');
-      console.log(result);
+      logResult(result, 'finished');
       loader.style.display = 'none';
       challengeElem.style.display = 'none';
     },
@@ -107,23 +109,18 @@ mobileIdForm.addEventListener('submit', (e) => {
     phone: formData.get('phone'),
     countryCode: formData.get('countryCode'),
     started: (result) => {
-      console.log('--- started ---');
-      console.log(result);
+      logResult(result, 'started');
       challengeElem2.textContent = result.response.data.challenge;
       challengeElem2.style.display = 'block';
     },
     fail: (result) => {
-      console.log('--- fail ---');
-      console.error(result.error);
-      console.log(result.error && result.error.response);
+      logResult(result, 'fail');
     },
     success: (result) => {
-      console.log('--- success ---');
-      console.log(result);
+      logResult(result, 'success');
     },
     finished: (result) => {
-      console.log('--- finished ---');
-      console.log(result);
+      logResult(result, 'finished');
       loader2.style.display = 'none';
       challengeElem2.style.display = 'none';
     },
