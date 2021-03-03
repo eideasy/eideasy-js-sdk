@@ -1,4 +1,4 @@
-import request from '../request';
+import request, { CancelToken } from '../request';
 
 const createApiClient = function apiClientFactory() {
   const get = function get(settings = {}) {
@@ -31,6 +31,7 @@ const createApiClient = function apiClientFactory() {
   return Object.freeze({
     get,
     post,
+    CancelToken,
   });
 };
 

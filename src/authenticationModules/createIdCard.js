@@ -18,7 +18,7 @@ const createIdCard = function createIdCard({
     if (localConfig.nonce) {
       url += `?nonce=${localConfig.nonce}`;
     }
-    return apiClient.get({ url });
+    return apiClient.get({ url, cancelToken: localConfig.cancelToken });
   };
 
   const step2 = function step2(settings = {}) {
@@ -31,12 +31,8 @@ const createIdCard = function createIdCard({
         method: 'ee-id-login',
         lang: localConfig.language,
       },
+      cancelToken: localConfig.cancelToken,
     });
-  };
-
-  // TODO: implement cancel
-  const cancel = function cancel() {
-    console.log('cancel was called, TODO: implement cancel');
   };
 
   const authenticate = function authenticate(settings = {}) {
@@ -47,11 +43,15 @@ const createIdCard = function createIdCard({
       countryCode,
       language,
     } = { ...config, ...settings };
+
+    const source = apiClient.CancelToken.source();
+    const cancelToken = source.token;
+
     async function execute() {
       let step1Result;
       const state = {};
       try {
-        step1Result = await step1();
+        step1Result = await step1({ cancelToken });
       } catch (error) {
         state.error = error;
         if (error.code === 'ECONNABORTED') {
@@ -63,6 +63,7 @@ const createIdCard = function createIdCard({
       if (!state.error && step1Result && step1Result.status === 200) {
         try {
           step2Result = await step2({
+            cancelToken,
             countryCode,
             language,
             data: step1Result.data,
@@ -89,7 +90,9 @@ const createIdCard = function createIdCard({
     execute().catch(console.error);
 
     return Object.freeze({
-      cancel,
+      cancel: function cancel() {
+        source.cancel();
+      },
     });
   };
 

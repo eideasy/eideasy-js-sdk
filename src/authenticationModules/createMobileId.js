@@ -29,6 +29,7 @@ const createMobileId = function createMobileId({
         method: method[localConfig.countryCode],
         lang: localConfig.language,
       },
+      cancelToken: localConfig.cancelToken,
     });
   };
 
@@ -40,12 +41,8 @@ const createMobileId = function createMobileId({
         token: localConfig.data.token,
         method: method[localConfig.countryCode],
       },
+      cancelToken: localConfig.cancelToken,
     });
-  };
-
-  // TODO: implement cancel
-  const cancel = function cancel() {
-    console.log('cancel was called, TODO: implement cancel');
   };
 
   const authenticate = function authenticate(settings = {}) {
@@ -60,11 +57,16 @@ const createMobileId = function createMobileId({
       countryCode,
       language,
     } = { ...config, ...settings };
+
+    const source = apiClient.CancelToken.source();
+    const cancelToken = source.token;
+
     const execute = async function execute() {
       let step1Result;
       const state = {};
       try {
         step1Result = await step1({
+          cancelToken,
           countryCode,
           language,
           idcode,
@@ -86,7 +88,7 @@ const createMobileId = function createMobileId({
         const maxPollAttempts = (120 * 1000) / pollInterval;
         try {
           step2Result = await poll({
-            fn: () => step2({ data: step1Result.data }),
+            fn: () => step2({ data: step1Result.data, cancelToken }),
             shouldContinue: (pollContext) => {
               const responseStatus = pollContext.result
                 && pollContext.result.data
@@ -121,7 +123,9 @@ const createMobileId = function createMobileId({
     execute().catch(console.error);
 
     return Object.freeze({
-      cancel,
+      cancel: function cancel() {
+        source.cancel();
+      },
     });
   };
 
