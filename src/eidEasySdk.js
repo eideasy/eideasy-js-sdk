@@ -1,37 +1,37 @@
-import makeApiClient from './apiClient/makeApiClient';
-import makeApiEndpoints from './apiClient/makeApiEndpoints';
-import makeSmartId from './authenticationModules/makeSmartId';
-import makeIdCard from './authenticationModules/makeIdCard';
-import makeMobileId from './authenticationModules/makeMobileId';
+import createApiClient from './apiClient/createApiClient';
+import createApiEndpoints from './apiClient/createApiEndpoints';
+import createSmartId from './authenticationModules/createSmartId';
+import createIdCard from './authenticationModules/createIdCard';
+import createMobileId from './authenticationModules/createMobileId';
 
 const idCard = function idCard(coreContext) {
-  return makeIdCard({
-    apiClient: makeApiClient(),
+  return createIdCard({
+    apiClient: createApiClient(),
     coreContext,
   });
 };
 
 const smartId = function smartId(coreContext) {
-  return makeSmartId({
-    apiClient: makeApiClient(),
+  return createSmartId({
+    apiClient: createApiClient(),
     coreContext,
   });
 };
 
 const mobileId = function mobileId(coreContext) {
-  return makeMobileId({
-    apiClient: makeApiClient(),
+  return createMobileId({
+    apiClient: createApiClient(),
     coreContext,
   });
 };
 
-const makeAuthenticatorCore = function makeAuthenticatorCore({
+const createAuthenticatorCore = function createAuthenticatorCore({
   modules = [],
   settings = {},
 } = {}) {
   const config = { ...settings };
   if (!config.apiEndpoints) {
-    config.apiEndpoints = makeApiEndpoints({
+    config.apiEndpoints = createApiEndpoints({
       mode: config.sandbox ? 'sandbox' : 'production',
       countryCode: config.countryCode,
     });
@@ -49,8 +49,8 @@ const makeAuthenticatorCore = function makeAuthenticatorCore({
 };
 
 // configuration with all the authentication modules included
-const makeAuthenticator = function makeAuthenticator(settings = {}) {
-  return makeAuthenticatorCore({
+const createAuthenticator = function createAuthenticator(settings = {}) {
+  return createAuthenticatorCore({
     settings,
     modules: [
       idCard,
@@ -62,10 +62,10 @@ const makeAuthenticator = function makeAuthenticator(settings = {}) {
 
 // export the whole authenticator with all the modules included
 // this will be used for the "script tag include" build
-export default makeAuthenticator;
+export default createAuthenticator;
 
 // export the core and authentication modules separately, so that the developer
 // can import only the modules that will be actually used and can therefore leverage tree shaking
 export {
-  makeAuthenticatorCore, idCard, smartId, mobileId,
+  createAuthenticatorCore, idCard, smartId, mobileId,
 };

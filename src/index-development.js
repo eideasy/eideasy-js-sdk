@@ -1,10 +1,10 @@
 import {
-  makeAuthenticatorCore, idCard, smartId, mobileId,
+  createAuthenticatorCore, idCard, smartId, mobileId,
 } from './eidEasySdk';
 
 console.log(process.env);
 
-const authenticator = makeAuthenticatorCore({
+const authenticator = createAuthenticatorCore({
   modules: [idCard, smartId, mobileId],
   settings: {
     countryCode: 'EE',
