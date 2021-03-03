@@ -1,6 +1,6 @@
 import {
   createAuthenticatorCore, idCard, smartId, mobileId,
-} from './eidEasySdk';
+} from './main';
 
 console.log(process.env);
 

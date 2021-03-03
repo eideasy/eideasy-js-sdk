@@ -27,7 +27,7 @@ module.exports = ({
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'eideasy-js-sdk.js',
-      library: 'eidEasy',
+      library: 'eidEasySdk',
       libraryTarget: 'umd',
     },
     devServer: {

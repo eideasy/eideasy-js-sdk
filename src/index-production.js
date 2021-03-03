@@ -1,2 +1,7 @@
-export { default as createAuthenticator } from './eidEasySdk';
-export { createAuthenticatorCore, idCard, smartId } from './eidEasySdk';
+export { default as createAuthenticator } from './main';
+export {
+  createAuthenticatorCore,
+  idCard,
+  smartId,
+  mobileId,
+} from './main';
