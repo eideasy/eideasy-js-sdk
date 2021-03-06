@@ -74,5 +74,5 @@ export default createAuthenticator;
 // export the core and authentication modules separately, so that the developer
 // can import only the modules that will be actually used and can therefore leverage tree shaking
 export {
-  createAuthenticatorCore, idCard, smartId, mobileId,
+  createAuthenticator, createAuthenticatorCore, idCard, smartId, mobileId,
 };

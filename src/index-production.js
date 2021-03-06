@@ -1,5 +1,6 @@
-export { default as createAuthenticator } from './main';
+export { default as createClient } from './main';
 export {
+  createAuthenticator,
   createAuthenticatorCore,
   idCard,
   smartId,
