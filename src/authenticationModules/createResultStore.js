@@ -45,6 +45,10 @@ const createResultStore = function createResultStore() {
         nextState.cancelled = true;
       }
 
+      if (error.response && error.response.data) {
+        nextState.data = error.response.data;
+      }
+
       return nextState;
     },
     addMessage(message) {
