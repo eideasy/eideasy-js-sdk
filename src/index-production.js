@@ -1,4 +1,6 @@
-export { default as createClient } from './main';
+import createClient from './main';
+
+export default createClient;
 export {
   createAuthenticator,
   createAuthenticatorCore,

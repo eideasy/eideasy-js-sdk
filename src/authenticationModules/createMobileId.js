@@ -1,5 +1,5 @@
 import poll from '../poll';
-
+import createResultStore from './createResultStore';
 // MODULE_NAME must match with the default export name
 const MODULE_NAME = 'mobileId';
 
@@ -63,7 +63,7 @@ const createMobileId = function createMobileId({
 
     const execute = async function execute() {
       let step1Result;
-      const state = {};
+      const { getState, actions, getNextState } = createResultStore();
       try {
         step1Result = await step1({
           cancelToken,
@@ -72,17 +72,13 @@ const createMobileId = function createMobileId({
           idcode,
           phone,
         });
-        started({
-          response: {
-            data: step1Result.data,
-          },
-        });
+        started(getNextState(actions.addRequestResult, step1Result));
       } catch (error) {
-        state.error = error;
+        getNextState(actions.addError, error);
       }
 
       let step2Result;
-      if (!state.error && step1Result) {
+      if (!getState().error && step1Result) {
         // Mobile ID users have 120 seconds to enter their pin,
         // so it doesn't make sense to poll longer than that
         const maxPollAttempts = (120 * 1000) / pollInterval;
@@ -101,23 +97,20 @@ const createMobileId = function createMobileId({
             interval: 1000,
           });
         } catch (error) {
-          state.error = error;
+          getNextState(actions.addError, error);
         }
       }
 
       if (step2Result) {
-        state.error = step2Result.error;
-        state.response = {
-          data: step2Result.result && step2Result.result.data,
-        };
+        getNextState(actions.addRequestResult, step2Result);
       }
 
-      if (state.error) {
-        fail(state);
+      if (getState().error) {
+        fail(getState());
       } else {
-        success(state);
+        success(getState());
       }
-      finished(state);
+      finished(getState());
     };
 
     execute().catch(console.error);

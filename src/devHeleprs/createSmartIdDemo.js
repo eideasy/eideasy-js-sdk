@@ -23,7 +23,7 @@ function createSmartIdDemo({ authenticator }) {
       countryCode: formData.get('countryCode'),
       started: (result) => {
         logResult(result, 'started');
-        challengeElem.textContent = result.response.data.challenge;
+        challengeElem.textContent = result.data.challenge;
         challengeElem.style.display = 'block';
       },
       fail: (result) => {

@@ -23,7 +23,7 @@ function createMobileIdDemo({ authenticator }) {
       countryCode: formData.get('countryCode'),
       started: (result) => {
         logResult(result, 'started');
-        challengeElem2.textContent = result.response.data.challenge;
+        challengeElem2.textContent = result.data.challenge;
         challengeElem2.style.display = 'block';
       },
       fail: (result) => {

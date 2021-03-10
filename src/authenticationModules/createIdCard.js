@@ -1,6 +1,6 @@
+import createResultStore from './createResultStore';
 // MODULE_NAME must match the default export name
 const MODULE_NAME = 'idCard';
-
 const createIdCard = function createIdCard({
   coreContext,
   apiClient,
@@ -49,18 +49,18 @@ const createIdCard = function createIdCard({
 
     async function execute() {
       let step1Result;
-      const state = {};
+      const { getState, actions, getNextState } = createResultStore();
       try {
         step1Result = await step1({ cancelToken });
       } catch (error) {
-        state.error = error;
+        getNextState(actions.addError, error);
         if (error.code === 'ECONNABORTED') {
-          state.message = i18n.t('idCardReadTimeout');
+          getNextState(actions.addMessage(), i18n.t('idCardReadTimeout'));
         }
       }
 
       let step2Result;
-      if (!state.error && step1Result && step1Result.status === 200) {
+      if (!getState().error && step1Result && step1Result.status === 200) {
         try {
           step2Result = await step2({
             cancelToken,
@@ -69,22 +69,20 @@ const createIdCard = function createIdCard({
             data: step1Result.data,
           });
         } catch (error) {
-          state.error = error;
+          getNextState(actions.addError, error);
         }
       }
 
       if (step2Result) {
-        state.response = {
-          data: step2Result.data,
-        };
+        getNextState(actions.addRequestResult, step2Result);
       }
 
-      if (state.error) {
-        fail(state);
+      if (getState().error) {
+        fail(getState());
       } else {
-        success(state);
+        success(getState());
       }
-      finished(state);
+      finished(getState());
     }
 
     execute().catch(console.error);

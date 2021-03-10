@@ -1,7 +1,7 @@
 import axios from 'axios';
 import createRequestError from './createRequestError';
 
-const { CancelToken } = axios;
+const { CancelToken, isCancel } = axios;
 
 axios.interceptors.response.use((response) => {
   // eidEasy api returns some errors with a status code 200
@@ -23,4 +23,4 @@ const request = function request(settings) {
 };
 
 export default request;
-export { CancelToken };
+export { CancelToken, isCancel };
