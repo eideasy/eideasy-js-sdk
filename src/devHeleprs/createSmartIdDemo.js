@@ -20,7 +20,6 @@ function createSmartIdDemo({ authenticator }) {
     loader.style.display = 'block';
     authInstance = authenticator.smartId.authenticate({
       idcode: formData.get('idcode'),
-      countryCode: formData.get('countryCode'),
       started: (result) => {
         logResult(result, 'started');
         challengeElem.textContent = result.data.challenge;

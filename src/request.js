@@ -7,7 +7,18 @@ axios.interceptors.response.use((response) => {
   // eidEasy api returns some errors with a status code 200
   // so we have to intercept those requests and throw errors like
   // axios normally does.
-  if (response.data && response.data.status === 'error') {
+  function hasErrorInData(data) {
+    if (data) {
+      if (
+        data.status === 'error'
+        || data.status === 'No ID or basic level only'
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+  if (hasErrorInData(response.data)) {
     return Promise.reject(createRequestError({
       message: `Request failed with status code ${response.status}`,
       config: response.config,

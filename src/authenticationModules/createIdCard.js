@@ -1,48 +1,48 @@
 import createResultStore from './createResultStore';
-// MODULE_NAME must match the default export name
+
 const MODULE_NAME = 'idCard';
 const createIdCard = function createIdCard({
   coreContext,
   apiClient,
 }) {
-  const config = {
-    ...coreContext.config,
-    moduleName: MODULE_NAME,
-  };
-
-  const { i18n } = coreContext;
+  const { i18n, config: coreConfig } = coreContext;
 
   const step1 = function step1(settings = {}) {
-    const localConfig = { ...config, ...settings };
-    let url = `${localConfig.apiEndpoints.card(localConfig.countryCode)}/api/identity/${localConfig.clientId}/read-card`;
-    if (localConfig.nonce) {
-      url += `?nonce=${localConfig.nonce}`;
+    let url = `${settings.apiEndpoints.card(settings.countryCode)}/api/identity/${settings.clientId}/read-card`;
+    if (settings.nonce) {
+      url += `?nonce=${settings.nonce}`;
     }
-    return apiClient.get({ url, cancelToken: localConfig.cancelToken });
+    return apiClient.get({ url, cancelToken: settings.cancelToken });
   };
 
   const step2 = function step2(settings = {}) {
-    const localConfig = { ...config, ...settings };
+    const method = {
+      EE: 'ee-id-login',
+      LV: 'lv-id-login',
+      LT: 'lt-id-login',
+    };
+
     return apiClient.post({
-      url: localConfig.localApiEndpoints.identityFinish,
+      url: settings.localApiEndpoints.identityFinish,
       data: {
-        token: localConfig.data.token,
-        country: localConfig.countryCode,
-        method: 'ee-id-login',
-        lang: localConfig.language,
+        token: settings.data.token,
+        country: settings.countryCode,
+        method: method[settings.countryCode],
+        lang: settings.language,
       },
-      cancelToken: localConfig.cancelToken,
+      cancelToken: settings.cancelToken,
     });
   };
 
   const authenticate = function authenticate(settings = {}) {
+    const config = { ...coreConfig, ...settings };
     const {
       success = () => {},
       fail = () => {},
       finished = () => {},
-      countryCode,
-      language,
-    } = { ...config, ...settings };
+    } = config;
+
+    const language = settings.language || i18n.getCurrentLanguage();
 
     const source = apiClient.CancelToken.source();
     const cancelToken = source.token;
@@ -51,7 +51,11 @@ const createIdCard = function createIdCard({
       let step1Result;
       const { getState, actions, getNextState } = createResultStore();
       try {
-        step1Result = await step1({ cancelToken });
+        step1Result = await step1({
+          ...config,
+          language,
+          cancelToken,
+        });
       } catch (error) {
         getNextState(actions.addError, error);
         if (error.code === 'ECONNABORTED') {
@@ -63,8 +67,8 @@ const createIdCard = function createIdCard({
       if (!getState().error && step1Result && step1Result.status === 200) {
         try {
           step2Result = await step2({
+            ...config,
             cancelToken,
-            countryCode,
             language,
             data: step1Result.data,
           });
@@ -95,7 +99,7 @@ const createIdCard = function createIdCard({
   };
 
   return Object.freeze({
-    config,
+    MODULE_NAME,
     authenticate,
   });
 };

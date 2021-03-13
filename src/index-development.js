@@ -22,6 +22,18 @@ const authenticator = createAuthenticatorCore({
   },
 });
 
+document
+  .getElementById('langPicker')
+  .addEventListener('change', (e) => {
+    authenticator.setLanguage(e.target.value);
+  });
+
+document
+  .getElementById('countryPicker')
+  .addEventListener('change', (e) => {
+    authenticator.setCountryCode(e.target.value);
+  });
+
 // idcard example
 createIdCardDemo({ authenticator });
 

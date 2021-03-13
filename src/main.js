@@ -39,19 +39,24 @@ const createAuthenticatorCore = function createAuthenticatorCore({
     });
   }
   i18n.setLanguage(config.language);
-  const installedModules = {};
 
+  const setCountryCode = function setCountryCode(countryCode) {
+    config.countryCode = countryCode;
+  };
+
+  const installedModules = {};
   modules.forEach((module) => {
     const instance = module({
       config,
       i18n,
     });
-    installedModules[instance.config.moduleName] = instance;
+    installedModules[instance.MODULE_NAME] = instance;
   });
 
   return Object.freeze({
     ...installedModules,
     setLanguage: i18n.setLanguage,
+    setCountryCode,
   });
 };
 

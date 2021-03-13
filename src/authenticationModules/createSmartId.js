@@ -1,45 +1,41 @@
 import poll from '../poll';
 import createResultStore from './createResultStore';
 
-// MODULE_NAME must match with the default export name
 const MODULE_NAME = 'smartId';
 
 const createSmartId = function createSmartId({
   coreContext,
   apiClient,
 }) {
-  const config = {
-    ...coreContext.config,
-    moduleName: MODULE_NAME,
-  };
+  const { i18n, config: coreConfig } = coreContext;
 
   const step1 = function step1(settings) {
-    const localConfig = { ...config, ...settings };
     return apiClient.post({
-      cancelToken: localConfig.cancelToken,
-      url: localConfig.localApiEndpoints.identityStart,
+      cancelToken: settings.cancelToken,
+      url: settings.localApiEndpoints.identityStart,
       data: {
         idcode: settings.idcode,
-        country: localConfig.countryCode,
+        country: settings.countryCode,
         method: 'smartid',
-        lang: localConfig.language,
+        lang: settings.language,
       },
     });
   };
 
   const step2 = function step2(settings) {
-    const localConfig = { ...config, ...settings };
+    console.log(settings);
     return apiClient.post({
-      cancelToken: localConfig.cancelToken,
-      url: localConfig.localApiEndpoints.identityFinish,
+      cancelToken: settings.cancelToken,
+      url: settings.localApiEndpoints.identityFinish,
       data: {
-        token: localConfig.data.token,
+        token: settings.data.token,
         method: 'smartid',
       },
     });
   };
 
   const authenticate = function authenticate(settings = {}) {
+    const config = { ...coreConfig, ...settings };
     const {
       started = () => {},
       success = () => {},
@@ -47,9 +43,10 @@ const createSmartId = function createSmartId({
       finished = () => {},
       idcode,
       pollInterval = 1000,
-      countryCode,
-      language,
-    } = { ...config, ...settings };
+    } = config;
+
+    const language = settings.language || i18n.getCurrentLanguage();
+
     const source = apiClient.CancelToken.source();
     const cancelToken = source.token;
 
@@ -58,8 +55,8 @@ const createSmartId = function createSmartId({
       const { getState, actions, getNextState } = createResultStore();
       try {
         step1Result = await step1({
+          ...config,
           cancelToken,
-          countryCode,
           language,
           idcode,
         });
@@ -75,7 +72,11 @@ const createSmartId = function createSmartId({
         const maxPollAttempts = (100 * 1000) / pollInterval;
         try {
           step2Result = await poll({
-            fn: () => step2({ data: step1Result.data, cancelToken }),
+            fn: () => step2({
+              ...config,
+              data: step1Result.data,
+              cancelToken,
+            }),
             shouldContinue: (pollContext) => {
               const responseStatus = pollContext.result
                 && pollContext.result.data
@@ -114,7 +115,7 @@ const createSmartId = function createSmartId({
   };
 
   return Object.freeze({
-    config,
+    MODULE_NAME,
     authenticate,
   });
 };

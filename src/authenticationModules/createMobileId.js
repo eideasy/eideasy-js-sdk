@@ -1,51 +1,46 @@
 import poll from '../poll';
 import createResultStore from './createResultStore';
-// MODULE_NAME must match with the default export name
+
 const MODULE_NAME = 'mobileId';
 
 const createMobileId = function createMobileId({
   coreContext,
   apiClient,
 }) {
-  const config = {
-    ...coreContext.config,
-    moduleName: MODULE_NAME,
-  };
-
+  const { i18n, config: coreConfig } = coreContext;
   const method = {
     EE: 'mid-login',
-    LV: 'lt-mobile-id',
-    LT: 'lv-mobile-id',
+    LV: 'lv-mobile-id',
+    LT: 'lt-mobile-id',
   };
 
   const step1 = function step1(settings) {
-    const localConfig = { ...config, ...settings };
     return apiClient.post({
-      url: localConfig.localApiEndpoints.identityStart,
+      url: settings.localApiEndpoints.identityStart,
       data: {
-        idcode: localConfig.idcode,
-        phone: localConfig.phone,
-        country: localConfig.countryCode,
-        method: method[localConfig.countryCode],
-        lang: localConfig.language,
+        idcode: settings.idcode,
+        phone: settings.phone,
+        country: settings.countryCode,
+        method: method[settings.countryCode],
+        lang: settings.language,
       },
-      cancelToken: localConfig.cancelToken,
+      cancelToken: settings.cancelToken,
     });
   };
 
   const step2 = function step2(settings) {
-    const localConfig = { ...config, ...settings };
     return apiClient.post({
-      url: localConfig.localApiEndpoints.identityFinish,
+      url: settings.localApiEndpoints.identityFinish,
       data: {
-        token: localConfig.data.token,
-        method: method[localConfig.countryCode],
+        token: settings.data.token,
+        method: method[settings.countryCode],
       },
-      cancelToken: localConfig.cancelToken,
+      cancelToken: settings.cancelToken,
     });
   };
 
   const authenticate = function authenticate(settings = {}) {
+    const config = { ...coreConfig, ...settings };
     const {
       started = () => {},
       success = () => {},
@@ -54,9 +49,9 @@ const createMobileId = function createMobileId({
       idcode,
       phone,
       pollInterval = 1000,
-      countryCode,
-      language,
-    } = { ...config, ...settings };
+    } = config;
+
+    const language = settings.language || i18n.getCurrentLanguage();
 
     const source = apiClient.CancelToken.source();
     const cancelToken = source.token;
@@ -66,8 +61,8 @@ const createMobileId = function createMobileId({
       const { getState, actions, getNextState } = createResultStore();
       try {
         step1Result = await step1({
+          ...config,
           cancelToken,
-          countryCode,
           language,
           idcode,
           phone,
@@ -84,7 +79,11 @@ const createMobileId = function createMobileId({
         const maxPollAttempts = (120 * 1000) / pollInterval;
         try {
           step2Result = await poll({
-            fn: () => step2({ data: step1Result.data, cancelToken }),
+            fn: () => step2({
+              ...config,
+              data: step1Result.data,
+              cancelToken,
+            }),
             shouldContinue: (pollContext) => {
               const responseStatus = pollContext.result
                 && pollContext.result.data
@@ -123,7 +122,7 @@ const createMobileId = function createMobileId({
   };
 
   return Object.freeze({
-    config,
+    MODULE_NAME,
     authenticate,
   });
 };

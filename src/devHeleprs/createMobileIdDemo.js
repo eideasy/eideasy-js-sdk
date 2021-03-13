@@ -20,7 +20,6 @@ function createMobileIdDemo({ authenticator }) {
     authInstance = authenticator.mobileId.authenticate({
       idcode: formData.get('idcode_mobile'),
       phone: formData.get('phone'),
-      countryCode: formData.get('countryCode'),
       started: (result) => {
         logResult(result, 'started');
         challengeElem2.textContent = result.data.challenge;

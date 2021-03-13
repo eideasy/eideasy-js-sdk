@@ -17,6 +17,10 @@ const createI18n = function createI18n({ currentLanguage = 'en' }) {
     state.currentLanguage = language;
   };
 
+  const getCurrentLanguage = function getCurrentLanguage() {
+    return state.currentLanguage;
+  };
+
   const t = function t(key) {
     let translations = locales[state.currentLanguage];
     if (!translations) {
@@ -33,6 +37,7 @@ const createI18n = function createI18n({ currentLanguage = 'en' }) {
   return Object.freeze({
     setLanguage,
     t,
+    getCurrentLanguage,
   });
 };
 
