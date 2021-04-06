@@ -5,7 +5,6 @@ function createIdCardDemo({
   country,
   dom,
 }) {
-  console.log(dom);
   let authInstance;
   dom.buttonStart.addEventListener('click', async (e) => {
     e.preventDefault();

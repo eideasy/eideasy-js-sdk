@@ -1,29 +1,33 @@
 import logResult from './logResult';
+import createLoader from './createLoader';
 
-function createMobileIdDemo({ authenticator }) {
-  const mobileIdForm = document.getElementById('authWithMobileId');
-  const cancelButton = document.getElementById('cancelMobileId');
+function createMobileIdDemo({
+  authenticator,
+  country,
+  dom,
+}) {
+  const loader = createLoader();
+  loader.style.display = 'none';
+  dom.form.prepend(loader);
+
   let authInstance;
-  const loader2 = document.createElement('div');
-  loader2.textContent = 'Loading...';
-  loader2.style.display = 'none';
-  mobileIdForm.prepend(loader2);
 
-  const challengeElem2 = document.createElement('div');
-  challengeElem2.style.display = 'none';
-  mobileIdForm.prepend(challengeElem2);
+  const challengeElem = document.createElement('div');
+  challengeElem.style.display = 'none';
+  dom.form.prepend(challengeElem);
 
-  mobileIdForm.addEventListener('submit', (e) => {
+  dom.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    loader2.style.display = 'block';
+    loader.style.display = 'block';
     authInstance = authenticator.mobileId.authenticate({
+      countryCode: country,
       idcode: formData.get('idcode_mobile'),
       phone: formData.get('phone'),
       started: (result) => {
         logResult(result, 'started');
-        challengeElem2.textContent = result.data.challenge;
-        challengeElem2.style.display = 'block';
+        challengeElem.textContent = result.data.challenge;
+        challengeElem.style.display = 'block';
       },
       fail: (result) => {
         logResult(result, 'fail');
@@ -33,13 +37,13 @@ function createMobileIdDemo({ authenticator }) {
       },
       finished: (result) => {
         logResult(result, 'finished');
-        loader2.style.display = 'none';
-        challengeElem2.style.display = 'none';
+        loader.style.display = 'none';
+        challengeElem.style.display = 'none';
       },
     });
   });
 
-  cancelButton.addEventListener('click', async (e) => {
+  dom.buttonCancel.addEventListener('click', async (e) => {
     e.preventDefault();
     authInstance.cancel();
   });

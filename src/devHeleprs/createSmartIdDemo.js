@@ -21,6 +21,7 @@ function createSmartIdDemo({
     const formData = new FormData(e.target);
     loader.style.display = 'block';
     authInstance = authenticator.smartId.authenticate({
+      countryCode: country,
       idcode: formData.get('idcode'),
       started: (result) => {
         logResult(result, 'started');
