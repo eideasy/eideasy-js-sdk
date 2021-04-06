@@ -28,17 +28,32 @@ document
     authenticator.setLanguage(e.target.value);
   });
 
+function createDemos(root) {
+  const dom = {
+    root,
+    form: root.querySelector('.js-authMethod_form'),
+    buttonStart: root.querySelector('.js-authMethod_start'),
+    buttonCancel: root.querySelector('.js-authMethod_cancel'),
+  };
+  const { method, country } = root.dataset;
+
+  const methodConfig = {
+    authenticator,
+    dom,
+    country,
+  };
+
+  if (method === 'id-card') {
+    createIdCardDemo(methodConfig);
+  } else if (method === 'smart-id') {
+    createSmartIdDemo(methodConfig);
+  } else if (method === 'mobile-id') {
+    createMobileIdDemo(methodConfig);
+  } else if (method === 'eparaksts-mobile') {
+    console.log('eparaksts');
+  }
+}
+
 document
-  .getElementById('countryPicker')
-  .addEventListener('change', (e) => {
-    authenticator.setCountryCode(e.target.value);
-  });
-
-// idcard example
-createIdCardDemo({ authenticator });
-
-// smartId example
-createSmartIdDemo({ authenticator });
-
-// mobileId example
-createMobileIdDemo({ authenticator });
+  .querySelectorAll('.js-authMethod')
+  .forEach(createDemos);

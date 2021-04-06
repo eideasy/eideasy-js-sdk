@@ -10,7 +10,6 @@ const createMobileId = function createMobileId({
   const { i18n, config: coreConfig } = coreContext;
   const method = {
     EE: 'mid-login',
-    LV: 'lv-mobile-id',
     LT: 'lt-mobile-id',
   };
 

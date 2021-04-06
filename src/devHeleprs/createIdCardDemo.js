@@ -1,12 +1,16 @@
 import logResult from './logResult';
 
-function createIdCardDemo({ authenticator }) {
-  const idAuthButton = document.getElementById('authWithIDCard');
-  const cancelIDCardButton = document.getElementById('cancelIDCard');
+function createIdCardDemo({
+  authenticator,
+  country,
+  dom,
+}) {
+  console.log(dom);
   let authInstance;
-  idAuthButton.addEventListener('click', async (e) => {
+  dom.buttonStart.addEventListener('click', async (e) => {
     e.preventDefault();
     authInstance = authenticator.idCard.authenticate({
+      countryCode: country,
       fail: (result) => {
         logResult(result, 'fail');
       },
@@ -19,7 +23,7 @@ function createIdCardDemo({ authenticator }) {
     });
   });
 
-  cancelIDCardButton.addEventListener('click', async (e) => {
+  dom.buttonCancel.addEventListener('click', async (e) => {
     e.preventDefault();
     authInstance.cancel();
   });

@@ -6,33 +6,49 @@
     <title>eID Easy SDK dev demo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+            rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+            crossorigin="anonymous"
+    >
 </head>
 
 <body>
-
 <div class="container">
     <h2 class="mt-4 mb-4">eID Easy development demo index</h2>
 
     <%- include partials/lang-selector.ejs %>
-    <%- include partials/country-selector.ejs %>
 
-    <div class="row">
-        <div class="col-lg-4">
-            <%- include partials/id-card.ejs %>
+    <ul class="nav nav-pills mt-4 mb-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="ee-tab" data-bs-toggle="tab" data-bs-target="#login-methods-ee" type="button" role="tab" aria-controls="home" aria-selected="true">EE</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#login-methods-lv" type="button" role="tab" aria-controls="profile" aria-selected="false">LV</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#login-methods-lt" type="button" role="tab" aria-controls="contact" aria-selected="false">LT</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="login-methods-ee" role="tabpanel" aria-labelledby="ee-tab">
+            <%- include partials/login-methods-EE.ejs %>
         </div>
-        <div class="col-lg-4">
-            <%- include partials/smart-id.ejs %>
+        <div class="tab-pane fade" id="login-methods-lv" role="tabpanel" aria-labelledby="profile-tab">
+            <%- include partials/login-methods-LV.ejs %>
         </div>
-        <div class="col-lg-4">
-            <%- include partials/mobile-id.ejs %>
+        <div class="tab-pane fade" id="login-methods-lt" role="tabpanel" aria-labelledby="contact-tab">
+            <%- include partials/login-methods-LT.ejs %>
         </div>
     </div>
-
-
 </div>
 
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"
+></script>
 </body>
 
 </html>

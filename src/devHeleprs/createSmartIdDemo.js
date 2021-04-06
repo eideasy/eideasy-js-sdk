@@ -1,20 +1,22 @@
 import logResult from './logResult';
+import createLoader from './createLoader';
 
-function createSmartIdDemo({ authenticator }) {
-  const smartIdForm = document.getElementById('authWithSmartId');
-  const loader = document.createElement('div');
-  loader.textContent = 'Loading...';
+function createSmartIdDemo({
+  authenticator,
+  country,
+  dom,
+}) {
+  const loader = createLoader();
   loader.style.display = 'none';
-  smartIdForm.prepend(loader);
+  dom.form.prepend(loader);
 
-  const cancelButton = document.getElementById('cancelSmartId');
   let authInstance;
 
   const challengeElem = document.createElement('div');
   challengeElem.style.display = 'none';
-  smartIdForm.prepend(challengeElem);
+  dom.form.prepend(challengeElem);
 
-  smartIdForm.addEventListener('submit', (e) => {
+  dom.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     loader.style.display = 'block';
@@ -39,7 +41,7 @@ function createSmartIdDemo({ authenticator }) {
     });
   });
 
-  cancelButton.addEventListener('click', async (e) => {
+  dom.buttonCancel.addEventListener('click', async (e) => {
     e.preventDefault();
     authInstance.cancel();
   });

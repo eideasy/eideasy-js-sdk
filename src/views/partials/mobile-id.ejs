@@ -1,15 +1,15 @@
-<div class="card mb-3">
+<div class="card mb-3 js-authMethod" data-method="mobile-id" data-country="<%= country %>">
     <div class="card-body">
         <h5 class="card-title">Mobile ID</h5>
-        <form action="" id="authWithMobileId">
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input id="phone" name="phone" type="tel" class="form-control">
-                <label for="idcode_mobile">Personal Identification Code</label>
-                <input id="idcode_mobile" name="idcode_mobile" type="text" class="form-control">
+        <form action="" class="js-authMethod_form">
+            <div class="mb-3">
+                <label for="phone-<%= country %>">Phone Number</label>
+                <input id="phone-<%= country %>" name="phone" type="tel" class="form-control">
+                <label for="idcode_mobile-<%= country %>">Personal Identification Code</label>
+                <input id="idcode_mobile-<%= country %>" name="idcode_mobile" type="text" class="form-control">
             </div>
-            <button type="submit" class="btn btn-primary">Authenticate</button>
-            <a href="#" id="cancelMobileId" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-dark">Authenticate</button>
+            <a href="#" class="btn btn-link js-authMethod_cancel">Cancel</a>
         </form>
     </div>
 </div>

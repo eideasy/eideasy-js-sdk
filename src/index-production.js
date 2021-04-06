@@ -7,4 +7,5 @@ export {
   idCard,
   smartId,
   mobileId,
+  eParakstsMobile,
 } from './main';

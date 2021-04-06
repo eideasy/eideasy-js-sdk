@@ -7,7 +7,7 @@ const createApiEndpoints = function createApiEndpoints(settings = {}) {
     },
     sandbox: {
       base: 'https://test.eideasy.com',
-      card: (countryCode = config.countryCode.toLowerCase()) => `https://${countryCode}.eideasy.com`,
+      card: (countryCode = config.countryCode.toLowerCase()) => `https://${countryCode}.test.eideasy.com`,
     },
   };
 

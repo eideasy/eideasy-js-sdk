@@ -4,6 +4,7 @@ import createI18n from './i18n/createI18n';
 import createSmartId from './authenticationModules/createSmartId';
 import createIdCard from './authenticationModules/createIdCard';
 import createMobileId from './authenticationModules/createMobileId';
+import createEParakstsMobile from './authenticationModules/createEParakstsMobile';
 
 const idCard = function idCard(coreContext) {
   return createIdCard({
@@ -22,6 +23,13 @@ const smartId = function smartId(coreContext) {
 const mobileId = function mobileId(coreContext) {
   return createMobileId({
     apiClient: createApiClient(),
+    coreContext,
+  });
+};
+
+// Latvian mobile ID just redirects and doesn't need the apiClient
+const eParakstsMobile = function eParakstsMobile(coreContext) {
+  return createEParakstsMobile({
     coreContext,
   });
 };
@@ -68,6 +76,7 @@ const createAuthenticator = function createAuthenticator(settings = {}) {
       idCard,
       smartId,
       mobileId,
+      eParakstsMobile,
     ],
   });
 };
@@ -79,5 +88,5 @@ export default createAuthenticator;
 // export the core and authentication modules separately, so that the developer
 // can import only the modules that will be actually used and can therefore leverage tree shaking
 export {
-  createAuthenticator, createAuthenticatorCore, idCard, smartId, mobileId,
+  createAuthenticator, createAuthenticatorCore, idCard, smartId, mobileId, eParakstsMobile,
 };
