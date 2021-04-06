@@ -1,15 +1,17 @@
 import {
-  createAuthenticatorCore, idCard, smartId, mobileId,
+  createAuthenticatorCore, idCard, smartId, mobileId, eParakstsMobile,
 } from './main';
 
 import createIdCardDemo from './devHeleprs/createIdCardDemo';
 import createSmartIdDemo from './devHeleprs/createSmartIdDemo';
 import createMobileIdDemo from './devHeleprs/createMobileIdDemo';
+import createEParakstsMobileDemo from './devHeleprs/createEParakstsMobileDemo';
 
 console.log(process.env);
 
+
 const authenticator = createAuthenticatorCore({
-  modules: [idCard, smartId, mobileId],
+  modules: [idCard, smartId, mobileId, eParakstsMobile],
   settings: {
     countryCode: 'EE',
     sandbox: true,
@@ -50,7 +52,7 @@ function createDemos(root) {
   } else if (method === 'mobile-id') {
     createMobileIdDemo(methodConfig);
   } else if (method === 'eparaksts-mobile') {
-    console.log('eparaksts');
+    createEParakstsMobileDemo(methodConfig);
   }
 }
 

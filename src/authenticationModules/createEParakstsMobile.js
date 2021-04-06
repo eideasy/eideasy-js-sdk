@@ -1,6 +1,6 @@
 import createResultStore from './createResultStore';
 
-const MODULE_NAME = 'mobileIdLv';
+const MODULE_NAME = 'eParakstsMobile';
 
 const createEParakstsMobile = function createEParakstsMobile({
   coreContext,
