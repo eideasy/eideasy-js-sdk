@@ -9,7 +9,6 @@ import createEParakstsMobileDemo from './devHeleprs/createEParakstsMobileDemo';
 
 console.log(process.env);
 
-
 const authenticator = createAuthenticatorCore({
   modules: [idCard, smartId, mobileId, eParakstsMobile],
   settings: {
@@ -17,8 +16,8 @@ const authenticator = createAuthenticatorCore({
     sandbox: true,
     clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
     localApiEndpoints: {
-      identityStart: 'http://eid-sample-app.test/api/identity/start',
-      identityFinish: 'http://eid-sample-app.test/api/identity/finish',
+      identityStart: 'https://eid-sample-app.test/api/identity/start',
+      identityFinish: 'https://eid-sample-app.test/api/identity/finish',
     },
     language: 'et',
   },
