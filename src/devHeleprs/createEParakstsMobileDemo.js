@@ -2,13 +2,11 @@ import logResult from './logResult';
 
 function createEParakstsMobileDemo({
   authenticator,
-  country,
   dom,
 }) {
   dom.buttonStart.addEventListener('click', async (e) => {
     e.preventDefault();
     authenticator.eParakstsMobile.authenticate({
-      countryCode: country,
       fail: (result) => {
         logResult(result, 'fail');
       },
