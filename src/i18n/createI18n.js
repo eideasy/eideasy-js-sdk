@@ -1,5 +1,8 @@
 import en from './en';
 import et from './et';
+import lt from './lt';
+import lv from './lv';
+import ru from './ru';
 
 const createI18n = function createI18n({ currentLanguage = 'en' }) {
   const state = {
@@ -11,6 +14,9 @@ const createI18n = function createI18n({ currentLanguage = 'en' }) {
   const locales = {
     en,
     et,
+    lt,
+    lv,
+    ru,
   };
 
   const setLanguage = function setLanguage(language) {
