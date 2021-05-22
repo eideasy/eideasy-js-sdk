@@ -1,10 +1,9 @@
-# eID Easy js SDk
+# Guide
+
 ## Important !!
 This package is in active development and not production ready.
 
-eideasy-js-sdk provides you with a simple set of functions to get the user's identity.
-
-## Installing
+## Installation
 
 Using jsDelivr CDN:
 

@@ -1,20 +1,19 @@
 module.exports = {
   title: 'eID Easy javascript SDK',
-  description: 'Documentation for the eID Easy javascript SDK',
+  description: 'eideasy-js-sdk provides you with a simple set of functions to get the user\'s identity.',
   themeConfig: {
+    repo: 'eideasy/eideasy-js-sdk/',
     logo: '/assets/img/eid-easy-logo.png',
-    nav: [
+    navbar: [
       { text: 'Home', link: '/'},
       { text: 'Guide', link: '/guide/'},
       { text: 'Contributing', link: '/contributing/'},
     ],
-    sidebar: {
-      '/guide/': [
-        '',
-      ],
-      '/contributing/': [
-        '',
-      ]
-    },
-  }
+    sidebar: 'auto',
+  },
+  plugins: [
+    [
+      '@vuepress/plugin-search',
+    ],
+  ],
 }
