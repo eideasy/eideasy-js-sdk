@@ -71,3 +71,7 @@ typings/
 
 # webpack default dist folder
 dist/
+
+
+.cache
+.temp
