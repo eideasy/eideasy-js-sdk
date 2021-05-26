@@ -1,4 +1,4 @@
-import createResultStore from './createResultStore';
+import createResultStore, { actionTypes } from './createResultStore';
 
 const MODULE_NAME = 'eParakstsMobile';
 
@@ -27,7 +27,7 @@ const createEParakstsMobile = function createEParakstsMobile({
 
     const execute = async function execute() {
       let step1Result;
-      const { getState, actions, dispatch } = createResultStore();
+      const { getState, dispatch } = createResultStore();
       step1(config);
 
       if (getState().error) {

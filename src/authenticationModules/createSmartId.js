@@ -1,5 +1,5 @@
 import poll from '../poll';
-import createResultStore from './createResultStore';
+import createResultStore, { actionTypes } from './createResultStore';
 
 const MODULE_NAME = 'smartId';
 
@@ -52,7 +52,7 @@ const createSmartId = function createSmartId({
 
     const execute = async function execute() {
       let step1Result;
-      const { getState, actions, dispatch } = createResultStore();
+      const { getState, dispatch } = createResultStore();
       try {
         step1Result = await step1({
           ...config,
@@ -60,9 +60,10 @@ const createSmartId = function createSmartId({
           language,
           idcode,
         });
-        started(dispatch(actions.addRequestResult, step1Result));
+        dispatch(actionTypes.addResult, step1Result);
+        started(getState());
       } catch (error) {
-        dispatch(actions.addError, error);
+        dispatch(actionTypes.addResult, { error });
       }
 
       let step2Result;
@@ -89,12 +90,12 @@ const createSmartId = function createSmartId({
             interval: 1000,
           });
         } catch (error) {
-          dispatch(actions.addError, error);
+          dispatch(actionTypes.addResult, { error });
         }
       }
 
       if (step2Result) {
-        dispatch(actions.addRequestResult, step2Result);
+        dispatch(actionTypes.addResult, step2Result);
       }
 
       if (getState().error) {

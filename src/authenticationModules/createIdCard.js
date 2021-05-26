@@ -1,4 +1,4 @@
-import createResultStore from './createResultStore';
+import createResultStore, { actionTypes } from './createResultStore';
 
 const MODULE_NAME = 'idCard';
 const createIdCard = function createIdCard({
@@ -49,7 +49,7 @@ const createIdCard = function createIdCard({
 
     async function execute() {
       let step1Result;
-      const { getState, actions, dispatch } = createResultStore();
+      const { getState, dispatch } = createResultStore();
       try {
         step1Result = await step1({
           ...config,
@@ -57,9 +57,9 @@ const createIdCard = function createIdCard({
           cancelToken,
         });
       } catch (error) {
-        dispatch(actions.addError, error);
+        dispatch(actionTypes.addResult, { error });
         if (error.code === 'ECONNABORTED') {
-          dispatch(actions.addMessage(), i18n.t('idCardReadTimeout'));
+          dispatch(actionTypes.addMessage, i18n.t('idCardReadTimeout'));
         }
       }
 
@@ -73,12 +73,12 @@ const createIdCard = function createIdCard({
             data: step1Result.data,
           });
         } catch (error) {
-          dispatch(actions.addError, error);
+          dispatch(actionTypes.addResult, { error });
         }
       }
 
       if (step2Result) {
-        dispatch(actions.addRequestResult, step2Result);
+        dispatch(actionTypes.addResult, step2Result);
       }
 
       if (getState().error) {

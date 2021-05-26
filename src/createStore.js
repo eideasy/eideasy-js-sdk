@@ -31,7 +31,7 @@ const createStore = function createStore(options = {}) {
   }
 
   return {
-    state,
+    getState: () => clone(state),
     dispatch,
   };
 };

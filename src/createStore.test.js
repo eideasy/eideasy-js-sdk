@@ -36,11 +36,11 @@ describe('createStore', () => {
   });
 
   test('store should have initial state', () => {
-    expect(store.state).toEqual(state);
+    expect(store.getState()).toEqual(state);
   });
 
   test('dispatching changeProp action changes state.someProp to "newPropValue"', () => {
     store.dispatch('changeProp', 'newPropValue');
-    expect(store.state.someProp).toBe('newPropValue');
+    expect(store.getState().someProp).toBe('newPropValue');
   });
 });
