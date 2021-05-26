@@ -16,7 +16,8 @@
     "build:compress": "npm run build --env presets=compress",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [
     "eideasy"
