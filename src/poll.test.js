@@ -36,4 +36,28 @@ describe('poll', () => {
     });
     expect(mockFunction).toHaveBeenCalledTimes(2);
   });
+
+  test('poll returns the final value in correct format', async () => {
+    const mockFunction = jest.fn();
+    mockFunction
+      .mockReturnValue({
+        mockProperty: 'mockPropertyValue',
+      });
+
+    const result = await poll({
+      fn: mockFunction,
+      interval: 3,
+      shouldContinue({
+        attempts,
+      }) {
+        return attempts < 1;
+      },
+    });
+    expect(result).toEqual({
+      result: {
+        mockProperty: 'mockPropertyValue',
+      },
+      error: undefined,
+    });
+  });
 });
