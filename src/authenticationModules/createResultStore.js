@@ -8,27 +8,43 @@ const createResultStore = function createResultStore() {
     cancelled: undefined,
   };
 
+  function getErrorResponseData(error) {
+    return error.response && error.response.data;
+  }
+
+  function getStateAfterError(stateBeforeError, error) {
+    const nextState = {
+      ...stateBeforeError,
+    };
+
+    nextState.error = error;
+
+    if (isCancel(error)) {
+      nextState.cancelled = true;
+    }
+
+    const errorResponseData = getErrorResponseData(error);
+    if (errorResponseData) {
+      nextState.data = errorResponseData;
+    }
+
+    return nextState;
+  }
+
   const actions = {
     addRequestResult(result) {
-      const nextState = {
+      let nextState = {
         ...state,
       };
 
       if (result.error) {
-        nextState.error = result.error;
-        if (isCancel(result.error)) {
-          nextState.cancelled = true;
-        }
-
-        if (result.error.response && result.error.response.data) {
-          nextState.data = result.error.response.data;
-        }
+        nextState = getStateAfterError(nextState, result.error);
       }
 
       if (result.data) {
         nextState.data = result.data;
       } else if (result.result && result.result.data) {
-        // polling functions returns {error, result}
+        // polling functions return {error, result}
         // that's why we are checking whether the result contains a response object
         nextState.data = result.result.data;
       }
@@ -36,20 +52,7 @@ const createResultStore = function createResultStore() {
       return nextState;
     },
     addError(error) {
-      const nextState = {
-        ...state,
-        error,
-      };
-
-      if (isCancel(error)) {
-        nextState.cancelled = true;
-      }
-
-      if (error.response && error.response.data) {
-        nextState.data = error.response.data;
-      }
-
-      return nextState;
+      return getStateAfterError(state, error);
     },
     addMessage(message) {
       return {
