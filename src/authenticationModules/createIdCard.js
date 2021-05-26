@@ -49,7 +49,7 @@ const createIdCard = function createIdCard({
 
     async function execute() {
       let step1Result;
-      const { getState, actions, getNextState } = createResultStore();
+      const { getState, actions, dispatch } = createResultStore();
       try {
         step1Result = await step1({
           ...config,
@@ -57,9 +57,9 @@ const createIdCard = function createIdCard({
           cancelToken,
         });
       } catch (error) {
-        getNextState(actions.addError, error);
+        dispatch(actions.addError, error);
         if (error.code === 'ECONNABORTED') {
-          getNextState(actions.addMessage(), i18n.t('idCardReadTimeout'));
+          dispatch(actions.addMessage(), i18n.t('idCardReadTimeout'));
         }
       }
 
@@ -73,12 +73,12 @@ const createIdCard = function createIdCard({
             data: step1Result.data,
           });
         } catch (error) {
-          getNextState(actions.addError, error);
+          dispatch(actions.addError, error);
         }
       }
 
       if (step2Result) {
-        getNextState(actions.addRequestResult, step2Result);
+        dispatch(actions.addRequestResult, step2Result);
       }
 
       if (getState().error) {

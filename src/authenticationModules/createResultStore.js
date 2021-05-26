@@ -62,7 +62,8 @@ const createResultStore = function createResultStore() {
   const getState = function getState() {
     return state;
   };
-  const getNextState = function getNextState(action, data) {
+
+  const dispatch = function dispatch(action, data) {
     const nextState = actions[action](data);
     state = nextState;
     return nextState;
@@ -70,7 +71,7 @@ const createResultStore = function createResultStore() {
 
   return {
     getState,
-    getNextState,
+    dispatch,
     actions: {
       addRequestResult: 'addRequestResult',
       addError: 'addError',

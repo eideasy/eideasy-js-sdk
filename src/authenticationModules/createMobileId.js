@@ -57,7 +57,7 @@ const createMobileId = function createMobileId({
 
     const execute = async function execute() {
       let step1Result;
-      const { getState, actions, getNextState } = createResultStore();
+      const { getState, actions, dispatch } = createResultStore();
       try {
         step1Result = await step1({
           ...config,
@@ -66,9 +66,9 @@ const createMobileId = function createMobileId({
           idcode,
           phone,
         });
-        started(getNextState(actions.addRequestResult, step1Result));
+        started(dispatch(actions.addRequestResult, step1Result));
       } catch (error) {
-        getNextState(actions.addError, error);
+        dispatch(actions.addError, error);
       }
 
       let step2Result;
@@ -95,12 +95,12 @@ const createMobileId = function createMobileId({
             interval: 1000,
           });
         } catch (error) {
-          getNextState(actions.addError, error);
+          dispatch(actions.addError, error);
         }
       }
 
       if (step2Result) {
-        getNextState(actions.addRequestResult, step2Result);
+        dispatch(actions.addRequestResult, step2Result);
       }
 
       if (getState().error) {

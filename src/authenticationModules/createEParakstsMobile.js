@@ -27,7 +27,7 @@ const createEParakstsMobile = function createEParakstsMobile({
 
     const execute = async function execute() {
       let step1Result;
-      const { getState, actions, getNextState } = createResultStore();
+      const { getState, actions, dispatch } = createResultStore();
       step1(config);
 
       if (getState().error) {
