@@ -6,6 +6,7 @@ const poll = async ({
   const executePoll = async (resolve, reject) => {
     let result;
     let error;
+    attempts += 1;
     try {
       result = await fn();
       error = undefined;
@@ -19,7 +20,6 @@ const poll = async ({
       attempts,
       error,
     })) {
-      attempts += 1;
       return setTimeout(executePoll, interval, resolve, reject);
     }
     return resolve({
