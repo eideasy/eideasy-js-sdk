@@ -24,7 +24,7 @@ describe('poll', () => {
         throw new Error('Mock error message');
       });
 
-    await poll({
+    const result = await poll({
       fn: mockFunction,
       interval: 3,
       shouldContinue({
@@ -35,6 +35,7 @@ describe('poll', () => {
       },
     });
     expect(mockFunction).toHaveBeenCalledTimes(2);
+    expect(result.error).not.toBe(undefined);
   });
 
   test('poll returns the final value in correct format', async () => {
