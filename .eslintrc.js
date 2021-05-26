@@ -8,5 +8,6 @@ module.exports = {
     'no-console': 0,
     'no-unused-vars': 'warn',
     'class-methods-use-this': 0,
+    'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix'],
   },
 };
