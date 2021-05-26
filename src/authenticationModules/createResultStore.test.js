@@ -1,11 +1,7 @@
 import createResultStore, { actionTypes } from './createResultStore';
-/*
-import { isCancel } from '../request';
-
 jest.mock('../request', () => ({
   isCancel: jest.fn().mockImplementation(() => () => true),
 }));
- */
 
 describe('actionTypes', () => {
   test('has property addMessage', () => {
@@ -21,6 +17,7 @@ describe('createResultStore', () => {
   let dummyRequestResult;
   let dummyRequestResultNested;
   let dummyRequestError;
+  let dummyMessage;
   beforeEach(() => {
     store = createResultStore();
     dummyRequestResult = {
@@ -41,8 +38,13 @@ describe('createResultStore', () => {
         },
       },
     };
+    dummyMessage = 'I am a dummy message';
   });
 
+  test('addMessage action correctly adds message', () => {
+    store.dispatch(actionTypes.addMessage, dummyMessage);
+    expect(store.state.message).toEqual(dummyMessage);
+  });
   test('addResult action correctly adds request data', () => {
     store.dispatch(actionTypes.addResult, dummyRequestResult);
     expect(store.state.data).toEqual(dummyRequestResult.data);
@@ -51,12 +53,18 @@ describe('createResultStore', () => {
     store.dispatch(actionTypes.addResult, dummyRequestResultNested);
     expect(store.state.data).toEqual(dummyRequestResultNested.result.data);
   });
+  test('cancelled is true', () => {
+    store.dispatch(actionTypes.addResult, {
+      error: dummyRequestError,
+    });
+    expect(store.state.cancelled).toBe(true);
+  });
   test('addRequestResult correctly adds errors', () => {
     store.dispatch(actionTypes.addResult, {
       error: dummyRequestError,
       data: dummyRequestResult.data,
     });
-    expect(store.state).toEqual({
+    expect(store.state).toMatchObject({
       error: dummyRequestError,
       data: dummyRequestResult.data,
     });
@@ -65,7 +73,7 @@ describe('createResultStore', () => {
     store.dispatch(actionTypes.addResult, {
       error: dummyRequestError,
     });
-    expect(store.state).toEqual({
+    expect(store.state).toMatchObject({
       error: dummyRequestError,
       data: dummyRequestError.response.data,
     });
