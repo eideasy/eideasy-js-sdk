@@ -1,4 +1,4 @@
-import createResultStore from './createResultStore';
+import createResultStore, { actionTypes } from './createResultStore';
 /*
 import { isCancel } from '../request';
 
@@ -7,15 +7,22 @@ jest.mock('../request', () => ({
 }));
  */
 
+describe('actionTypes', () => {
+  test('has property addMessage', () => {
+    expect(actionTypes.addResult).not.toBe(undefined);
+  });
+  test('has property addResult', () => {
+    expect(actionTypes.addResult).not.toBe(undefined);
+  });
+});
+
 describe('createResultStore', () => {
-  let resultStore;
-  let actions;
+  let store;
   let dummyRequestResult;
   let dummyRequestResultNested;
   let dummyRequestError;
   beforeEach(() => {
-    resultStore = createResultStore();
-    actions = resultStore.actions;
+    store = createResultStore();
     dummyRequestResult = {
       data: {
         someProperty: 'somePropertyValue',
@@ -36,44 +43,29 @@ describe('createResultStore', () => {
     };
   });
 
-  test('resultStore instance has action.addRequestResult', () => {
-    expect(actions.addRequestResult).toBe('addRequestResult');
+  test('addResult action correctly adds request data', () => {
+    store.dispatch(actionTypes.addResult, dummyRequestResult);
+    expect(store.state.data).toEqual(dummyRequestResult.data);
   });
-  test('resultStore instance has action.addError', () => {
-    expect(actions.addError).toBe('addError');
-  });
-  test('resultStore instance has action.addMessage', () => {
-    expect(actions.addMessage).toBe('addMessage');
-  });
-  test('resultStore instance has a function "getState"', () => {
-    expect(typeof resultStore.getState).toBe('function');
-  });
-  test('resultStore instance has a function "dispatch"', () => {
-    expect(typeof resultStore.dispatch).toBe('function');
-  });
-  test('addRequestResult correctly adds request data', () => {
-    const nextState = resultStore.dispatch(actions.addRequestResult, dummyRequestResult);
-    expect(nextState.data).toEqual(dummyRequestResult.data);
-  });
-  test('addRequestResult correctly adds nested request data', () => {
-    const nextState = resultStore.dispatch(actions.addRequestResult, dummyRequestResultNested);
-    expect(nextState.data).toEqual(dummyRequestResultNested.result.data);
+  test('addResult correctly adds nested request data', () => {
+    store.dispatch(actionTypes.addResult, dummyRequestResultNested);
+    expect(store.state.data).toEqual(dummyRequestResultNested.result.data);
   });
   test('addRequestResult correctly adds errors', () => {
-    const nextState = resultStore.dispatch(actions.addRequestResult, {
+    store.dispatch(actionTypes.addResult, {
       error: dummyRequestError,
       data: dummyRequestResult.data,
     });
-    expect(nextState).toEqual({
+    expect(store.state).toEqual({
       error: dummyRequestError,
       data: dummyRequestResult.data,
     });
   });
   test('addRequestResult uses error.response.data if no other response data is provided', () => {
-    const nextState = resultStore.dispatch(actions.addRequestResult, {
+    store.dispatch(actionTypes.addResult, {
       error: dummyRequestError,
     });
-    expect(nextState).toEqual({
+    expect(store.state).toEqual({
       error: dummyRequestError,
       data: dummyRequestError.response.data,
     });
