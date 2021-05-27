@@ -7,17 +7,15 @@ import createEParakstsMobileDemo from './devHeleprs/createEParakstsMobileDemo';
 console.log(process.env);
 
 const easyClient = createClient({
-  settings: {
-    countryCode: 'EE',
-    sandbox: true,
-    clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
-    appUrl: 'http://localhost:8080/', // this gets used for redirects
-    localApiEndpoints: {
-      identityStart: 'https://eid-sample-app.test/api/identity/start',
-      identityFinish: 'https://eid-sample-app.test/api/identity/finish',
-    },
-    language: 'et',
+  countryCode: 'EE',
+  sandbox: true,
+  clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
+  appUrl: 'http://localhost:8080/', // this gets used for redirects
+  localApiEndpoints: {
+    identityStart: 'https://eid-sample-app.test/api/identity/start',
+    identityFinish: 'https://eid-sample-app.test/api/identity/finish',
   },
+  language: 'et',
 });
 
 document
