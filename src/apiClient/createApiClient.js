@@ -1,6 +1,6 @@
 import request, { CancelToken } from '../request';
 
-const createApiClient = function apiClientFactory() {
+const createApiClient = function createApiClient() {
   const get = function get(settings = {}) {
     return request({
       method: 'get',
