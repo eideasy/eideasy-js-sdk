@@ -17,12 +17,9 @@ const createEParakstsMobile = function createEParakstsMobile({
   const authenticate = function authenticate(settings = {}) {
     const config = { ...coreConfig, ...settings };
     const {
-      success = () => {
-      },
-      fail = () => {
-      },
-      finished = () => {
-      },
+      success = () => {},
+      fail = () => {},
+      finished = () => {},
     } = config;
 
     const execute = async function execute() {
@@ -41,8 +38,7 @@ const createEParakstsMobile = function createEParakstsMobile({
     execute().catch(console.error);
 
     return Object.freeze({
-      cancel: function cancel() {
-      },
+      cancel: function cancel() {},
     });
   };
 

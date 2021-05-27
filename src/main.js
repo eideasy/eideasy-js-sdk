@@ -5,6 +5,7 @@ import createSmartId from './authenticationModules/createSmartId';
 import createIdCard from './authenticationModules/createIdCard';
 import createMobileId from './authenticationModules/createMobileId';
 import createEParakstsMobile from './authenticationModules/createEParakstsMobile';
+import modes from './modes';
 
 const idCard = function idCard(coreContext) {
   return createIdCard({
@@ -43,7 +44,7 @@ const createClientCore = function createClientCore({
   const config = { ...settings };
   if (!config.apiEndpoints) {
     config.apiEndpoints = createApiEndpoints({
-      mode: config.sandbox ? 'sandbox' : 'production',
+      mode: config.sandbox ? modes.sandbox : modes.production,
       countryCode: config.countryCode,
     });
   }

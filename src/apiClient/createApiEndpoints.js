@@ -1,11 +1,13 @@
+import modes from '../modes';
+
 const createApiEndpoints = function createApiEndpoints(settings = {}) {
   const config = { ...settings };
   const apiEndpoints = {
-    production: {
+    [modes.production]: {
       base: 'https://id.eideasy.com',
       card: (countryCode = config.countryCode.toLowerCase()) => `https://${countryCode}.eideasy.com`,
     },
-    sandbox: {
+    [modes.sandbox]: {
       base: 'https://test.eideasy.com',
       card: (countryCode = config.countryCode.toLowerCase()) => `https://${countryCode}.test.eideasy.com`,
     },
