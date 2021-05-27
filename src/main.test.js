@@ -1,9 +1,7 @@
-import createAuthenticatorDefault, {
-  createAuthenticator, createAuthenticatorCore, idCard, smartId, mobileId, eParakstsMobile,
-} from './main';
+import createClient from './main';
 
 describe('main', () => {
-  it('should default export createAuthenticator', () => {
-    expect(createAuthenticatorDefault.name).toBe('createAuthenticator');
+  it('should default export createClient', () => {
+    expect(createClient.name).toBe('createClient');
   });
 });

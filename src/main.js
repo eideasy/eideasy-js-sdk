@@ -69,7 +69,7 @@ const createAuthenticatorCore = function createAuthenticatorCore({
 };
 
 // configuration with all the authentication modules included
-const createAuthenticator = function createAuthenticator(settings = {}) {
+const createClient = function createClient(settings = {}) {
   return createAuthenticatorCore({
     settings,
     modules: [
@@ -83,10 +83,4 @@ const createAuthenticator = function createAuthenticator(settings = {}) {
 
 // export the whole authenticator with all the modules included
 // this will be used for the "script tag include" build
-export default createAuthenticator;
-
-// export the core and authentication modules separately, so that the developer
-// can import only the modules that will be actually used and can therefore leverage tree shaking
-export {
-  createAuthenticator, createAuthenticatorCore, idCard, smartId, mobileId, eParakstsMobile,
-};
+export default createClient;

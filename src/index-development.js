@@ -1,7 +1,4 @@
-import {
-  createAuthenticatorCore, idCard, smartId, mobileId, eParakstsMobile,
-} from './main';
-
+import createClient from './main';
 import createIdCardDemo from './devHeleprs/createIdCardDemo';
 import createSmartIdDemo from './devHeleprs/createSmartIdDemo';
 import createMobileIdDemo from './devHeleprs/createMobileIdDemo';
@@ -9,8 +6,7 @@ import createEParakstsMobileDemo from './devHeleprs/createEParakstsMobileDemo';
 
 console.log(process.env);
 
-const authenticator = createAuthenticatorCore({
-  modules: [idCard, smartId, mobileId, eParakstsMobile],
+const client = createClient({
   settings: {
     countryCode: 'EE',
     sandbox: true,
@@ -27,7 +23,7 @@ const authenticator = createAuthenticatorCore({
 document
   .getElementById('langPicker')
   .addEventListener('change', (e) => {
-    authenticator.setLanguage(e.target.value);
+    client.setLanguage(e.target.value);
   });
 
 function createDemos(root) {
@@ -40,7 +36,7 @@ function createDemos(root) {
   const { method, country } = root.dataset;
 
   const methodConfig = {
-    authenticator,
+    authenticator: client,
     dom,
     country,
   };
