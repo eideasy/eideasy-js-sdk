@@ -1,4 +1,4 @@
-import clone from './clone';
+import cloneDeep from './cloneDeep';
 
 const createStore = function createStore(options = {}) {
   const state = { ...options.state };
@@ -26,12 +26,12 @@ const createStore = function createStore(options = {}) {
     }
     action({
       commit,
-      state: clone(state),
+      state: cloneDeep(state),
     }, payload);
   }
 
   return {
-    getState: () => clone(state),
+    getState: () => cloneDeep(state),
     dispatch,
   };
 };

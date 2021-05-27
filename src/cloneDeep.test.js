@@ -1,6 +1,6 @@
-import clone from './clone';
+import cloneDeep from './cloneDeep';
 
-describe('clone', () => {
+describe('cloneDeep', () => {
   let originalObj;
 
   beforeEach(() => {
@@ -12,6 +12,7 @@ describe('clone', () => {
             prop2: undefined,
             prop3: null,
             prop4: ['item1', 'item2', 'item3'],
+            prop5: new Error(),
           },
         },
       },
@@ -19,12 +20,12 @@ describe('clone', () => {
   });
 
   test('object gets cloned', () => {
-    const clonedObject = clone(originalObj);
+    const clonedObject = cloneDeep(originalObj);
     expect(clonedObject).toEqual(originalObj);
   });
 
   test('cloned object is not the original object', () => {
-    const clonedObject = clone(originalObj);
+    const clonedObject = cloneDeep(originalObj);
     expect(clonedObject).not.toBe(originalObj);
   });
 });
