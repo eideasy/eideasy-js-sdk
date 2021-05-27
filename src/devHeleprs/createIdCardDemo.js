@@ -1,14 +1,14 @@
 import logResult from './logResult';
 
 function createIdCardDemo({
-  authenticator,
+  easyClient,
   country,
   dom,
 }) {
   let authInstance;
   dom.buttonStart.addEventListener('click', async (e) => {
     e.preventDefault();
-    authInstance = authenticator.idCard.authenticate({
+    authInstance = easyClient.authentication.idCard.authenticate({
       countryCode: country,
       fail: (result) => {
         logResult(result, 'fail');

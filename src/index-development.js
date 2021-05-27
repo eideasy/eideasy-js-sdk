@@ -6,7 +6,7 @@ import createEParakstsMobileDemo from './devHeleprs/createEParakstsMobileDemo';
 
 console.log(process.env);
 
-const client = createClient({
+const easyClient = createClient({
   settings: {
     countryCode: 'EE',
     sandbox: true,
@@ -23,7 +23,7 @@ const client = createClient({
 document
   .getElementById('langPicker')
   .addEventListener('change', (e) => {
-    client.setLanguage(e.target.value);
+    easyClient.setLanguage(e.target.value);
   });
 
 function createDemos(root) {
@@ -36,7 +36,7 @@ function createDemos(root) {
   const { method, country } = root.dataset;
 
   const methodConfig = {
-    authenticator: client,
+    easyClient,
     dom,
     country,
   };

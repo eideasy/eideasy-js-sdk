@@ -2,7 +2,7 @@ import logResult from './logResult';
 import createLoader from './createLoader';
 
 function createMobileIdDemo({
-  authenticator,
+  easyClient,
   country,
   dom,
 }) {
@@ -20,7 +20,7 @@ function createMobileIdDemo({
     e.preventDefault();
     const formData = new FormData(e.target);
     loader.style.display = 'block';
-    authInstance = authenticator.mobileId.authenticate({
+    authInstance = easyClient.authentication.mobileId.authenticate({
       countryCode: country,
       idcode: formData.get('idcode_mobile'),
       phone: formData.get('phone'),

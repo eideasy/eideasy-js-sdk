@@ -1,12 +1,12 @@
 import logResult from './logResult';
 
 function createEParakstsMobileDemo({
-  authenticator,
+  easyClient,
   dom,
 }) {
   dom.buttonStart.addEventListener('click', async (e) => {
     e.preventDefault();
-    authenticator.eParakstsMobile.authenticate({
+    easyClient.authentication.eParakstsMobile.authenticate({
       fail: (result) => {
         logResult(result, 'fail');
       },

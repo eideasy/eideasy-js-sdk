@@ -2,7 +2,7 @@ import logResult from './logResult';
 import createLoader from './createLoader';
 
 function createSmartIdDemo({
-  authenticator,
+  easyClient,
   country,
   dom,
 }) {
@@ -20,7 +20,7 @@ function createSmartIdDemo({
     e.preventDefault();
     const formData = new FormData(e.target);
     loader.style.display = 'block';
-    authInstance = authenticator.smartId.authenticate({
+    authInstance = easyClient.authentication.smartId.authenticate({
       countryCode: country,
       idcode: formData.get('idcode'),
       started: (result) => {

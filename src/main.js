@@ -34,8 +34,9 @@ const eParakstsMobile = function eParakstsMobile(coreContext) {
   });
 };
 
-const createAuthenticatorCore = function createAuthenticatorCore({
-  modules = [],
+const createClientCore = function createClientCore({
+  authenticationModules = [],
+  signingModules = [],
   settings = {},
   i18n = createI18n({ currentLanguage: 'en' }),
 } = {}) {
@@ -52,17 +53,31 @@ const createAuthenticatorCore = function createAuthenticatorCore({
     config.countryCode = countryCode;
   };
 
-  const installedModules = {};
-  modules.forEach((module) => {
+  const installedAuthenticationModules = {};
+  authenticationModules.forEach((module) => {
     const instance = module({
       config,
       i18n,
     });
-    installedModules[instance.MODULE_NAME] = instance;
+    installedAuthenticationModules[instance.MODULE_NAME] = instance;
+  });
+
+  const installedSigningModules = {};
+  signingModules.forEach((module) => {
+    const instance = module({
+      config,
+      i18n,
+    });
+    installedSigningModules[instance.MODULE_NAME] = instance;
   });
 
   return Object.freeze({
-    ...installedModules,
+    authentication: {
+      ...installedAuthenticationModules,
+    },
+    signature: {
+      ...installedSigningModules,
+    },
     setLanguage: i18n.setLanguage,
     setCountryCode,
   });
@@ -70,9 +85,9 @@ const createAuthenticatorCore = function createAuthenticatorCore({
 
 // configuration with all the authentication modules included
 const createClient = function createClient(settings = {}) {
-  return createAuthenticatorCore({
+  return createClientCore({
     settings,
-    modules: [
+    authenticationModules: [
       idCard,
       smartId,
       mobileId,
