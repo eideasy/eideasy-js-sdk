@@ -1,4 +1,5 @@
 import createResultStore, { actionTypes } from './createResultStore';
+import windowOpen from '../windowOpen';
 
 const MODULE_NAME = 'eParakstsMobile';
 
@@ -8,10 +9,13 @@ const createEParakstsMobile = function createEParakstsMobile({
   const { config: coreConfig } = coreContext;
   const { clientId, appUrl } = coreConfig;
 
-  const step1 = function step1(settings) {
-    const requestUrl = `https://test.eideasy.com/oauth/start/lv-eparaksts-mobile-login?client_id=${clientId}
-    &redirect_uri=?client_id=${clientId}&redirect_uri=${appUrl}&response_type=code&authorization_type=code`;
-    window.location.href = requestUrl;
+  const step1 = function step1(settings = {}) {
+    const requestUrl = settings.apiEndpoints.eParakstsMobile({
+      clientId: settings.clientId,
+      appUrl: settings.appUrl,
+    });
+
+    windowOpen(requestUrl);
   };
 
   const authenticate = function authenticate(settings = {}) {
