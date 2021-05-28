@@ -1,6 +1,6 @@
 {
   "name": "@eid-easy/eideasy-js-sdk",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "description": "eID Easy SDK provides you with a simple set of methods for getting the user's identity",
   "main": "dist/eideasy-js-sdk.js",
   "scripts": {
