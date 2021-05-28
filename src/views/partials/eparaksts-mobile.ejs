@@ -1,6 +1,24 @@
 <div class="card mb-3 js-authMethod" data-method="eparaksts-mobile" data-country="<%= country %>">
     <div class="card-body">
         <h5 class="card-title">eParaksts mobile</h5>
+        <div class="js-authMethodSettings mb-3">
+            <label>
+                <input type="radio" name="customInsteadOfRedirect" value="none" checked>
+                No custom insteadOfRedirect
+            </label>
+            <label>
+                <input type="radio" name="customInsteadOfRedirect" value="error">
+                Custom insteadOfRedirect function that has an error in the result object
+            </label>
+            <label>
+                <input type="radio" name="customInsteadOfRedirect" value="data">
+                Custom insteadOfRedirect function that has data in the result object
+            </label>
+            <label>
+                <input type="radio" name="customInsteadOfRedirect" value="abort">
+                Custom insteadOfRedirect function that stops the flow before callbacks
+            </label>
+        </div>
         <a href="#" class="btn btn-dark js-authMethod_start">Authenticate</a>
     </div>
 </div>

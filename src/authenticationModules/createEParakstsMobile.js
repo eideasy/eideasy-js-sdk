@@ -1,5 +1,4 @@
 import createResultStore, { actionTypes } from './createResultStore';
-import windowOpen from '../windowOpen';
 
 const MODULE_NAME = 'eParakstsMobile';
 
@@ -7,29 +6,47 @@ const createEParakstsMobile = function createEParakstsMobile({
   coreContext,
 }) {
   const { config: coreConfig } = coreContext;
-  const { clientId, appUrl } = coreConfig;
 
   const step1 = function step1(settings = {}) {
-    const requestUrl = settings.apiEndpoints.eParakstsMobile({
-      clientId: settings.clientId,
-      appUrl: settings.appUrl,
-    });
-
-    windowOpen(requestUrl);
+    window.location.href = settings.redirectUrl;
+    // we're returning false here so that we know later
+    // that redirect has been initiated.
+    return false;
   };
 
   const authenticate = function authenticate(settings = {}) {
     const config = { ...coreConfig, ...settings };
     const {
+      insteadOfRedirect,
       success = () => {},
       fail = () => {},
       finished = () => {},
     } = config;
 
+    config.redirectUrl = config.apiEndpoints.eParakstsMobile({
+      clientId: config.clientId,
+      appUrl: config.appUrl,
+    });
+
     const execute = async function execute() {
       let step1Result;
       const { getState, dispatch } = createResultStore();
-      step1(config);
+      try {
+        if (insteadOfRedirect) {
+          step1Result = insteadOfRedirect(config);
+        } else {
+          step1Result = step1(config);
+        }
+      } catch (error) {
+        dispatch(actionTypes.addResult, { error });
+      }
+
+      if (step1Result === false) {
+        return;
+      }
+      if (step1Result) {
+        dispatch(actionTypes.addResult, step1Result);
+      }
 
       if (getState().error) {
         fail(getState());

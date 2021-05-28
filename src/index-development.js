@@ -30,6 +30,7 @@ function createDemos(root) {
     form: root.querySelector('.js-authMethod_form'),
     buttonStart: root.querySelector('.js-authMethod_start'),
     buttonCancel: root.querySelector('.js-authMethod_cancel'),
+    settingsElement: root.querySelector('.js-authMethodSettings'),
   };
   const { method, country } = root.dataset;
 

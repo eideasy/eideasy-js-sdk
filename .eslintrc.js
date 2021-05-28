@@ -5,6 +5,7 @@ module.exports = {
   },
   extends: 'airbnb-base',
   rules: {
+    'no-restricted-syntax': 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['build-utils/**/*.js', 'webpack.config.js'] }],
     'no-console': 0,
     'no-unused-vars': 'warn',
