@@ -3,13 +3,37 @@ import createResultStore, { actionTypes } from './createResultStore';
 
 const MODULE_NAME = 'smartId';
 
+/*
+// ensure that the result format is consistent
+const formatResult = function formatResult(result) {
+  return result;
+};
+
+const createStep = function createStep(fn) {
+  const run = async function run(...args) {
+    let result;
+    try {
+      result = await fn(args);
+      dispatch(actionTypes.addResult, step1Result);
+      started(getState());
+    } catch (error) {
+      dispatch(actionTypes.addResult, { error });
+    }
+  };
+  return {
+    run,
+  };
+};
+
+ */
+
 const createSmartId = function createSmartId({
   coreContext,
   apiClient,
 }) {
   const { i18n, config: coreConfig } = coreContext;
 
-  const step1 = function step1(settings) {
+  const identityStart = function identityStart(settings) {
     return apiClient.post({
       cancelToken: settings.cancelToken,
       url: settings.localApiEndpoints.identityStart,
@@ -22,8 +46,7 @@ const createSmartId = function createSmartId({
     });
   };
 
-  const step2 = function step2(settings) {
-    console.log(settings);
+  const identityFinish = function identityFinish(settings) {
     return apiClient.post({
       cancelToken: settings.cancelToken,
       url: settings.localApiEndpoints.identityFinish,
@@ -31,6 +54,24 @@ const createSmartId = function createSmartId({
         token: settings.data.token,
         method: 'smartid',
       },
+    });
+  };
+
+  const pollIdentityFinish = function pollIdentityFinish(settings) {
+    const maxPollAttempts = (100 * 1000) / settings.pollInterval;
+    return poll({
+      fn: () => identityFinish({
+        ...settings.config,
+        data: settings.step1Result.data,
+        cancelToken: settings.cancelToken,
+      }),
+      shouldContinue: (pollContext) => {
+        const responseStatus = pollContext.result
+          && pollContext.result.data
+          && pollContext.result.data.status;
+        return pollContext.attempts < maxPollAttempts && responseStatus === 'RUNNING';
+      },
+      interval: 1000,
     });
   };
 
@@ -54,7 +95,7 @@ const createSmartId = function createSmartId({
       let step1Result;
       const { getState, dispatch } = createResultStore();
       try {
-        step1Result = await step1({
+        step1Result = await identityStart({
           ...config,
           cancelToken,
           language,
@@ -62,46 +103,23 @@ const createSmartId = function createSmartId({
         });
         dispatch(actionTypes.addResult, step1Result);
         started(getState());
-      } catch (error) {
-        dispatch(actionTypes.addResult, { error });
-      }
 
-      let step2Result;
-      if (!getState().error && step1Result) {
-        // Smart ID users have 100 seconds to enter their pin,
-        // so it doesn't make sense to poll longer than that
-        const maxPollAttempts = (100 * 1000) / pollInterval;
-        try {
-          step2Result = await poll({
-            fn: () => step2({
-              ...config,
-              data: step1Result.data,
-              cancelToken,
-            }),
-            shouldContinue: (pollContext) => {
-              const responseStatus = pollContext.result
-                && pollContext.result.data
-                && pollContext.result.data.status;
-              if (pollContext.attempts < maxPollAttempts && responseStatus === 'RUNNING') {
-                return true;
-              }
-              return false;
-            },
-            interval: 1000,
-          });
-        } catch (error) {
-          dispatch(actionTypes.addResult, { error });
+        console.log('start poll');
+        const step2Result = await pollIdentityFinish({
+          ...config,
+          data: step1Result.data,
+          cancelToken,
+          pollInterval,
+        });
+        console.log('adter poll');
+
+        if (step2Result) {
+          dispatch(actionTypes.addResult, step2Result);
         }
-      }
-
-      if (step2Result) {
-        dispatch(actionTypes.addResult, step2Result);
-      }
-
-      if (getState().error) {
-        fail(getState());
-      } else {
         success(getState());
+      } catch (error) {
+        fail(getState());
+        dispatch(actionTypes.addResult, { error });
       }
       finished(getState());
     };
