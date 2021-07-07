@@ -3,29 +3,29 @@ import createResultStore, { actionTypes } from './createResultStore';
 
 const MODULE_NAME = 'smartId';
 
-/*
 // ensure that the result format is consistent
 const formatResult = function formatResult(result) {
   return result;
 };
 
-const createStep = function createStep(fn) {
-  const run = async function run(...args) {
-    let result;
-    try {
-      result = await fn(args);
-      dispatch(actionTypes.addResult, step1Result);
-      started(getState());
-    } catch (error) {
-      dispatch(actionTypes.addResult, { error });
-    }
-  };
-  return {
-    run,
-  };
-};
+// This function ensures that the results have consistent structure
+const runStep = async function runStep(fn) {
+  let result = {};
+  try {
+    result = await fn();
+  } catch (error) {
+    result.error = error;
+  }
+  result = formatResult(result);
 
- */
+  // some steps return errors inside of an object
+  // so we need to throw those so that we can use
+  // a single try catch block in later the module's execute function when running steps
+  if (result.error) {
+    throw result.error;
+  }
+  return result;
+};
 
 const createSmartId = function createSmartId({
   coreContext,
@@ -62,7 +62,7 @@ const createSmartId = function createSmartId({
     return poll({
       fn: () => identityFinish({
         ...settings.config,
-        data: settings.step1Result.data,
+        data: settings.data,
         cancelToken: settings.cancelToken,
       }),
       shouldContinue: (pollContext) => {
@@ -92,34 +92,32 @@ const createSmartId = function createSmartId({
     const cancelToken = source.token;
 
     const execute = async function execute() {
-      let step1Result;
       const { getState, dispatch } = createResultStore();
       try {
-        step1Result = await identityStart({
+        const result1 = await runStep(() => identityStart({
           ...config,
           cancelToken,
           language,
           idcode,
-        });
-        dispatch(actionTypes.addResult, step1Result);
+        }));
+        console.log(result1);
+        dispatch(actionTypes.addResult, result1);
         started(getState());
 
-        console.log('start poll');
-        const step2Result = await pollIdentityFinish({
-          ...config,
-          data: step1Result.data,
+        const result2 = await runStep(() => pollIdentityFinish({
+          config,
+          data: result1.data,
           cancelToken,
           pollInterval,
-        });
-        console.log('adter poll');
+        }));
 
-        if (step2Result) {
-          dispatch(actionTypes.addResult, step2Result);
+        if (result2) {
+          dispatch(actionTypes.addResult, result2);
         }
         success(getState());
       } catch (error) {
-        fail(getState());
         dispatch(actionTypes.addResult, { error });
+        fail(getState());
       }
       finished(getState());
     };
