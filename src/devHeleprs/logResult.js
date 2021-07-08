@@ -4,7 +4,12 @@ function logResult(result, tag) {
   }
   if (tag === 'fail') {
     console.error(result);
-    console.error(result.response);
+    if (result.response) {
+      console.error(result.response);
+    }
+    if (result.userMessage) {
+      console.error(result.userMessage);
+    }
   }
   console.log(result);
 }

@@ -22,6 +22,7 @@ const createModuleCreator = function createModuleCreator(moduleName, executable)
         await executable({
           ...config,
           language,
+          i18n,
           cancelToken,
           apiClient,
         })

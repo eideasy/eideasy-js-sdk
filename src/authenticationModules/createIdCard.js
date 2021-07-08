@@ -1,13 +1,15 @@
-import createResultStore, { actionTypes } from './createResultStore';
+import createStep from '../createStep';
+import createModuleCreator from '../createModuleCreator';
 
-const MODULE_NAME = 'idCard';
-const createIdCard = function createIdCard({
-  coreContext,
-  apiClient,
-}) {
-  const { i18n, config: coreConfig } = coreContext;
+const executable = async function executable(config) {
+  const {
+    cancelToken,
+    language,
+    apiClient,
+    i18n,
+  } = config;
 
-  const step1 = function step1(settings = {}) {
+  const readCard = function step1(settings = {}) {
     let url = `${settings.apiEndpoints.card(settings.countryCode)}/api/identity/${settings.clientId}/read-card`;
     if (settings.nonce) {
       url += `?nonce=${settings.nonce}`;
@@ -15,7 +17,7 @@ const createIdCard = function createIdCard({
     return apiClient.get({ url, cancelToken: settings.cancelToken });
   };
 
-  const step2 = function step2(settings = {}) {
+  const identityFinish = function step2(settings = {}) {
     const method = {
       EE: 'ee-id-login',
       LV: 'lv-id-login',
@@ -34,74 +36,25 @@ const createIdCard = function createIdCard({
     });
   };
 
-  const authenticate = function authenticate(settings = {}) {
-    const config = { ...coreConfig, ...settings };
-    const {
-      success = () => {},
-      fail = () => {},
-      finished = () => {},
-    } = config;
-
-    const language = settings.language || i18n.getCurrentLanguage();
-
-    const source = apiClient.CancelToken.source();
-    const cancelToken = source.token;
-
-    async function execute() {
-      let step1Result;
-      const { getState, dispatch } = createResultStore();
-      try {
-        step1Result = await step1({
-          ...config,
-          language,
-          cancelToken,
-        });
-      } catch (error) {
-        dispatch(actionTypes.addResult, { error });
-        if (error.code === 'ECONNABORTED') {
-          dispatch(actionTypes.addMessage, i18n.t('idCardReadTimeout'));
-        }
-      }
-
-      let step2Result;
-      if (!getState().error && step1Result && step1Result.status === 200) {
-        try {
-          step2Result = await step2({
-            ...config,
-            cancelToken,
-            language,
-            data: step1Result.data,
-          });
-        } catch (error) {
-          dispatch(actionTypes.addResult, { error });
-        }
-      }
-
-      if (step2Result) {
-        dispatch(actionTypes.addResult, step2Result);
-      }
-
-      if (getState().error) {
-        fail(getState());
-      } else {
-        success(getState());
-      }
-      finished(getState());
+  let result;
+  result = await createStep(readCard)({
+    ...config,
+    language,
+    cancelToken,
+  }).catch((error) => {
+    if (error.code === 'ECONNABORTED') {
+      error.userMessage = i18n.t('idCardReadTimeout'); // eslint-disable-line no-param-reassign
+      throw error;
     }
-
-    execute().catch(console.error);
-
-    return Object.freeze({
-      cancel: function cancel() {
-        source.cancel();
-      },
-    });
-  };
-
-  return Object.freeze({
-    MODULE_NAME,
-    authenticate,
   });
+  result = await createStep(identityFinish)({
+    ...config,
+    cancelToken,
+    language,
+    data: result.data,
+  });
+  return result;
 };
 
+const createIdCard = createModuleCreator('idCard', executable);
 export default createIdCard;
