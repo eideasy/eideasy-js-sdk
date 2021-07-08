@@ -1,31 +1,7 @@
 import poll from '../poll';
-import createResultStore, { actionTypes } from './createResultStore';
+import createStep from '../createStep';
 
 const MODULE_NAME = 'smartId';
-
-// ensure that the result format is consistent
-const formatResult = function formatResult(result) {
-  return result;
-};
-
-// This function ensures that the results have consistent structure
-const runStep = async function runStep(fn) {
-  let result = {};
-  try {
-    result = await fn();
-  } catch (error) {
-    result.error = error;
-  }
-  result = formatResult(result);
-
-  // some steps return errors inside of an object
-  // so we need to throw those so that we can use
-  // a single try catch block in later the module's execute function when running steps
-  if (result.error) {
-    throw result.error;
-  }
-  return result;
-};
 
 const createSmartId = function createSmartId({
   coreContext,
@@ -87,39 +63,32 @@ const createSmartId = function createSmartId({
     } = config;
 
     const language = settings.language || i18n.getCurrentLanguage();
-
     const source = apiClient.CancelToken.source();
     const cancelToken = source.token;
 
     const execute = async function execute() {
-      const { getState, dispatch } = createResultStore();
-      try {
-        const result1 = await runStep(() => identityStart({
-          ...config,
-          cancelToken,
-          language,
-          idcode,
-        }));
-        console.log(result1);
-        dispatch(actionTypes.addResult, result1);
-        started(getState());
-
-        const result2 = await runStep(() => pollIdentityFinish({
-          config,
-          data: result1.data,
-          cancelToken,
-          pollInterval,
-        }));
-
-        if (result2) {
-          dispatch(actionTypes.addResult, result2);
-        }
-        success(getState());
-      } catch (error) {
-        dispatch(actionTypes.addResult, { error });
-        fail(getState());
-      }
-      finished(getState());
+      await createStep(identityStart)({
+        ...config,
+        cancelToken,
+        language,
+        idcode,
+      })
+        .then((result) => {
+          started(result);
+          return createStep(pollIdentityFinish)({
+            config,
+            data: result.data,
+            cancelToken,
+            pollInterval,
+          });
+        })
+        .catch((error) => {
+          fail(error);
+        })
+        .then((result) => {
+          success(result);
+        })
+        .finally(finished());
     };
 
     execute().catch(console.error);
