@@ -1,4 +1,3 @@
-// ensure that the result format is consistent
 import cloneDeep from './cloneDeep';
 import formatError from './formatError';
 
