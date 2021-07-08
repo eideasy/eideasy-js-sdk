@@ -20,7 +20,7 @@ const executable = async function executable(config) {
 
   const identityStart = function identityStart(settings) {
     return apiClient.post({
-      url: settings.localApiEndpoints.identityStart,
+      url: settings.apiEndpoints.inCurrentMode.identityStart(),
       data: {
         idcode: settings.idcode,
         phone: settings.phone,
@@ -34,7 +34,7 @@ const executable = async function executable(config) {
 
   const identityFinish = function identityFinish(settings) {
     return apiClient.post({
-      url: settings.localApiEndpoints.identityFinish,
+      url: settings.apiEndpoints.inCurrentMode.identityFinish(),
       data: {
         token: settings.data.token,
         method: method[settings.countryCode],

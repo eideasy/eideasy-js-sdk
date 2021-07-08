@@ -10,10 +10,10 @@ const easyClient = createClient({
   countryCode: 'EE',
   sandbox: true,
   clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
-  appUrl: 'http://localhost:8080/', // this gets used for redirects e.g. when using eParaksts mobile
-  localApiEndpoints: {
-    identityStart: 'https://eid-sample-app.test/api/identity/start',
-    identityFinish: 'https://eid-sample-app.test/api/identity/finish',
+  appUrl: 'http://localhost:8082/', // this gets used for redirects e.g. when using eParaksts mobile
+  apiEndpoints: {
+    identityStart: () => 'https://eid-sample-app.test/api/identity/start',
+    identityFinish: () => 'https://eid-sample-app.test/api/identity/finish',
   },
   language: 'et',
 });

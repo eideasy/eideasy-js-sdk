@@ -10,7 +10,7 @@ const executable = async function executable(config) {
   } = config;
 
   const readCard = function readCard(settings = {}) {
-    let url = `${settings.apiEndpoints.card(settings.countryCode)}/api/identity/${settings.clientId}/read-card`;
+    let url = `${settings.apiEndpoints.inCurrentMode.card(settings.countryCode)}/api/identity/${settings.clientId}/read-card`;
     if (settings.nonce) {
       url += `?nonce=${settings.nonce}`;
     }
@@ -25,7 +25,7 @@ const executable = async function executable(config) {
     };
 
     return apiClient.post({
-      url: settings.localApiEndpoints.identityFinish,
+      url: settings.apiEndpoints.inCurrentMode.identityFinish(),
       data: {
         token: settings.data.token,
         country: settings.countryCode,
@@ -44,9 +44,10 @@ const executable = async function executable(config) {
   }).catch((error) => {
     if (error.code === 'ECONNABORTED') {
       error.userMessage = i18n.t('idCardReadTimeout'); // eslint-disable-line no-param-reassign
-      throw error;
     }
+    throw error;
   });
+
   result = await createStep(identityFinish)({
     ...config,
     cancelToken,

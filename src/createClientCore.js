@@ -1,6 +1,5 @@
 import createI18n from './i18n/createI18n';
 import createApiEndpoints from './apiClient/createApiEndpoints';
-import modes from './modes';
 
 const createClientCore = function createClientCore({
   authenticationModules = [],
@@ -9,12 +8,11 @@ const createClientCore = function createClientCore({
   i18n = createI18n({ currentLanguage: 'en' }),
 } = {}) {
   const config = { ...settings };
-  if (!config.apiEndpoints) {
-    config.apiEndpoints = createApiEndpoints({
-      mode: config.sandbox ? modes.sandbox : modes.production,
-      countryCode: config.countryCode,
-    });
-  }
+
+  config.apiEndpoints = createApiEndpoints({
+    countryCode: config.countryCode,
+    sandbox: config.sandbox,
+  }, config.apiEndpoints);
 
   i18n.setLanguage(config.language);
 
