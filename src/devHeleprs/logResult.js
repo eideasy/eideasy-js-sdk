@@ -2,8 +2,9 @@ function logResult(result, tag) {
   if (tag) {
     console.log(`----- ${tag} -----`);
   }
-  if (result && result.error) {
-    console.error(result.error);
+  if (tag === 'fail') {
+    console.error(result);
+    console.error(result.response);
   }
   console.log(result);
 }

@@ -1,6 +1,6 @@
 // ensure that the result format is consistent
-import { isCancel } from './request';
 import cloneDeep from './cloneDeep';
+import formatError from './formatError';
 
 const formatResult = function formatResult(result) {
   const { data, message } = result;
@@ -17,14 +17,6 @@ const formatResult = function formatResult(result) {
   }
 
   return formattedResult;
-};
-
-const formatError = function formatError(error) {
-  const formattedError = cloneDeep(error);
-  if (isCancel(error)) {
-    formattedError.error.isCancel = true;
-  }
-  return formattedError;
 };
 
 const getError = function getError(result) {

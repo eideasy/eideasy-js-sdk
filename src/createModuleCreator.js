@@ -1,3 +1,5 @@
+import formatError from './formatError';
+
 const createModuleCreator = function createModuleCreator(moduleName, executable) {
   const create = function create({
     coreContext,
@@ -27,7 +29,7 @@ const createModuleCreator = function createModuleCreator(moduleName, executable)
             success(result);
           })
           .catch((error) => {
-            fail(error);
+            fail(formatError(error));
           })
           .finally(finished);
       };
