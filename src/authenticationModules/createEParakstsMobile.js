@@ -14,7 +14,7 @@ const executable = async function executable(config) {
     insteadOfRedirect,
   } = config;
 
-  const redirectUrl = config.apiEndpoints.eParakstsMobile({
+  const redirectUrl = config.apiEndpoints.inCurrentMode.eParakstsMobile({
     clientId: config.clientId,
     appUrl: config.appUrl,
   });
