@@ -10,7 +10,7 @@ const formatResult = function formatResult(result) {
   if (data) {
     formattedResult.data = data;
   } else if (result.result && result.result.data) {
-    // polling functions return {error, result}
+    // our polling function returns {error, result}
     // that's why we are checking whether the result contains a response object
     formattedResult.data = result.result.data;
   }
