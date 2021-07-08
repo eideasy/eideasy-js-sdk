@@ -1,6 +1,34 @@
 // ensure that the result format is consistent
+import { isCancel } from './request';
+import cloneDeep from './cloneDeep';
+
 const formatResult = function formatResult(result) {
-  return result;
+  const { data, message } = result;
+  const formattedResult = cloneDeep({
+    message,
+  });
+
+  if (data) {
+    formattedResult.data = data;
+  } else if (result.result && result.result.data) {
+    // polling functions return {error, result}
+    // that's why we are checking whether the result contains a response object
+    formattedResult.data = result.result.data;
+  }
+
+  return formattedResult;
+};
+
+const formatError = function formatError(error) {
+  const formattedError = cloneDeep(error);
+  if (isCancel(error)) {
+    formattedError.error.isCancel = true;
+  }
+  return formattedError;
+};
+
+const getError = function getError(result) {
+  return result.error;
 };
 
 // step functions can return errors that are inside of some object
@@ -10,11 +38,12 @@ const formatResult = function formatResult(result) {
 // call the success or fail callbacks in the end
 const createStep = function createStep(fn) {
   return async function runStep(...args) {
-    const result = formatResult(await fn(...args));
-    if (result.error) {
-      throw result.error;
+    const result = await fn(...args);
+    const error = getError(result);
+    if (error) {
+      throw formatError(error);
     }
-    return result;
+    return formatResult(result);
   };
 };
 
