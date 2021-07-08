@@ -9,7 +9,7 @@ const executable = async function executable(config) {
     i18n,
   } = config;
 
-  const readCard = function step1(settings = {}) {
+  const readCard = function readCard(settings = {}) {
     let url = `${settings.apiEndpoints.card(settings.countryCode)}/api/identity/${settings.clientId}/read-card`;
     if (settings.nonce) {
       url += `?nonce=${settings.nonce}`;
@@ -17,7 +17,7 @@ const executable = async function executable(config) {
     return apiClient.get({ url, cancelToken: settings.cancelToken });
   };
 
-  const identityFinish = function step2(settings = {}) {
+  const identityFinish = function identityFinish(settings = {}) {
     const method = {
       EE: 'ee-id-login',
       LV: 'lv-id-login',
