@@ -23,11 +23,11 @@ const createModuleCreator = function createModuleCreator(moduleName, executable)
           cancelToken,
           apiClient,
         })
-          .catch((error) => {
-            fail(error);
-          })
           .then((result) => {
             success(result);
+          })
+          .catch((error) => {
+            fail(error);
           })
           .finally(finished);
       };
