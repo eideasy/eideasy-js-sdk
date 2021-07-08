@@ -41,15 +41,21 @@ function createEParakstsMobileDemo({
         error: new Error('A mock error'),
       });
     } else if (settings.customInsteadOfRedirect === 'data') {
-      config.insteadOfRedirect = () => ({
-        data: 'Some data',
+      config.insteadOfRedirect = () => new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            data: 'Some data',
+          });
+        }, 1000);
       });
     } else if (settings.customInsteadOfRedirect === 'abort') {
       config.insteadOfRedirect = (context) => {
         console.log(context);
         // you can do the redirect here yourself should you wish so
         // window.location.href = context.redirectUrl;
-        return false;
+        return {
+          data: 'cancel',
+        };
       };
     }
 

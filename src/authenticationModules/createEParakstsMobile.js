@@ -1,72 +1,38 @@
-import createResultStore, { actionTypes } from './createResultStore';
+import createStep from '../createStep';
+import createModuleCreator from '../createModuleCreator';
+import { Cancel } from '../request';
 
-const MODULE_NAME = 'eParakstsMobile';
-
-const createEParakstsMobile = function createEParakstsMobile({
-  coreContext,
-}) {
-  const { config: coreConfig } = coreContext;
-
-  const step1 = function step1(settings = {}) {
-    window.location.href = settings.redirectUrl;
-    // we're returning false here so that we know later
-    // that redirect has been initiated.
-    return false;
-  };
-
-  const authenticate = function authenticate(settings = {}) {
-    const config = { ...coreConfig, ...settings };
-    const {
-      insteadOfRedirect,
-      success = () => {},
-      fail = () => {},
-      finished = () => {},
-    } = config;
-
-    config.redirectUrl = config.apiEndpoints.eParakstsMobile({
-      clientId: config.clientId,
-      appUrl: config.appUrl,
-    });
-
-    const execute = async function execute() {
-      let step1Result;
-      const { getState, dispatch } = createResultStore();
-      try {
-        if (insteadOfRedirect) {
-          step1Result = insteadOfRedirect(config);
-        } else {
-          step1Result = step1(config);
-        }
-      } catch (error) {
-        dispatch(actionTypes.addResult, { error });
-      }
-
-      if (step1Result === false) {
-        return;
-      }
-      if (step1Result) {
-        dispatch(actionTypes.addResult, step1Result);
-      }
-
-      if (getState().error) {
-        fail(getState());
-      } else {
-        success(getState());
-      }
-      finished(getState());
-    };
-
-    execute().catch(console.error);
-
-    return Object.freeze({
-      cancel: function cancel() {},
-    });
-  };
-
-  return Object.freeze({
-    MODULE_NAME,
-    authenticate,
-  });
+const redirect = function redirect(redirectUrl) {
+  window.location.href = redirectUrl;
+  // we're returning false here so that we know later
+  // that redirect has been initiated.
+  return false;
 };
 
+const executable = async function executable(config) {
+  const {
+    insteadOfRedirect,
+  } = config;
+
+  const redirectUrl = config.apiEndpoints.eParakstsMobile({
+    clientId: config.clientId,
+    appUrl: config.appUrl,
+  });
+
+  let result;
+
+  if (insteadOfRedirect) {
+    result = await createStep(insteadOfRedirect)(config);
+  } else {
+    result = await createStep(redirect)(redirectUrl);
+  }
+
+  if (result.data === 'cancel') {
+    throw new Cancel();
+  }
+
+  return result;
+};
+
+const createEParakstsMobile = createModuleCreator('eParakstsMobile', executable);
 export default createEParakstsMobile;

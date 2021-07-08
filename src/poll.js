@@ -7,6 +7,8 @@ const poll = async ({
     let result;
     let error;
     attempts += 1;
+    // we try catch here because we might want to continue polling in case of some errors
+    // for example when the network connection is poor
     try {
       result = await fn();
       error = undefined;

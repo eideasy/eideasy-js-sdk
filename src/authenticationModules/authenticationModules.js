@@ -28,6 +28,7 @@ const mobileId = function mobileId(coreContext) {
 // Latvian mobile ID just redirects and doesn't need the apiClient
 const eParakstsMobile = function eParakstsMobile(coreContext) {
   return createEParakstsMobile({
+    apiClient: createApiClient(),
     coreContext,
   });
 };

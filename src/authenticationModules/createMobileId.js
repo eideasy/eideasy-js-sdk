@@ -1,19 +1,24 @@
 import poll from '../poll';
-import createResultStore, { actionTypes } from './createResultStore';
+import createStep from '../createStep';
+import createModuleCreator from '../createModuleCreator';
 
-const MODULE_NAME = 'mobileId';
+const executable = async function executable(config) {
+  const {
+    cancelToken,
+    language,
+    apiClient,
+    started = () => {},
+    idcode,
+    phone,
+    pollInterval = 1000,
+  } = config;
 
-const createMobileId = function createMobileId({
-  coreContext,
-  apiClient,
-}) {
-  const { i18n, config: coreConfig } = coreContext;
   const method = {
     EE: 'mid-login',
     LT: 'lt-mobile-id',
   };
 
-  const step1 = function step1(settings) {
+  const identityStart = function identityStart(settings) {
     return apiClient.post({
       url: settings.localApiEndpoints.identityStart,
       data: {
@@ -27,7 +32,7 @@ const createMobileId = function createMobileId({
     });
   };
 
-  const step2 = function step2(settings) {
+  const identityFinish = function identityFinish(settings) {
     return apiClient.post({
       url: settings.localApiEndpoints.identityFinish,
       data: {
@@ -38,93 +43,43 @@ const createMobileId = function createMobileId({
     });
   };
 
-  const authenticate = function authenticate(settings = {}) {
-    const config = { ...coreConfig, ...settings };
-    const {
-      started = () => {},
-      success = () => {},
-      fail = () => {},
-      finished = () => {},
-      idcode,
-      phone,
-      pollInterval = 1000,
-    } = config;
-
-    const language = settings.language || i18n.getCurrentLanguage();
-
-    const source = apiClient.CancelToken.source();
-    const cancelToken = source.token;
-
-    const execute = async function execute() {
-      let step1Result;
-      const { getState, dispatch } = createResultStore();
-      try {
-        step1Result = await step1({
-          ...config,
-          cancelToken,
-          language,
-          idcode,
-          phone,
-        });
-        dispatch(actionTypes.addResult, step1Result);
-        started(getState());
-      } catch (error) {
-        dispatch(actionTypes.addResult, { error });
-      }
-
-      let step2Result;
-      if (!getState().error && step1Result) {
-        // Mobile ID users have 120 seconds to enter their pin,
-        // so it doesn't make sense to poll longer than that
-        const maxPollAttempts = (120 * 1000) / pollInterval;
-        try {
-          step2Result = await poll({
-            fn: () => step2({
-              ...config,
-              data: step1Result.data,
-              cancelToken,
-            }),
-            shouldContinue: (pollContext) => {
-              const responseStatus = pollContext.result
-                && pollContext.result.data
-                && pollContext.result.data.status;
-              if (pollContext.attempts < maxPollAttempts && responseStatus === 'RUNNING') {
-                return true;
-              }
-              return false;
-            },
-            interval: 1000,
-          });
-        } catch (error) {
-          dispatch(actionTypes.addResult, { error });
-        }
-      }
-
-      if (step2Result) {
-        dispatch(actionTypes.addResult, step2Result);
-      }
-
-      if (getState().error) {
-        fail(getState());
-      } else {
-        success(getState());
-      }
-      finished(getState());
-    };
-
-    execute().catch(console.error);
-
-    return Object.freeze({
-      cancel: function cancel() {
-        source.cancel();
+  const pollIdentityFinish = function pollIdentityFinish(settings) {
+    // Mobile ID users have 120 seconds to enter their pin,
+    // so it doesn't make sense to poll longer than that
+    const maxPollAttempts = (120 * 1000) / pollInterval;
+    return poll({
+      fn: () => identityFinish({
+        ...settings.config,
+        data: settings.data,
+        cancelToken: settings.cancelToken,
+      }),
+      shouldContinue: (pollContext) => {
+        const responseStatus = pollContext.result
+          && pollContext.result.data
+          && pollContext.result.data.status;
+        return pollContext.attempts < maxPollAttempts && responseStatus === 'RUNNING';
       },
+      interval: 1000,
     });
   };
 
-  return Object.freeze({
-    MODULE_NAME,
-    authenticate,
+  let result;
+  result = await createStep(identityStart)({
+    ...config,
+    cancelToken,
+    language,
+    idcode,
+    phone,
   });
+  started(result);
+  result = await createStep(pollIdentityFinish)({
+    config,
+    data: result.data,
+    cancelToken,
+    pollInterval,
+  });
+  return result;
 };
 
+const createMobileId = createModuleCreator('mobileId', executable);
 export default createMobileId;
