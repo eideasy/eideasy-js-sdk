@@ -1,8 +1,12 @@
+import { allMethods } from './config';
 import createI18n from './i18n/createI18n';
 import createApiEndpoints from './apiClient/createApiEndpoints';
+import createApiClient from './apiClient/createApiClient';
+// import createGetServiceConfig from './createGetServiceConfig';
+// import createGetAvailableMethods from './createGetAvailableMethods';
 
 const createClientCore = function createClientCore({
-  authenticationModules = [],
+  identificationModules = [],
   signingModules = [],
   settings = {},
   i18n = createI18n({ currentLanguage: 'en' }),
@@ -20,11 +24,27 @@ const createClientCore = function createClientCore({
     config.countryCode = countryCode;
   };
 
-  const installedAuthenticationModules = {};
-  authenticationModules.forEach((module) => {
-    const instance = module({
+  /*
+  const getServiceConfig = createGetServiceConfig({
+    apiClient: createApiClient(),
+    coreContext: {
       config,
-      i18n,
+    },
+  });
+  */
+
+  const getAllMethods = function getAllMethods() {
+    return allMethods;
+  };
+
+  const installedAuthenticationModules = {};
+  identificationModules.forEach((module) => {
+    const instance = module({
+      coreContext: {
+        config,
+        i18n,
+      },
+      apiClient: createApiClient(),
     });
     installedAuthenticationModules[instance.MODULE_NAME] = instance;
   });
@@ -32,19 +52,29 @@ const createClientCore = function createClientCore({
   const installedSigningModules = {};
   signingModules.forEach((module) => {
     const instance = module({
-      config,
-      i18n,
+      coreContext: {
+        config,
+        i18n,
+      },
+      apiClient: createApiClient(),
     });
     installedSigningModules[instance.MODULE_NAME] = instance;
   });
 
   return Object.freeze({
-    authentication: {
+    identification: {
       ...installedAuthenticationModules,
     },
     signature: {
       ...installedSigningModules,
     },
+    /*
+    getServiceConfig,
+    getAvailableMethods: createGetAvailableMethods({
+      getServiceConfig,
+    }),
+     */
+    getAllMethods,
     setLanguage: i18n.setLanguage,
     setCountryCode,
   });

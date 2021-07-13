@@ -1,6 +1,9 @@
 import poll from '../poll';
 import createStep from '../createStep';
 import createModuleCreator from '../createModuleCreator';
+import { getMethodByHandlingModule, METHOD_TYPES } from '../config';
+
+const MODULE_NAME = 'mobileId';
 
 const executable = async function executable(config) {
   const {
@@ -13,19 +16,15 @@ const executable = async function executable(config) {
     pollInterval = 1000,
   } = config;
 
-  const method = {
-    EE: 'mid-login',
-    LT: 'lt-mobile-id',
-  };
-
   const identityStart = function identityStart(settings) {
+    const method = getMethodByHandlingModule(METHOD_TYPES.identification, MODULE_NAME, settings.countryCode);
     return apiClient.post({
       url: settings.apiEndpoints.inCurrentMode.identityStart(),
       data: {
         idcode: settings.idcode,
         phone: settings.phone,
         country: settings.countryCode,
-        method: method[settings.countryCode],
+        method: method.action_type,
         lang: settings.language,
       },
       cancelToken: settings.cancelToken,
@@ -33,6 +32,7 @@ const executable = async function executable(config) {
   };
 
   const identityFinish = function identityFinish(settings) {
+    const method = getMethodByHandlingModule(METHOD_TYPES.identification, MODULE_NAME, settings.countryCode);
     return apiClient.post({
       url: settings.apiEndpoints.inCurrentMode.identityFinish(),
       data: {
@@ -81,5 +81,5 @@ const executable = async function executable(config) {
   return result;
 };
 
-const createMobileId = createModuleCreator('mobileId', executable);
+const createMobileId = createModuleCreator(MODULE_NAME, executable);
 export default createMobileId;
