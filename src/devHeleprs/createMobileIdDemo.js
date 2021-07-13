@@ -4,6 +4,7 @@ import createLoader from './createLoader';
 function createMobileIdDemo({
   easyClient,
   country,
+  errorHandler,
   dom,
 }) {
   const loader = createLoader();
@@ -18,6 +19,7 @@ function createMobileIdDemo({
 
   dom.form.addEventListener('submit', (e) => {
     e.preventDefault();
+    errorHandler.hide();
     const formData = new FormData(e.target);
     loader.style.display = 'block';
     authInstance = easyClient.authentication.mobileId.authenticate({
@@ -31,6 +33,7 @@ function createMobileIdDemo({
       },
       fail: (result) => {
         logResult(result, 'fail');
+        errorHandler.show(result);
       },
       success: (result) => {
         logResult(result, 'success');

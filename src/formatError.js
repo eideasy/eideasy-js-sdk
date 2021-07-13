@@ -6,7 +6,12 @@ const formatError = function formatError(error) {
     formattedError.isCancel = true;
   }
   if (formattedError.response && formattedError.response.data) {
-    formattedError.data = formattedError.response.data;
+    if (formattedError.response.data.message) {
+      formattedError.userMessage = formattedError.response.data.message;
+    }
+    if (formattedError.response.data.errors) {
+      formattedError.userDetails = formattedError.response.data.errors;
+    }
   }
   return formattedError;
 };

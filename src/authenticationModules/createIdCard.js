@@ -10,7 +10,8 @@ const executable = async function executable(config) {
   } = config;
 
   const readCard = function readCard(settings = {}) {
-    let url = `${settings.apiEndpoints.inCurrentMode.card(settings.countryCode)}/api/identity/${settings.clientId}/read-card`;
+    let url = `${settings.apiEndpoints.inCurrentMode.card(settings.countryCode)}
+      /api/identity/${settings.clientId}/read-card`;
     if (settings.nonce) {
       url += `?nonce=${settings.nonce}`;
     }
