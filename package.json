@@ -1,8 +1,8 @@
 {
-  "name": "@eid-easy/eideasy-js-sdk",
+  "name": "@eid-easy/eideasy-browser-client",
   "version": "0.14.3",
-  "description": "eID Easy SDK provides you with a simple set of methods for getting the user's identity",
-  "main": "dist/eideasy-js-sdk.js",
+  "description": "eID Easy Browser Client allows to consume eID Easy API's in web browsers",
+  "main": "dist/eideasy-browser-client.js",
   "scripts": {
     "webpack": "webpack",
     "env-cmd": "env-cmd",
