@@ -19,6 +19,7 @@ function createMobileIdDemo({
 
   dom.form.addEventListener('submit', (e) => {
     e.preventDefault();
+    errorHandler.hide();
     const formData = new FormData(e.target);
     loader.style.display = 'block';
     authInstance = easyClient.authentication.mobileId.authenticate({

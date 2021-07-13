@@ -22,6 +22,7 @@ function createEParakstsMobileDemo({
 }) {
   dom.buttonStart.addEventListener('click', async (e) => {
     e.preventDefault();
+    errorHandler.hide();
     const settings = getSettings(dom.settingsElement);
     console.log(settings);
     const config = {
