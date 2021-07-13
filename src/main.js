@@ -1,16 +1,16 @@
 import createClientCore from './createClientCore';
 import {
-  idCard, smartId, mobileId, eParakstsMobile,
+  createIdCard, createSmartId, createMobileId, createEParakstsMobile,
 } from './authenticationModules/authenticationModules';
 
 const createClient = function createClient(settings = {}) {
   return createClientCore({
     settings,
     authenticationModules: [
-      idCard,
-      smartId,
-      mobileId,
-      eParakstsMobile,
+      createIdCard,
+      createSmartId,
+      createMobileId,
+      createEParakstsMobile,
     ],
   });
 };

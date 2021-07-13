@@ -14,7 +14,3 @@ const clientMethods = {
 const availableMethods = {
 
 };
-
-const apiEndpoints = {
-
-};
