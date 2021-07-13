@@ -1,12 +1,12 @@
 import createClientCore from './createClientCore';
 import {
   createIdCard, createSmartId, createMobileId, createEParakstsMobile,
-} from './authenticationModules/authenticationModules';
+} from './identificationModules/identificationModules';
 
 const createClient = function createClient(settings = {}) {
   return createClientCore({
     settings,
-    authenticationModules: [
+    identificationModules: [
       createIdCard,
       createSmartId,
       createMobileId,

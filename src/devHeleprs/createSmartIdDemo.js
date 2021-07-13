@@ -22,7 +22,7 @@ function createSmartIdDemo({
     errorHandler.hide();
     const formData = new FormData(e.target);
     loader.style.display = 'block';
-    authInstance = easyClient.authentication.smartId.authenticate({
+    authInstance = easyClient.identification.smartId.start({
       countryCode: country,
       idcode: formData.get('idcode'),
       started: (result) => {

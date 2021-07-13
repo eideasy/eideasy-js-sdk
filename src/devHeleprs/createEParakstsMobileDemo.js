@@ -62,7 +62,7 @@ function createEParakstsMobileDemo({
       };
     }
 
-    easyClient.authentication.eParakstsMobile.authenticate(config);
+    easyClient.identification.eParakstsMobile.start(config);
   });
 }
 

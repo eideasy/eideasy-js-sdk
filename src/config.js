@@ -1,5 +1,5 @@
 const clientMethods = {
-  authentication: [
+  identification: [
     {
       action_type: 'ee-id-login',
       handlingModule: 'idCard',

@@ -1,9 +1,11 @@
 import createI18n from './i18n/createI18n';
 import createApiEndpoints from './apiClient/createApiEndpoints';
 import createApiClient from './apiClient/createApiClient';
+// import createGetServiceConfig from './createGetServiceConfig';
+// import createGetAvailableMethods from './createGetAvailableMethods';
 
 const createClientCore = function createClientCore({
-  authenticationModules = [],
+  identificationModules = [],
   signingModules = [],
   settings = {},
   i18n = createI18n({ currentLanguage: 'en' }),
@@ -21,8 +23,17 @@ const createClientCore = function createClientCore({
     config.countryCode = countryCode;
   };
 
+  /*
+  const getServiceConfig = createGetServiceConfig({
+    apiClient: createApiClient(),
+    coreContext: {
+      config,
+    },
+  });
+  */
+
   const installedAuthenticationModules = {};
-  authenticationModules.forEach((module) => {
+  identificationModules.forEach((module) => {
     const instance = module({
       coreContext: {
         config,
@@ -46,18 +57,19 @@ const createClientCore = function createClientCore({
   });
 
   return Object.freeze({
-    authentication: {
+    identification: {
       ...installedAuthenticationModules,
     },
     signature: {
       ...installedSigningModules,
     },
-    getServiceConfig: {
-
-    },
-    getAvailableMethods: {
-
-    },
+    /*
+    getServiceConfig,
+    getAvailableMethods: createGetAvailableMethods({
+      getServiceConfig,
+    }),
+     */
+    getAllMethods: {},
     setLanguage: i18n.setLanguage,
     setCountryCode,
   });

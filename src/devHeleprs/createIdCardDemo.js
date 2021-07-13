@@ -10,7 +10,7 @@ function createIdCardDemo({
   dom.buttonStart.addEventListener('click', async (e) => {
     e.preventDefault();
     errorHandler.hide();
-    authInstance = easyClient.authentication.idCard.authenticate({
+    authInstance = easyClient.identification.idCard.start({
       countryCode: country,
       fail: (result) => {
         logResult(result, 'fail');

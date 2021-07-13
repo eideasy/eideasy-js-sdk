@@ -1,17 +1,20 @@
 import formatError from './formatError';
 
 const createModuleCreator = function createModuleCreator(moduleName, executable) {
-  const create = function create({
+  return function create({
     coreContext,
     apiClient,
   }) {
     const { i18n, config: coreConfig } = coreContext;
-    const authenticate = function authenticate(settings = {}) {
+    const start = function start(settings = {}) {
       const config = { ...coreConfig, ...settings };
       const {
-        success = () => {},
-        fail = () => {},
-        finished = () => {},
+        success = () => {
+        },
+        fail = () => {
+        },
+        finished = () => {
+        },
       } = config;
 
       const language = settings.language || i18n.getCurrentLanguage();
@@ -46,11 +49,9 @@ const createModuleCreator = function createModuleCreator(moduleName, executable)
 
     return Object.freeze({
       MODULE_NAME: moduleName,
-      authenticate,
+      start,
     });
   };
-
-  return create;
 };
 
 export default createModuleCreator;

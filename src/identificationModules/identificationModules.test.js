@@ -1,15 +1,15 @@
 import {
   idCard, smartId, mobileId, eParakstsMobile,
-} from './authenticationModules';
+} from './identificationModules';
 
-describe('authenticationModules', () => {
+describe('identificationModules', () => {
   const modules = [idCard, smartId, mobileId, eParakstsMobile];
   const initializedModules = modules.map((module) => module({
     config: {},
   }));
 
-  test.each(initializedModules)('module %p should have method "authenticate"', (module) => {
-    expect(typeof module.authenticate).toBe('function');
+  test.each(initializedModules)('module %p should have method "start"', (module) => {
+    expect(typeof module.start).toBe('function');
   });
 
   test.each(initializedModules)('module %p should have MODULE_NAME with a typeof string', (module) => {

@@ -4,6 +4,7 @@ import createSmartIdDemo from './devHeleprs/createSmartIdDemo';
 import createMobileIdDemo from './devHeleprs/createMobileIdDemo';
 import createEParakstsMobileDemo from './devHeleprs/createEParakstsMobileDemo';
 import createErrorHandler from './devHeleprs/errorHandler';
+import createAvailableMethodsDemo from './devHeleprs/createAvailableMethodsDemo';
 
 console.log(process.env);
 
@@ -58,3 +59,10 @@ function createDemos(root) {
 document
   .querySelectorAll('.js-authMethod')
   .forEach(createDemos);
+
+createAvailableMethodsDemo({
+  dom: {
+    buttonFetch: document.querySelector('.js-availableMethods_fetchButton'),
+  },
+  easyClient,
+});

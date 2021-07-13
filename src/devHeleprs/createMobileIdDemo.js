@@ -22,7 +22,7 @@ function createMobileIdDemo({
     errorHandler.hide();
     const formData = new FormData(e.target);
     loader.style.display = 'block';
-    authInstance = easyClient.authentication.mobileId.authenticate({
+    authInstance = easyClient.identification.mobileId.start({
       countryCode: country,
       idcode: formData.get('idcode_mobile'),
       phone: formData.get('phone'),
