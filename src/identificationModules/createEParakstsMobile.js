@@ -2,6 +2,8 @@ import createStep from '../createStep';
 import createModuleCreator from '../createModuleCreator';
 import { Cancel } from '../request';
 
+const MODULE_NAME = 'eParakstsMobile';
+
 const redirect = function redirect(redirectUrl) {
   window.location.href = redirectUrl;
   // we're returning false here so that we know later
@@ -34,5 +36,5 @@ const executable = async function executable(config) {
   return result;
 };
 
-const createEParakstsMobile = createModuleCreator('eParakstsMobile', executable);
+const createEParakstsMobile = createModuleCreator(MODULE_NAME, executable);
 export default createEParakstsMobile;

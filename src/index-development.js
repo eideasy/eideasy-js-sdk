@@ -63,6 +63,7 @@ document
 createAvailableMethodsDemo({
   dom: {
     buttonFetch: document.querySelector('.js-availableMethods_fetchButton'),
+    buttonFetchAll: document.querySelector('.js-availableMethods_fetchButtonAll'),
   },
   easyClient,
 });

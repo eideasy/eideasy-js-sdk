@@ -1,3 +1,4 @@
+import { allMethods } from './config';
 import createI18n from './i18n/createI18n';
 import createApiEndpoints from './apiClient/createApiEndpoints';
 import createApiClient from './apiClient/createApiClient';
@@ -31,6 +32,10 @@ const createClientCore = function createClientCore({
     },
   });
   */
+
+  const getAllMethods = function getAllMethods() {
+    return allMethods;
+  };
 
   const installedAuthenticationModules = {};
   identificationModules.forEach((module) => {
@@ -69,7 +74,7 @@ const createClientCore = function createClientCore({
       getServiceConfig,
     }),
      */
-    getAllMethods: {},
+    getAllMethods,
     setLanguage: i18n.setLanguage,
     setCountryCode,
   });

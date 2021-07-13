@@ -20,7 +20,6 @@ function createErrorHandler(errorContainer) {
   }
 
   function hide() {
-    console.log(errorContainer);
     errorContainer.innerHTML = '';
     errorContainer.classList.add('d-none');
   }

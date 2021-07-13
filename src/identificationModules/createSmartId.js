@@ -1,6 +1,9 @@
 import poll from '../poll';
 import createStep from '../createStep';
 import createModuleCreator from '../createModuleCreator';
+import { getMethodByHandlingModule, METHOD_TYPES } from '../config';
+
+const MODULE_NAME = 'smartId';
 
 const executable = async function executable(config) {
   const {
@@ -13,25 +16,27 @@ const executable = async function executable(config) {
   } = config;
 
   const identityStart = function identityStart(settings) {
+    const method = getMethodByHandlingModule(METHOD_TYPES.identification, MODULE_NAME);
     return apiClient.post({
       cancelToken: settings.cancelToken,
       url: settings.apiEndpoints.inCurrentMode.identityStart(),
       data: {
         idcode: settings.idcode,
         country: settings.countryCode,
-        method: 'smartid',
+        method: method.action_type,
         lang: settings.language,
       },
     });
   };
 
   const identityFinish = function identityFinish(settings) {
+    const method = getMethodByHandlingModule(METHOD_TYPES.identification, MODULE_NAME);
     return apiClient.post({
       cancelToken: settings.cancelToken,
       url: settings.apiEndpoints.inCurrentMode.identityFinish(),
       data: {
         token: settings.data.token,
-        method: 'smartid',
+        method: method.action_type,
       },
     });
   };
@@ -71,5 +76,5 @@ const executable = async function executable(config) {
   return result;
 };
 
-const createSmartId = createModuleCreator('smartId', executable);
+const createSmartId = createModuleCreator(MODULE_NAME, executable);
 export default createSmartId;

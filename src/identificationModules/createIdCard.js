@@ -1,5 +1,8 @@
 import createStep from '../createStep';
 import createModuleCreator from '../createModuleCreator';
+import { METHOD_TYPES, getMethodByHandlingModule } from '../config';
+
+const MODULE_NAME = 'idCard';
 
 const executable = async function executable(config) {
   const {
@@ -18,18 +21,14 @@ const executable = async function executable(config) {
   };
 
   const identityFinish = function identityFinish(settings = {}) {
-    const method = {
-      EE: 'ee-id-login',
-      LV: 'lv-id-login',
-      LT: 'lt-id-login',
-    };
+    const method = getMethodByHandlingModule(METHOD_TYPES.identification, MODULE_NAME, settings.countryCode);
 
     return apiClient.post({
       url: settings.apiEndpoints.inCurrentMode.identityFinish(),
       data: {
         token: settings.data.token,
         country: settings.countryCode,
-        method: method[settings.countryCode],
+        method: method.action_type,
         lang: settings.language,
       },
       cancelToken: settings.cancelToken,
@@ -57,5 +56,5 @@ const executable = async function executable(config) {
   return result;
 };
 
-const createIdCard = createModuleCreator('idCard', executable);
+const createIdCard = createModuleCreator(MODULE_NAME, executable);
 export default createIdCard;
