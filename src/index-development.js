@@ -3,6 +3,7 @@ import createIdCardDemo from './devHeleprs/createIdCardDemo';
 import createSmartIdDemo from './devHeleprs/createSmartIdDemo';
 import createMobileIdDemo from './devHeleprs/createMobileIdDemo';
 import createEParakstsMobileDemo from './devHeleprs/createEParakstsMobileDemo';
+import createErrorHandler from './devHeleprs/errorHandler';
 
 console.log(process.env);
 
@@ -34,10 +35,13 @@ function createDemos(root) {
   };
   const { method, country } = root.dataset;
 
+  const errorHandler = createErrorHandler(root.querySelector('.js-authMethod_error'));
+
   const methodConfig = {
     easyClient,
     dom,
     country,
+    errorHandler,
   };
 
   if (method === 'id-card') {

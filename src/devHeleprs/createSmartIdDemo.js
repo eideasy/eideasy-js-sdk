@@ -4,6 +4,7 @@ import createLoader from './createLoader';
 function createSmartIdDemo({
   easyClient,
   country,
+  errorHandler,
   dom,
 }) {
   const loader = createLoader();
@@ -30,6 +31,7 @@ function createSmartIdDemo({
       },
       fail: (result) => {
         logResult(result, 'fail');
+        errorHandler.show(result);
       },
       success: (result) => {
         logResult(result, 'success');

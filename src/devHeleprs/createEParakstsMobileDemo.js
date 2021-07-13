@@ -18,6 +18,7 @@ function getSettings(settingsElement) {
 function createEParakstsMobileDemo({
   easyClient,
   dom,
+  errorHandler,
 }) {
   dom.buttonStart.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -26,6 +27,7 @@ function createEParakstsMobileDemo({
     const config = {
       fail: (result) => {
         logResult(result, 'fail');
+        errorHandler.show(result);
       },
       success: (result) => {
         logResult(result, 'success');
