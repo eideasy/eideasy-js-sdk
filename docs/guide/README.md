@@ -38,7 +38,7 @@ import createClient from '@eid-easy/eideasy-browser-client';
 1. Add the script tag:
 
 ```html:no-v-pre
-<script src="https://cdn.jsdelivr.net/npm/@eid-easy/eideasy-browser-client@{{ $theme.version }}/dist/eideasy-browser-client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@eid-easy/eideasy-browser-client@{{ $theme.version }}/dist/eideasy-browser-client.js" integrity="{{ $theme.sri }}" crossorigin="anonymous"></script>
 ```
 
 2. Use the eidEasyBrowserClient object to access createClient:

@@ -10,6 +10,7 @@ const semver = require('semver');
 const { prompt } = require('enquirer');
 const execa = require('execa');
 const currentVersion = require('../package.json').version;
+const ssri = require('ssri');
 
 const preId = args.preid
   || (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0]);
@@ -89,6 +90,13 @@ async function main() {
   step('\nBuilding ...');
   if (!skipBuild && !isDryRun) {
     await run('yarn', ['build']);
+    // generate sri after js is built
+    const buildArtifact = path.resolve(__dirname, '../dist/eideasy-browser-client.js');
+    const integrityObj = ssri.fromData(fs.readFileSync(buildArtifact), {
+      algorithms: ['sha256'],
+    });
+    const integrityString = integrityObj.toString();
+    updatePackageSri(integrityString);
     await run('yarn', ['docs:build']);
   } else {
     console.log('(skipped)');
@@ -123,13 +131,18 @@ async function main() {
 
 function updateVersion(version) {
   // update root package.json
-  updatePackage(path.resolve(__dirname, '..'), version);
+  updatePackage(path.resolve(__dirname, '..'), 'version', version);
 }
 
-function updatePackage(pkgRoot, version) {
+function updatePackageSri(sri) {
+  // update root package.json
+  updatePackage(path.resolve(__dirname, '..'), 'sri', sri);
+}
+
+function updatePackage(pkgRoot, key, value) {
   const pkgPath = path.resolve(pkgRoot, 'package.json');
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-  pkg.version = version;
+  pkg[key] = value;
   fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
 }
 
