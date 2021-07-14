@@ -1,6 +1,6 @@
 {
   "name": "@eid-easy/eideasy-browser-client",
-  "version": "0.14.3-alpha.4",
+  "version": "0.14.3-alpha.6",
   "description": "eID Easy Browser Client allows to consume eID Easy API's in web browsers",
   "main": "dist/eideasy-browser-client.js",
   "scripts": {

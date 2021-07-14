@@ -1,34 +1,72 @@
-# Guide
+# Getting started
 
 ## Important !!
+
 This package is in active development and not production ready.
 
 ## Installation
 
-Using jsDelivr CDN:
+### NPM
 
-```html
-<script src="https://cdn.jsdelivr.net/npm/@eid-easy/eideasy-js-sdk@0.7.0/dist/eideasy-js-sdk.min.js"></script>
+1. Install with npm or Yarn:
+<CodeGroup>
+   <CodeGroupItem title="YARN" active>
+
+```bash:no-line-numbers
+yarn add @eid-easy/eideasy-browser-client
 ```
 
+  </CodeGroupItem>
 
-## Example
+  <CodeGroupItem title="NPM">
 
-### Create the authenticator instance:
+```bash:no-line-numbers
+npm install @eid-easy/eideasy-browser-client
+```
+
+  </CodeGroupItem>
+</CodeGroup>
+
+2. Import createClient:
+
 ```javascript
-var authenticator = window.eidEasySdk.createAuthenticator({
-  countryCode: 'EE',
-  sandbox: true,
-  clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg',
-  localApiEndpoints: {
-    identityStart: 'http://eid-sample-app.test/api/identity/start',
-    identityFinish: 'http://eid-sample-app.test/api/identity/finish',
-  },
-  language: 'et',
+import createClient from '@eid-easy/eideasy-browser-client';
+```
+
+### CDN
+
+1. Add the script tag:
+
+```html:no-v-pre
+<script src="https://cdn.jsdelivr.net/npm/@eid-easy/eideasy-browser-client@{{ $theme.version }}/dist/eideasy-browser-client.js"></script>
+```
+
+2. Use the eidEasyBrowserClient object to access createClient:
+
+```javascript
+const createClient = window.eidEasyBrowserClient;
+```
+
+## Examples
+
+### Create the client instance:
+
+```javascript
+const eidEasyClient = window.eidEasyBrowserClient.createClient({
+   countryCode: 'EE',
+   sandbox: true,
+   clientId: '2IaeiZXbcKzlP1KvjZH9ghty2IJKM8Lg', 
+   appUrl: 'http://localhost:8082/',
+   apiEndpoints: {
+      identityStart: () => 'https://eid-sample-app.test/api/identity/start',
+      identityFinish: () => 'https://eid-sample-app.test/api/identity/finish',
+   },
+   language: 'et',
 });
 ```
 
 #### Authenticator Settings
+
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 countryCode | string | undefined | [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code
@@ -55,12 +93,12 @@ authenticator.idCard.authenticate({
 ```
 
 #### idCard authentication settings
+
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 fail | function | undefined | This function gets called when the authentication process failed.
 success | function | undefined | This function gets called when the authentication process succeeds.
 finished | function | undefined | This function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
-
 
 ### Authenticate with Smart-ID:
 
@@ -85,6 +123,7 @@ authenticator.smartId.authenticate({
 ```
 
 #### smartId authentication settings
+
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 idcode | string | undefined | End user's personal identification code
@@ -94,9 +133,8 @@ fail | function | undefined | This function gets called when the authentication 
 success | function | undefined | This function gets called when the authentication process succeeds.
 finished | function | undefined | This function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
 
-
-
 ### Authenticate with Mobile ID:
+
 ```javascript
 authenticator.mobileId.authenticate({
   idcode: '60001019906',
@@ -119,6 +157,7 @@ authenticator.mobileId.authenticate({
 ```
 
 #### mobileId authentication settings
+
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 idcode | string | undefined | End user's personal identification code
@@ -128,5 +167,3 @@ started | function | undefined | This function gets called when the authenticati
 fail | function | undefined | This function gets called when the authentication process failed.
 success | function | undefined | This function gets called when the authentication process succeeds.
 finished | function | undefined | This function gets called when the authentication process has either failed or succeeded. This means that this function gets called always, no matter the authentication result. For example, it can be useful to hide a loading spinner at the end of the authentication process or to do some other clean up work.
-
-
