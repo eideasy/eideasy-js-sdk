@@ -1,10 +1,16 @@
+const { path } = require('@vuepress/utils');
+const { version } = require('../../package');
+
 module.exports = {
-  title: 'eID Easy javascript SDK',
-  description: 'eideasy-js-sdk provides you with a simple set of functions to get the user\'s identity.',
+  title: 'eideasy-browser-client',
+  description: 'eID Easy Browser Client allows consuming eID Easy API\'s in web browsers',
   head: [['link', { rel: 'icon', href: '/assets/img/eid-easy-icon.png' }]],
   themeConfig: {
-    repo: 'eideasy/eideasy-js-sdk/',
+    repo: 'eideasy/eideasy-browser-client',
+    docsBranch: 'master',
+    docsDir: 'docs',
     logo: '/assets/img/eid-easy-logo.png',
+    version: version,
     navbar: [
       { text: 'Home', link: '/'},
       { text: 'Guide', link: '/guide/'},
