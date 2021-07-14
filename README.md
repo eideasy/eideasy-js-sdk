@@ -5,6 +5,9 @@
   <a href="https://github.com/eideasy/eideasy-browser-client/actions/workflows/ci.yml">
     <img src="https://github.com/eideasy/eideasy-browser-client/actions/workflows/ci.yml/badge.svg?branch=master" alt="github ci status badge" style="max-width:100%;">
   </a>
+<a href="https://github.com/eideasy/eideasy-browser-client/blob/master/LICENSE">
+    <img src="https://img.shields.io/npm/l/@eid-easy/eideasy-browser-client" alt="license badge" style="max-width:100%;">
+  </a>
 </p>
 
 # eID Easy Browser Client
