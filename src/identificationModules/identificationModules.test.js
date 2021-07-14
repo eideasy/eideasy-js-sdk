@@ -1,11 +1,14 @@
 import {
-  idCard, smartId, mobileId, eParakstsMobile,
+  createIdCard, createSmartId, createMobileId, createEParakstsMobile,
 } from './identificationModules';
 
 describe('identificationModules', () => {
-  const modules = [idCard, smartId, mobileId, eParakstsMobile];
+  const modules = [createIdCard, createSmartId, createMobileId, createEParakstsMobile];
   const initializedModules = modules.map((module) => module({
-    config: {},
+    coreContext: {
+      config: {},
+      i18n: {},
+    },
   }));
 
   test.each(initializedModules)('module %p should have method "start"', (module) => {
