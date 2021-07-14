@@ -14,4 +14,4 @@ eID Easy Browser Client allows consuming eID Easy API's in web browsers
 This package is in active development and not production ready.
 
 ## Documentation
-The docs are available at https://eideasy-browser-js.netlify.app/
+The docs are available at https://eideasy-browser-client.netlify.app/
