@@ -1,5 +1,5 @@
 const { path } = require('@vuepress/utils');
-const { version } = require('../../package');
+const { version, sri } = require('../../package');
 
 module.exports = {
   title: 'eideasy-browser-client',
@@ -11,6 +11,7 @@ module.exports = {
     docsDir: 'docs',
     logo: '/assets/img/eid-easy-logo.png',
     version: version,
+    sri: sri,
     navbar: [
       { text: 'Home', link: '/'},
       { text: 'Guide', link: '/guide/'},
