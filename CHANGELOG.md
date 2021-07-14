@@ -1,3 +1,7 @@
+## [0.14.3-alpha.2](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.1...v0.14.3-alpha.2) (2021-07-14)
+
+
+
 ## 0.14.3-alpha.1 (2021-07-14)
 
 
