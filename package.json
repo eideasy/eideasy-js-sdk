@@ -22,10 +22,17 @@
     "release": "node scripts/release.js"
   },
   "keywords": [
-    "eideasy"
+    "eideasy",
+    "eid easy",
+    "eid",
+    "electronic signature",
+    "qes",
+    "qualified electronic signature",
+    "eid easy client",
+    "electronic signature client"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "volta": {
     "node": "14.15.4",
     "yarn": "1.22.5"
