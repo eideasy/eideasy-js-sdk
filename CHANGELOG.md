@@ -1,3 +1,12 @@
+## [0.14.3-alpha.3](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.2...v0.14.3-alpha.3) (2021-07-14)
+
+
+### Bug Fixes
+
+* fix a mobile id error where indentityStart method was wrong ([#22](https://github.com/eideasy/eideasy-browser-client/issues/22)) ([ae280f0](https://github.com/eideasy/eideasy-browser-client/commit/ae280f0c6871cb48f889554a27fce0fcee0d0890))
+
+
+
 ## [0.14.3-alpha.2](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.1...v0.14.3-alpha.2) (2021-07-14)
 
 
