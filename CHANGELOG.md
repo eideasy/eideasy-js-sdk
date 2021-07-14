@@ -1,3 +1,12 @@
+## [0.14.3-alpha.7](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.6...v0.14.3-alpha.7) (2021-07-14)
+
+
+### Bug Fixes
+
+* name library exports correctly ([#26](https://github.com/eideasy/eideasy-browser-client/issues/26)) ([9c8a4bb](https://github.com/eideasy/eideasy-browser-client/commit/9c8a4bb154b45d4d197c623d76581e20172e6999))
+
+
+
 ## [0.14.3-alpha.6](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.5...v0.14.3-alpha.6) (2021-07-14)
 
 
