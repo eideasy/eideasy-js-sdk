@@ -29,7 +29,6 @@ module.exports = ({
       filename: 'eideasy-browser-client.js',
       library: 'eidEasyBrowserClient',
       libraryTarget: 'umd',
-      libraryExport: 'default',
     },
     devServer: {
       contentBase: './dist',
