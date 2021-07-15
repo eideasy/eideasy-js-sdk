@@ -57,7 +57,7 @@ const allMethods = Object.freeze({
       handlingModule: moduleNames.smartId,
     },
   ],
-  [methodTypes.signing]: [],
+  [methodTypes.SIGNING]: [],
 });
 
 const getMethodByHandlingModule = function getMethodByHandlingModule(methodType, handlingModule, country) {
