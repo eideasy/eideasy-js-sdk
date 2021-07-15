@@ -1,3 +1,12 @@
+## [0.14.3-alpha.14](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.13...v0.14.3-alpha.14) (2021-07-15)
+
+
+### Bug Fixes
+
+* add correct smartId countries support ([#35](https://github.com/eideasy/eideasy-browser-client/issues/35)) ([3dfaa65](https://github.com/eideasy/eideasy-browser-client/commit/3dfaa65026f2e6bc2865738aff9cbdda4e6f9612))
+
+
+
 ## [0.14.3-alpha.13](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.12...v0.14.3-alpha.13) (2021-07-15)
 
 

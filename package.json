@@ -1,9 +1,9 @@
 {
   "name": "@eid-easy/eideasy-browser-client",
-  "version": "0.14.3-alpha.13",
+  "version": "0.14.3-alpha.14",
   "description": "eID Easy Browser Client allows to consume eID Easy API's in web browsers",
   "main": "dist/eideasy-browser-client.js",
-  "sri": "sha256-gyWM7qnjxCMugNmNHHJrXUbh13wE2/QBq7XVvFSCum0=",
+  "sri": "sha256-Xb8nGAHV6Mx97QSse346Rmw7T6lazwpAjGdpn8fmY4I=",
   "scripts": {
     "webpack": "webpack",
     "env-cmd": "env-cmd",
