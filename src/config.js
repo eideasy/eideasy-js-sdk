@@ -1,46 +1,63 @@
-const METHOD_TYPES = {
-  identification: 'identification',
-  signing: 'signing',
+const methodTypes = {
+  IDENTIFICATION: 'identification',
+  SIGNING: 'signing',
+};
+
+const methodActionTypes = {
+  EE_ID_LOGIN: 'ee-id-login',
+  LV_ID_LOGIN: 'lv-id-login',
+  LT_ID_LOGIN: 'lt-id-login',
+  EE_MOBILE_ID: 'mid-login',
+  LV_EPARAKSTS_MOBILE_LOGIN: 'lv-eparaksts-mobile-login',
+  LT_MOBILE_ID: 'lt-mobile-id',
+  SMART_ID: 'smartid',
+};
+
+const moduleNames = {
+  idCard: 'idCard',
+  mobileId: 'mobileId',
+  eParakstsMobile: 'eParakstsMobile',
+  smartId: 'smartId',
 };
 
 const allMethods = Object.freeze({
-  [METHOD_TYPES.identification]: [
+  [methodTypes.IDENTIFICATION]: [
     {
-      actionType: 'ee-id-login',
-      handlingModule: 'idCard',
+      actionType: methodActionTypes.EE_ID_LOGIN,
+      handlingModule: moduleNames.idCard,
       countriesWhitelist: ['EE'],
     },
     {
-      actionType: 'lv-id-login',
-      handlingModule: 'idCard',
+      actionType: methodActionTypes.LV_ID_LOGIN,
+      handlingModule: moduleNames.idCard,
       countriesWhitelist: ['LV'],
     },
     {
-      actionType: 'lt-id-login',
-      handlingModule: 'idCard',
+      actionType: methodActionTypes.LT_ID_LOGIN,
+      handlingModule: moduleNames.idCard,
       countriesWhitelist: ['LT'],
     },
     {
-      actionType: 'lv-eparaksts-mobile-login',
-      handlingModule: 'eParakstsMobile',
+      actionType: methodActionTypes.LV_EPARAKSTS_MOBILE_LOGIN,
+      handlingModule: moduleNames.eParakstsMobile,
       countriesWhitelist: ['LV'],
     },
     {
-      actionType: 'lt-mobile-id',
-      handlingModule: 'mobileId',
+      actionType: methodActionTypes.LT_MOBILE_ID,
+      handlingModule: moduleNames.mobileId,
       countriesWhitelist: ['LT'],
     },
     {
-      actionType: 'mid-login',
-      handlingModule: 'mobileId',
+      actionType: methodActionTypes.EE_MOBILE_ID,
+      handlingModule: moduleNames.mobileId,
       countriesWhitelist: ['EE'],
     },
     {
-      actionType: 'smartid',
-      handlingModule: 'smartId',
+      actionType: methodActionTypes.SMART_ID,
+      handlingModule: moduleNames.smartId,
     },
   ],
-  [METHOD_TYPES.signing]: [],
+  [methodTypes.signing]: [],
 });
 
 const getMethodByHandlingModule = function getMethodByHandlingModule(methodType, handlingModule, country) {
@@ -53,5 +70,5 @@ const getMethodByHandlingModule = function getMethodByHandlingModule(methodType,
 };
 
 /* eslint-disable */
-export { METHOD_TYPES, allMethods, getMethodByHandlingModule };
+export { methodTypes, methodActionTypes, moduleNames, allMethods, getMethodByHandlingModule };
 /* eslint-enable */

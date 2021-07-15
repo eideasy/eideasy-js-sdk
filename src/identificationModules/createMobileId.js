@@ -1,9 +1,9 @@
 import poll from '../poll';
 import createStep from '../createStep';
 import createModuleCreator from '../createModuleCreator';
-import { getMethodByHandlingModule, METHOD_TYPES } from '../config';
+import { getMethodByHandlingModule, methodTypes, moduleNames } from '../config';
 
-const MODULE_NAME = 'mobileId';
+const MODULE_NAME = moduleNames.mobileId;
 
 const executable = async function executable(config) {
   const {
@@ -17,7 +17,7 @@ const executable = async function executable(config) {
   } = config;
 
   const identityStart = function identityStart(settings) {
-    const method = getMethodByHandlingModule(METHOD_TYPES.identification, MODULE_NAME, settings.countryCode);
+    const method = getMethodByHandlingModule(methodTypes.IDENTIFICATION, MODULE_NAME, settings.countryCode);
     return apiClient.post({
       url: settings.apiEndpoints.inCurrentMode.identityStart(),
       data: {
@@ -32,7 +32,7 @@ const executable = async function executable(config) {
   };
 
   const identityFinish = function identityFinish(settings) {
-    const method = getMethodByHandlingModule(METHOD_TYPES.identification, MODULE_NAME, settings.countryCode);
+    const method = getMethodByHandlingModule(methodTypes.IDENTIFICATION, MODULE_NAME, settings.countryCode);
     return apiClient.post({
       url: settings.apiEndpoints.inCurrentMode.identityFinish(),
       data: {

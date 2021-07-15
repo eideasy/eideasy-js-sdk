@@ -1,7 +1,9 @@
 import createClient from './main';
-import { METHOD_TYPES, allMethods, getMethodByHandlingModule } from './config';
+import {
+  methodTypes, allMethods, methodActionTypes, getMethodByHandlingModule,
+} from './config';
 
 export default createClient;
 export {
-  createClient, METHOD_TYPES, allMethods, getMethodByHandlingModule,
+  createClient, methodTypes, allMethods, methodActionTypes, getMethodByHandlingModule,
 };

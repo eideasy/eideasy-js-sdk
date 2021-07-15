@@ -1,8 +1,9 @@
 import createStep from '../createStep';
 import createModuleCreator from '../createModuleCreator';
 import { Cancel } from '../request';
+import { moduleNames } from '../config';
 
-const MODULE_NAME = 'eParakstsMobile';
+const MODULE_NAME = moduleNames.eParakstsMobile;
 
 const redirect = function redirect(redirectUrl) {
   window.location.href = redirectUrl;
