@@ -13,6 +13,8 @@ const methodActionTypes = {
   SMART_ID: 'smartid',
 };
 
+// we should probably use different names for the signing modules
+// something like idCardSigning or idCardSignature
 const moduleNames = {
   idCard: 'idCard',
   mobileId: 'mobileId',
