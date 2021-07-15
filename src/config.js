@@ -6,37 +6,37 @@ const METHOD_TYPES = {
 const allMethods = Object.freeze({
   [METHOD_TYPES.identification]: [
     {
-      action_type: 'ee-id-login',
+      actionType: 'ee-id-login',
       handlingModule: 'idCard',
       countriesWhitelist: ['EE'],
     },
     {
-      action_type: 'lv-id-login',
+      actionType: 'lv-id-login',
       handlingModule: 'idCard',
       countriesWhitelist: ['LV'],
     },
     {
-      action_type: 'lt-id-login',
+      actionType: 'lt-id-login',
       handlingModule: 'idCard',
       countriesWhitelist: ['LT'],
     },
     {
-      action_type: 'lv-eparaksts-mobile-login',
+      actionType: 'lv-eparaksts-mobile-login',
       handlingModule: 'eParakstsMobile',
       countriesWhitelist: ['LV'],
     },
     {
-      action_type: 'lt-mobile-id',
+      actionType: 'lt-mobile-id',
       handlingModule: 'mobileId',
       countriesWhitelist: ['LT'],
     },
     {
-      action_type: 'mid-login',
+      actionType: 'mid-login',
       handlingModule: 'mobileId',
       countriesWhitelist: ['EE'],
     },
     {
-      action_type: 'smartid',
+      actionType: 'smartid',
       handlingModule: 'smartId',
     },
   ],
