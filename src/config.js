@@ -57,6 +57,7 @@ const allMethods = Object.freeze({
     {
       actionType: methodActionTypes.SMART_ID,
       handlingModule: moduleNames.smartId,
+      countriesWhitelist: ['EE', 'LV', 'LT'],
     },
   ],
   [methodTypes.SIGNING]: [],
