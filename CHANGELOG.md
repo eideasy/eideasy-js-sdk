@@ -1,3 +1,12 @@
+## [0.14.3-alpha.13](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.12...v0.14.3-alpha.13) (2021-07-15)
+
+
+### Bug Fixes
+
+* fix a type in the identification key name ([#34](https://github.com/eideasy/eideasy-browser-client/issues/34)) ([8da1ffb](https://github.com/eideasy/eideasy-browser-client/commit/8da1ffb25c0e653ea7613d669b4a7f79588edec0))
+
+
+
 ## [0.14.3-alpha.12](https://github.com/eideasy/eideasy-browser-client/compare/v0.14.3-alpha.11...v0.14.3-alpha.12) (2021-07-15)
 
 
