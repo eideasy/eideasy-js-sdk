@@ -1,8 +1,8 @@
 import createStep from '../createStep';
 import createModuleCreator from '../createModuleCreator';
-import { METHOD_TYPES, getMethodByHandlingModule } from '../config';
+import { methodTypes, moduleNames, getMethodByHandlingModule } from '../config';
 
-const MODULE_NAME = 'idCard';
+const MODULE_NAME = moduleNames.idCard;
 
 const executable = async function executable(config) {
   const {
@@ -21,7 +21,7 @@ const executable = async function executable(config) {
   };
 
   const identityFinish = function identityFinish(settings = {}) {
-    const method = getMethodByHandlingModule(METHOD_TYPES.identification, MODULE_NAME, settings.countryCode);
+    const method = getMethodByHandlingModule(methodTypes.IDENTIFICATION, MODULE_NAME, settings.countryCode);
 
     return apiClient.post({
       url: settings.apiEndpoints.inCurrentMode.identityFinish(),
