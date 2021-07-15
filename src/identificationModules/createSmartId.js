@@ -23,7 +23,7 @@ const executable = async function executable(config) {
       data: {
         idcode: settings.idcode,
         country: settings.countryCode,
-        method: method.action_type,
+        method: method.actionType,
         lang: settings.language,
       },
     });
@@ -36,7 +36,7 @@ const executable = async function executable(config) {
       url: settings.apiEndpoints.inCurrentMode.identityFinish(),
       data: {
         token: settings.data.token,
-        method: method.action_type,
+        method: method.actionType,
       },
     });
   };

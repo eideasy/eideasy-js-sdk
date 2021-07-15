@@ -24,7 +24,7 @@ const executable = async function executable(config) {
         idcode: settings.idcode,
         phone: settings.phone,
         country: settings.countryCode,
-        method: method.action_type,
+        method: method.actionType,
         lang: settings.language,
       },
       cancelToken: settings.cancelToken,
@@ -37,7 +37,7 @@ const executable = async function executable(config) {
       url: settings.apiEndpoints.inCurrentMode.identityFinish(),
       data: {
         token: settings.data.token,
-        method: method.action_type,
+        method: method.actionType,
       },
       cancelToken: settings.cancelToken,
     });

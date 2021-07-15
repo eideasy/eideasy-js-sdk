@@ -28,7 +28,7 @@ const executable = async function executable(config) {
       data: {
         token: settings.data.token,
         country: settings.countryCode,
-        method: method.action_type,
+        method: method.actionType,
         lang: settings.language,
       },
       cancelToken: settings.cancelToken,
