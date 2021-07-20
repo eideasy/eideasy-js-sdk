@@ -33,6 +33,9 @@ const createModuleCreator = function createModuleCreator(moduleName, executable)
             success(result);
           })
           .catch((error) => {
+            if (console && console.error) {
+              console.error(error);
+            }
             fail(formatError(error));
           })
           .finally(finished);
